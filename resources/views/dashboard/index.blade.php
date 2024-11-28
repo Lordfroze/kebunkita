@@ -164,7 +164,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- <img src="{{ asset('lte/dist/img/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
       <span class="brand-text font-weight-light">Kebun Kita V.1</span>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
@@ -196,7 +195,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-bars"></i>
               <p>
                 Home
                 <i class="right fas fa-angle-left"></i>
@@ -219,7 +218,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-download"></i>
               <p>
                 Perdagangan
                 <span class="right badge badge-danger">New</span>
@@ -240,12 +239,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Starter Page</h1>
+            <h1 class="m-0">Dashboard Utama </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
+              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -258,61 +257,60 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+            <div class="small-box bg-gradient-warning">
+              <div class="inner">
+                <h3>44</h3>
+                <p>Penjualan</p>
               </div>
+              <div class="icon">
+                <i class="fas fa-hand-holding-heart"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
           </div>
           <!-- /.col-md-6 -->
           <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>10</h3>
+                <p>Jumlah Ikan</p>
               </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+              <div class="icon">
+                <i class="fas fa-fish"></i>
               </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
+              <a href="/perikanan" class="small-box-footer">
+                Informasi Ikan <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- /.col-md-6 -->
         </div>
+        {{-- table --}}
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Kegiatan</th>
+              <th>Biaya</th>
+              <th>Total</th>
+              <th>Aksi</th>
+            </tr>
+          <tbody>
+            <tr>
+              <td>12 Desember 2022</td>
+              <td>Pengambilan pupuk</td>
+              <td>Rp. 100.000</td>
+              <td>Rp. 100.000</td>
+              <td>
+                <a href="#" class="btn btn-info">Edit</a>
+                <a href="#" class="btn btn-danger">Hapus</a>
+              </td>
+            </tr>
+            <tr>
+          </tbody>
+        </table>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -350,5 +348,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('lte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('lte/dist/js/adminlte.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>
