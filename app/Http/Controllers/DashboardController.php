@@ -10,4 +10,9 @@ class DashboardController extends Controller
     function index(){
         return view('dashboard/index');
     }
+
+    // Halaman tabel ikan
+    function tabel_ikan(){
+        return view('dashboard/perikanan/tabel_ikan');
+    }
 }

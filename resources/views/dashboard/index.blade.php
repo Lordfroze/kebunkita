@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="{{asset('lte/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -84,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="{{asset('lte/dist/img/user8-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -100,7 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="{{asset('lte/dist/img/user3-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Nora Silvester
@@ -274,13 +274,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-6">
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>10</h3>
+                <h3>3000</h3>
                 <p>Jumlah Ikan</p>
               </div>
               <div class="icon">
                 <i class="fas fa-fish"></i>
               </div>
-              <a href="/perikanan" class="small-box-footer">
+              <a href="{{route('tabel_ikan')}}" class="small-box-footer">
                 Informasi Ikan <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
@@ -298,16 +298,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <th>Aksi</th>
             </tr>
           <tbody>
+            <!-- data 1 -->
             <tr>
               <td>12 Desember 2022</td>
-              <td>Pengambilan pupuk</td>
-              <td>Rp. 100.000</td>
-              <td>Rp. 100.000</td>
+              <td>Pembelian pakan</td>
+              <td>Rp. 378.000</td>
+              <td>Rp. 378.000</td>
               <td>
                 <a href="#" class="btn btn-info">Edit</a>
                 <a href="#" class="btn btn-danger">Hapus</a>
               </td>
             </tr>
+            <!-- data 2 -->
+            <tr>
+              <td>25 Desember 2022</td>
+              <td>Pembelian pakan</td>
+              <td>Rp. 378.000</td>
+              <td>Rp. 756.000</td>
+              <td>
+                <a href="#" class="btn btn-info">Edit</a>
+                <a href="#" class="btn btn-danger">Hapus</a>
+              </td>
             <tr>
           </tbody>
         </table>

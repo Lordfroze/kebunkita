@@ -9,3 +9,5 @@ Route::get('/laravel', function (){
 });
 
 Route::get('/', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard/tabel_ikan', [DashboardController::class, 'tabel_ikan'])->name('tabel_ikan');
