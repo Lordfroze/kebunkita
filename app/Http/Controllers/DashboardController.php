@@ -15,4 +15,9 @@ class DashboardController extends Controller
     function tabel_ikan(){
         return view('dashboard/perikanan/tabel_ikan');
     }
+
+    // Halaman app
+    function app(){
+        return view('layouts/app');
+    }
 }
