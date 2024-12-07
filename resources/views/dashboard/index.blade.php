@@ -30,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="#" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link">Kebun Pedia</a>
       </li>
     </ul>
 
@@ -214,13 +214,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Perkebunan</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Perdagangan</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-download"></i>
               <p>
-                Perdagangan
+                Download Data
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
@@ -343,7 +349,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      Solusi Agribisnis Milenial
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2024 <a href="#">Yogatama_KebunKita</a>.</strong> All rights reserved.
