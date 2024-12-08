@@ -10,8 +10,8 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('authentica
 
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/dashboard/tabel_ikan', [DashboardController::class, 'tabel_ikan'])->name('tabel_ikan');
-Route::get('/app', [DashboardController::class, 'app'])->name('app');
+Route::get('/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
+
 
 // test laravel
 Route::get('/laravel', function (){

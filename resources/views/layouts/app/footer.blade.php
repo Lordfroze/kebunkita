@@ -1,3 +1,4 @@
+</div><!-- /.content-wrapper -->
 <!-- Footer -->
       <!-- Main Footer -->
       <footer class="main-footer">
@@ -6,7 +7,7 @@
           solusi agribisnis milenial
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2024 <a href="#">Yogatama_KebunKita</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2024 <a href="{{url('dashboard')}}">Yogatama_KebunKita</a>.</strong> All rights reserved.
       </footer>
     </div>
     <!-- ./wrapper -->
