@@ -8,11 +8,11 @@ Selamat Datang
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-3">
             <div class="small-box bg-gradient-warning">
               <div class="inner">
-                <h3>44</h3>
-                <p>Penjualan</p>
+                <h3>18</h3>
+                <p>Total Pakan Kolam Timur</p>
               </div>
               <div class="icon">
                 <i class="fas fa-hand-holding-heart"></i>
@@ -22,6 +22,23 @@ Selamat Datang
               </a>
             </div>
           </div>
+
+          <div class="col-lg-3">
+            <div class="small-box bg-gradient-warning">
+              <div class="inner">
+                <h3>15</h3>
+                <p>Total Pakan Kolam Barat</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-hand-holding-heart"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+
+          
           <!-- /.col-md-6 -->
           <div class="col-lg-6">
             <div class="small-box bg-info">
@@ -32,7 +49,7 @@ Selamat Datang
               <div class="icon">
                 <i class="fas fa-fish"></i>
               </div>
-              <a href="{{route('tabel_ikan')}}" class="small-box-footer">
+              <a href="{{route('settingkolam')}}" class="small-box-footer">
                 Informasi Ikan <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
@@ -73,11 +90,7 @@ Selamat Datang
               </td>
             <tr>
           </tbody>
-        </table>
-        <!-- /.row -->
+        </table><!-- /.row -->
       </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+    </div><!-- /.content -->
 @endsection
