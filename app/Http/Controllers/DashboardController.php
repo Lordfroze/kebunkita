@@ -16,6 +16,11 @@ class DashboardController extends Controller
         return view('dashboard/perikanan/settingkolam');
     }
 
+    //Halaman kebun
+    function settingkebun(){
+        return view('dashboard/perkebunan/settingkebun');
+    }
+
     // Halaman app
     function app(){
         return view('layouts/app');
