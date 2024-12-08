@@ -12,6 +12,7 @@ Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
 Route::get('/settingkebun', [DashboardController::class, 'settingkebun'])->name('settingkebun');
+Route::get('/settingbarang', [DashboardController::class, 'settingbarang'])->name('settingbarang');
 
 
 // test laravel
