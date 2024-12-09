@@ -37,6 +37,7 @@ class PerikananController extends Controller
     public function show(string $id)
     {
         //
+        return view('dashboard.perikanan.show');
     }
 
     /**

@@ -1,0 +1,1 @@
+<h1>Halaman Show dari folder perikanan untuk detail setiap id</h1>

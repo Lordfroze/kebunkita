@@ -19,7 +19,8 @@ Route::get('/dashboard/perdagangan', [PerdaganganController::class, 'index'])->n
 Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->name('perkebunan');
 
 // Route Controller Perikanan
-Route::get('/perikanan', [PerikananController::class, 'index']);
+Route::get('/dashboard/perikanan', [PerikananController::class, 'index'])->name('perikanan');
+Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
 
 
 // test laravel
