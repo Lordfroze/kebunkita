@@ -20,7 +20,9 @@ Route::get('/laravel', function (){
     return view('welcome');
 });
 
-
+Route::get('/tambah-data/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
+Route::get('/tambah-data/settingkebun', [DashboardController::class, 'settingkebun'])->name('settingkebun');
+Route::get('tambah-data/settingbarang', [DashboardController::class, 'settingbarang'])->name('settingbarang');
 
 // Cara membuat controller 
 // php artisan make:controller AdminController

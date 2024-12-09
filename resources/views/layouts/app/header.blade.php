@@ -222,19 +222,19 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{ url('tambah-data/perikanan') }}" class="nav-link {{ Request::is('tambah-data/perikanan*') ? 'active' : '' }}">
+                  <a href="{{ url('tambah-data/settingkolam') }}" class="nav-link {{ Request::is('tambah-data/settingkolam*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Perikanan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ url('tambah-data/perikanan') }}" class="nav-link {{ Request::is('tambah-data/perikanan*') ? 'active' : '' }}">
+                  <a href="{{ url('tambah-data/settingkebun') }}" class="nav-link {{ Request::is('tambah-data/settingkebun') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Perkebunan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ url('tambah-data/perikanan') }}" class="nav-link {{ Request::is('tambah-data/perikanan*') ? 'active' : '' }}">
+                  <a href="{{ url('tambah-data/settingbarang') }}" class="nav-link {{ Request::is('tambah-data/settingbarang*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Perdagangan</p>
                   </a>
