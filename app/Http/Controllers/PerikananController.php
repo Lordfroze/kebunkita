@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PerikananController extends Controller
 {
@@ -20,7 +21,8 @@ class PerikananController extends Controller
      */
     public function create()
     {
-        //
+        // mengarahkan ke halaman create
+        return view('dashboard.perikanan.create');
     }
 
     /**
@@ -28,7 +30,11 @@ class PerikananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // insert ke database
+        DB::table('perikanan')->insert([
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 
     /**
