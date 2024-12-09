@@ -26,4 +26,19 @@ class DashboardController extends Controller
         return view('dashboard/perkebunan/index');
     }
 
+    // Halaman setting kolam
+    function settingkolam(){
+        return view('dashboard/perikanan/settingkolam');
+    }
+
+    //Halaman setting kebun
+    function settingkebun(){
+        return view('dashboard/perkebunan/settingkebun');
+    }
+
+    //Halaman setting perdagangan
+    function settingbarang(){
+        return view('dashboard/perdagangan/settingbarang');
+    }
+
 }
