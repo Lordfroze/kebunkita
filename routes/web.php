@@ -10,7 +10,9 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('authentica
 
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
+Route::get('/dashboard/perikanan', [DashboardController::class, 'perikanan'])->name('perikanan');
+Route::get('/dashboard/perdagangan', [DashboardController::class, 'perdagangan'])->name('perdagangan');
+Route::get('/dashboard/perkebunan', [DashboardController::class, 'perkebunan'])->name('perkebunan');
 
 
 // test laravel

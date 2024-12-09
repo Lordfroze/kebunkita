@@ -12,12 +12,18 @@ class DashboardController extends Controller
     }
 
     // Halaman tabel ikan
-    function settingkolam(){
-        return view('dashboard/perikanan/settingkolam');
+    function perikanan(){
+        return view('dashboard/perikanan/index');
     }
 
-    // Halaman app
-    function app(){
-        return view('layouts/app');
+    // Halaman tabel perdagangan
+    function perdagangan(){
+        return view('dashboard/perdagangan/index');
     }
+
+    // Halaman tabel perkebunan
+    function perkebunan(){
+        return view('dashboard/perkebunan/index');
+    }
+
 }
