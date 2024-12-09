@@ -4,15 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PerdaganganController;
+use App\Http\Controllers\PerikananController;
+use App\Http\Controllers\PerkebunanController;
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 
+// Route Controller Dashboard
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/dashboard/perikanan', [DashboardController::class, 'perikanan'])->name('perikanan');
-Route::get('/dashboard/perdagangan', [DashboardController::class, 'perdagangan'])->name('perdagangan');
-Route::get('/dashboard/perkebunan', [DashboardController::class, 'perkebunan'])->name('perkebunan');
+Route::get('/dashboard/perikanan', [PerikananController::class, 'index'])->name('perikanan');
+Route::get('/dashboard/perdagangan', [PerdaganganController::class, 'index'])->name('perdagangan');
+Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->name('perkebunan');
+
+// Route Controller Perikanan
+Route::get('/perikanan', [PerikananController::class, 'index']);
 
 
 // test laravel
