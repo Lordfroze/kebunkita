@@ -96,6 +96,7 @@ Perikanan
 
 <div class="container">
     <h1>Blog Codepolitan</h1>
+    <a class="btn btn-success" href="{{ url('/dashboard/perikanan/create') }}">+ Buat Postingan</a>
     <!-- card -->
     @foreach($posts as $post) 
     @php($post = explode("," , $post))

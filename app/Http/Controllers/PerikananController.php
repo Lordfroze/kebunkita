@@ -41,12 +41,38 @@ class PerikananController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
+        //menerima data
+        $title = $request->input('title');
+        $content = $request->input('content');
+
+        // INSERT DATA KE storage/app/posts.txt
+        // $posts = File::get(storage_path('app/posts.txt')); // mengambil data posts.txt
+        // $posts = explode("\n", $posts);
+
+        // // menambah data dan mengolah data
+        // $new_post = [
+        //     count($posts) +1,
+        //     $title,
+        //     $content,
+        //     date('Y-m-d H:i:s')
+        // ];
+        // $new_post = implode(',', $new_post);
+        
+        // array_push($posts, $new_post);
+        // $posts = implode("\n", $posts);
+
+        // File::put(storage_path('app/posts.txt'), $posts);
+
         // insert ke database
-        DB::table('perikanan')->insert([
+        DB::table('posts')->insert([
+            'title' => $title,
+            'content' => $content,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
+        return redirect('/dashboard/perikanan');
     }
 
     /**

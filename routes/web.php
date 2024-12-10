@@ -19,7 +19,9 @@ Route::get('/dashboard/perdagangan', [PerdaganganController::class, 'index'])->n
 Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->name('perkebunan');
 
 // Route Controller Perikanan
+Route::get('/dashboard/perikanan/create', [PerikananController::class, 'create']);
 Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
+Route::post('/dashboard/perikanan', [PerikananController::class, 'store']);
 
 
 
@@ -47,7 +49,7 @@ Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
 
 
 // test laravel
-Route::get('/laravel', function (){
+Route::get('/laravel', function () {
     return view('welcome');
 });
 
