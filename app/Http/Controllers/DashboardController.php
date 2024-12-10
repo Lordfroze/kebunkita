@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
-{
+{   
+    // Halaman login
+    function login(){
+        return view('dashboard/login/login');
+    }
+
     // Halaman home
     function index(){
         return view('dashboard/index');

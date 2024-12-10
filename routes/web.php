@@ -13,6 +13,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
 Route::get('/settingkebun', [DashboardController::class, 'settingkebun'])->name('settingkebun');
 Route::get('/settingbarang', [DashboardController::class, 'settingbarang'])->name('settingbarang');
+Route::get('/dashboard/login', [DashboardController::class, 'login'])->name('login');
 
 
 // test laravel
