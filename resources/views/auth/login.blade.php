@@ -19,12 +19,12 @@
                     <form action="#" method="POST">
                         @csrf
                         <div class="form-floating mb-3">
-                            <label for="email"><i class="fas fa-envelope me-2"></i>Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="petani@gmail.com" required>
+                            <label for="email"><i class="fas fa-envelope me-2"></i>Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
                         </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="remember" name="remember">
