@@ -1,2 +1,3 @@
 1,Mengenal Laravel FILE INI DARI POSTS.TXT,ini adalah blog mengenai laravel dengan berbagai materi yang dapat dikuasai melalui latihan dan studi kasus.,2024-11-28 05:00:00
 2,Tentang Codepolitan,Tentang ini adalah blog mengenai laravel dengan berbagai materi yang dapat dikuasai melalui latihan dan studi kasus.,2024-11-29 08:00:00
+3,test,testt,2024-12-10 10:14:05
