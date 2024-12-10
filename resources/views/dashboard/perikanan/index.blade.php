@@ -95,20 +95,54 @@ Perikanan
 </div><!-- /.content -->
 
 <div class="container">
-    <h1>Blog Codepolitan</h1>
-    <a class="btn btn-success" href="{{ url('/dashboard/perikanan/create') }}">+ Buat Postingan</a>
+    <h1>Blog Codepolitan
+    <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Buat Postingan</a>
+    </h1>
     <!-- card -->
     @foreach($posts as $post) 
-    @php($post = explode("," , $post))
     <div class="card mb-3">
         <div class="card-body">
-        <h5 class="card-title">{{ $post[1] }}</h5>
-        <p class="card-text">{{ $post[2] }}</p>
-        <p class="card-text"><small class="text-body-secondary">Last updated {{date("d M Y H:i", strtotime($post[3]))}} ago</small></p>
-        <a class="btn btn-primary" href="{{ url("dashboard/perikanan/$post[0]") }}"  role="button">Selengkapnya</a>
+        <h5 class="card-title">{{ $post->title }}</h5>
+        <p class="card-text">{{ $post->content}}</p>
+        <p class="card-text"><small class="text-body-secondary">Last updated {{date("d M Y H:i", strtotime($post->created_at))}} ago</small></p>
+        <a class="btn btn-primary" href="{{ url('dashboard/perikanan/' . $post->id) }}"  role="button">Selengkapnya</a>
         </div>
     </div>
     @endforeach        
+</div>
+
+<div class="container">
+  <h1>Tabel dari Database</h1>
+  <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Created At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($posts as $post)
+            <tr>
+                <td>{{ $post->id }}</td>
+                <td>{{ $post->title }}</td>
+                <td>{{ Str::limit($post->content, 100) }}</td>
+                <td>{{ date("d M Y H:i", strtotime($post->created_at)) }}</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $post->id) }}" role="button">View</a>
+                    <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $post->id . '/edit') }}" role="button">Edit</a>
+                    <form action="{{ url('dashboard/perikanan/' . $post->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 
 @endsection

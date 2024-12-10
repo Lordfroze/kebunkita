@@ -15,14 +15,13 @@ class PerikananController extends Controller
      */
     public function index()
     {   
-        //array uji coba
-        // Membaca isi file posts.txt       
-        $posts = File::get(storage_path('app/posts.txt')); // mengambil data posts.txt
-        $posts = explode("\n", $posts);
-        //  ddd($posts);     //untuk dump,die,debug
+        // menampilkan data dari database
+        $posts = DB::table('posts')
+                    ->select('id','title', 'content', 'created_at')
+                    ->get();
         $view_data = [
-            'posts' => $posts  //mengisi data dari file text                         
-        ];
+            'posts' => $posts,
+        ]; 
 
         // Menampilkan view dengan data
         return view('dashboard.perikanan.index', $view_data);
@@ -46,24 +45,6 @@ class PerikananController extends Controller
         $title = $request->input('title');
         $content = $request->input('content');
 
-        // INSERT DATA KE storage/app/posts.txt
-        // $posts = File::get(storage_path('app/posts.txt')); // mengambil data posts.txt
-        // $posts = explode("\n", $posts);
-
-        // // menambah data dan mengolah data
-        // $new_post = [
-        //     count($posts) +1,
-        //     $title,
-        //     $content,
-        //     date('Y-m-d H:i:s')
-        // ];
-        // $new_post = implode(',', $new_post);
-        
-        // array_push($posts, $new_post);
-        // $posts = implode("\n", $posts);
-
-        // File::put(storage_path('app/posts.txt'), $posts);
-
         // insert ke database
         DB::table('posts')->insert([
             'title' => $title,
@@ -80,22 +61,14 @@ class PerikananController extends Controller
      */
     public function show(string $id)
     {   
-        $posts = File::get(storage_path('app/posts.txt')); //mengambil data posts.txt
-        $posts = explode("\n", $posts); // memecah data setiap baris
-        $selected_post = Array(); // wadah untuk data
-        foreach($posts as $post){   // looping
-            $post = explode(",", $post); // memecah data setiap tanda koma
-            if($post[0] == $id){  // mengambil data berdasarkan id
-                $selected_post = $post; // menyimpan hasil ke $selected_post
-            }
-        }
-        $view_data = [ //array untuk menampilkan hasil
-            'post' => $selected_post
+        $post = DB::table('posts')
+                ->select('id', 'title', 'content', 'created_at')
+                ->where('id', '=', $id)
+                ->first();
+        
+        $view_data = [
+            'post' => $post
         ];
-
-        // return view('posts.show', $view_data); // menampilkan data pada halaman show.blade.php pada folder post
-
-        //
         return view('dashboard.perikanan.show', $view_data);
     }
 
