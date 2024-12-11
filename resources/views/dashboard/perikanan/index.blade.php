@@ -54,65 +54,53 @@ Perikanan
           </a>
         </div>
       </div>
-      <!-- /.col-md-6 -->
-    </div>
-    {{-- table --}}
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Tanggal</th>
-          <th>Kegiatan</th>
-          <th>Biaya</th>
-          <th>Total</th>
-          <th>Aksi</th>
-        </tr>
-      <tbody>
-        <!-- data 1 -->
-        <tr>
-          <td>12 Desember 2022</td>
-          <td>Pembelian pakan</td>
-          <td>Rp. 378.000</td>
-          <td>Rp. 378.000</td>
-          <td>
-            <a href="#" class="btn btn-info">Edit</a>
-            <a href="#" class="btn btn-danger">Hapus</a>
-          </td>
-        </tr>
-        <!-- data 2 -->
-        <tr>
-          <td>25 Desember 2022</td>
-          <td>Pembelian pakan</td>
-          <td>Rp. 378.000</td>
-          <td>Rp. 756.000</td>
-          <td>
-            <a href="#" class="btn btn-info">Edit</a>
-            <a href="#" class="btn btn-danger">Hapus</a>
-          </td>
-        <tr>
-      </tbody>
-    </table><!-- /.row -->
+  
+    </div> <!-- <div class="row"> -->
   </div><!-- /.container-fluid -->
 </div><!-- /.content -->
 
-<div class="container">
-    <h1>Blog Codepolitan
-    <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Buat Postingan</a>
-    </h1>
-    <!-- card -->
-    @foreach($posts as $post) 
-    <div class="card mb-3">
-        <div class="card-body">
-        <h5 class="card-title">{{ $post->title }}</h5>
-        <p class="card-text">{{ $post->content}}</p>
-        <p class="card-text"><small class="text-body-secondary">Last updated {{date("d M Y H:i", strtotime($post->created_at))}} ago</small></p>
-        <a class="btn btn-primary" href="{{ url('dashboard/perikanan/' . $post->id) }}"  role="button">Selengkapnya</a>
-        </div>
-    </div>
-    @endforeach        
+<div>
+<h1>Tabel Perikanan</h1>
+<a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tanggal</th>
+            <th>Kegiatan</th>
+            <th>Lokasi</th>
+            <th>Biaya</th>
+            <th>Total</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach($tasks as $task)
+        <tr>
+            <td>{{ $task->id }}</td>
+            <td>{{ date("d M Y H:i", strtotime($task->created_at)) }}</td>
+            <td>{{ $task->kegiatan }}</td>
+            <td>{{ $task->lokasi }}</td>
+            <td>{{ $task->biaya }}</td>
+            <td>{{ $totalBiaya }}</td>
+            <td>
+                    <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
+                    <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>
+                    <form action="{{ url('dashboard/perikanan/' . $task->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
+                    </form>
+                </td>
+        </tr>
+      @endforeach
+    </tbody>      
+</table>
 </div>
+@endsection
 
-<div class="container">
-  <h1>Tabel dari Database</h1>
+<!-- <div class="container">
+  <h1>Contoh dari Database</h1><a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Buat Postingan</a>
   <table class="table table-bordered table-hover">
         <thead>
             <tr>
@@ -136,13 +124,11 @@ Perikanan
                     <form action="{{ url('dashboard/perikanan/' . $post->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
                     </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-</div>
-
-@endsection
+</div> -->
