@@ -15,12 +15,25 @@ class PerikananController extends Controller
      */
     public function index()
     {   
-        // menampilkan data dari database
+
+        // tampilkan table perikanan
+        $tasks = DB::table('perikanan')
+                    ->select('id','created_at', 'kegiatan', 'lokasi', 'biaya',)
+                    ->get();
+
+        // tampilkan total biaya
+        $totalBiaya = DB::table('perikanan')->sum('biaya');
+
+        // tampilkan table posts
         $posts = DB::table('posts')
                     ->select('id','title', 'content', 'created_at')
                     ->get();
+        
+        // Membuat array untuk menyimpan data
         $view_data = [
             'posts' => $posts,
+            'tasks' => $tasks,
+            'totalBiaya' => $totalBiaya,
         ]; 
 
         // Menampilkan view dengan data
@@ -41,17 +54,31 @@ class PerikananController extends Controller
      */
     public function store(Request $request)
     {   
-        //menerima data
-        $title = $request->input('title');
-        $content = $request->input('content');
+        // Menerima data dari create.blade.php untuk perikanan
+        $kegiatan = $request->input('kegiatan');
+        $lokasi = $request->input('lokasi');
+        $biaya = $request->input('biaya');
 
-        // insert ke database
-        DB::table('posts')->insert([
-            'title' => $title,
-            'content' => $content,
+        // insert ke database perikanan
+        DB::table('perikanan')->insert([
+            'kegiatan' => $kegiatan,
+            'lokasi' => $lokasi,
+            'biaya' => $biaya,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+        
+        //menerima data dari create.blade.php untuk post
+        // $title = $request->input('title');
+        // $content = $request->input('content');
+
+        // insert ke database post
+        // DB::table('posts')->insert([
+        //     'title' => $title,
+        //     'content' => $content,
+        //     'created_at' => date('Y-m-d H:i:s'),
+        //     'updated_at' => date('Y-m-d H:i:s'),
+        // ]);
 
         return redirect('/dashboard/perikanan');
     }
@@ -61,14 +88,25 @@ class PerikananController extends Controller
      */
     public function show(string $id)
     {   
-        $post = DB::table('posts')
-                ->select('id', 'title', 'content', 'created_at')
+        // menampilkan data setiap id perikanan dari database
+        $task = DB::table('perikanan')
+                ->select('id', 'kegiatan', 'lokasi', 'biaya','created_at')
                 ->where('id', '=', $id)
                 ->first();
+
+
+        // Tampilkan table posts
+        // $post = DB::table('posts')
+        //         ->select('id', 'title', 'content', 'created_at')
+        //         ->where('id', '=', $id)
+        //         ->first();
         
         $view_data = [
-            'post' => $post
+            'task' => $task,
+            // 'post' => $post,
+
         ];
+
         return view('dashboard.perikanan.show', $view_data);
     }
 

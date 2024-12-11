@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-Detail Perikanan
+Detail {{$task->kegiatan}}
 @endsection
 
 @section('content')
 <div class="container">
         <article class="blog-post">
-        <h2 class="blog-post-title mb-1">{{$post->title}}</h2>
-        <p class="blog-post-meta">{{date("d M Y H:i", strtotime($post->created_at))}}</p>
-
-        <p>{{$post->content}}</p>
+        <p class="blog-post-meta">{{date("d M Y H:i", strtotime($task->created_at))}}</p>
+        <p>Kegiatan : {{$task->kegiatan}}</p>
+        <p>Lokasi : {{$task->lokasi}}</p>
+        <p>Biaya : {{$task->biaya}}</p>
         </article>
         <a href="{{ url('/dashboard/perikanan') }}">Kembali</a>
     </div>
