@@ -5,8 +5,9 @@ Tambah Data
 
 
 @section('content')
-    <form method="POST" action="{{url ('/dashboard/perikanan')}}" class="form-control">
-    @csrf
+<div class="content">
+    <form method="POST" action="{{url ('/dashboard/perikanan')}}">
+        @csrf
         <div class="mb-3">
             <label for="kegiatan" class="form-label">Kegiatan</label>
             <input type="text" class="form-control" id="kegiatan" name="kegiatan">
@@ -17,10 +18,11 @@ Tambah Data
         </div>
         <div class="mb-3">
             <label for="biaya" class="form-label">Biaya</label>
-            <textarea class="form-control" id="biaya" rows="3" name="biaya"></textarea>
+            <input type="number" class="form-control" id="biaya" rows="3" name="biaya">
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
+</div>    
 @endsection
 
 

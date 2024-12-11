@@ -115,7 +115,16 @@ class PerikananController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // mengedit database
+        $task = DB::table('perikanan')
+                ->select('id', 'kegiatan', 'lokasi', 'biaya','created_at')
+                ->where('id', '=', $id)
+                ->first();
+        
+        $view_data = [
+            'task' => $task,
+        ];
+        return view('dashboard.perikanan.index', $view_data);
     }
 
     /**

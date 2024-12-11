@@ -65,7 +65,7 @@ Perikanan
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>No</th>
             <th>Tanggal</th>
             <th>Kegiatan</th>
             <th>Lokasi</th>
@@ -75,14 +75,15 @@ Perikanan
         </tr>
     </thead>
     <tbody>
-      @foreach($tasks as $task)
+      <!-- $key adalah variabel yang secara otomatis disediakan oleh laravel  saat menggunakan direktif foreach -->
+      @foreach($tasks as $key => $task)
         <tr>
-            <td>{{ $task->id }}</td>
+            <td>{{ $key + 1 }}</td>
             <td>{{ date("d M Y H:i", strtotime($task->created_at)) }}</td>
             <td>{{ $task->kegiatan }}</td>
             <td>{{ $task->lokasi }}</td>
-            <td>{{ $task->biaya }}</td>
-            <td>{{ $totalBiaya }}</td>
+            <td>Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
+            <td>Rp {{ number_format($totalBiaya, 0, ',', '.') }}</td>
             <td>
                     <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
                     <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>
