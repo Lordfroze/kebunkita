@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('kegiatan');
+            $table->string('lokasi');
             $table->string('biaya');
             $table->string('total');
         });
