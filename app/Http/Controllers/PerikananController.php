@@ -156,6 +156,11 @@ class PerikananController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // menghapus data dari database
+        DB::table('perikanan')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect("dashboard/perikanan/");
     }
 }
