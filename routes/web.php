@@ -24,6 +24,7 @@ Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
 Route::post('/dashboard/perikanan', [PerikananController::class, 'store']);
 Route::get('/dashboard/perikanan/{id}/edit', [PerikananController::class, 'edit']);
 Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']);
+Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
 
 
 
