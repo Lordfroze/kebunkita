@@ -75,7 +75,7 @@ Perikanan
         </tr>
     </thead>
     <tbody>
-      <!-- $key adalah variabel yang secara otomatis disediakan oleh laravel  saat menggunakan direktif foreach -->
+      <!-- key adalah variabel yang secara otomatis disediakan oleh laravel  saat menggunakan direktif foreach -->
       @foreach($tasks as $key => $task)
         <tr>
             <td>{{ $key + 1 }}</td>

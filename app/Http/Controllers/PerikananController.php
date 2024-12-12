@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 
 class PerikananController extends Controller
@@ -124,16 +125,31 @@ class PerikananController extends Controller
         $view_data = [
             'task' => $task,
         ];
-        return view('dashboard.perikanan.index', $view_data);
+        return view('dashboard.perikanan.edit', $view_data);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
-    }
+{
+    // mengambil data dari form edit
+    $kegiatan = $request->input('kegiatan');
+    $lokasi = $request->input('lokasi');
+    $biaya = $request->input('biaya');
+
+    // UPDATE ... WHERE id = $id
+    DB::table('perikanan')
+        ->where('id', $id)  // Gunakan $id langsung
+        ->update([
+            'kegiatan' => $kegiatan,
+            'lokasi' => $lokasi,
+            'biaya' => $biaya,
+            'updated_at' => now()
+        ]);
+
+    return redirect("dashboard/perikanan/{$id}");
+}
 
     /**
      * Remove the specified resource from storage.
