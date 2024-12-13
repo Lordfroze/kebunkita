@@ -62,7 +62,7 @@ Perikanan
 <div>
 <h1>Tabel Perikanan</h1>
 <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
-<table class="table table-bordered table-striped table-hover">
+<table class="table table-bordered table-striped table-hover table-responsive">
     <thead>
         <tr>
             <th>No</th>
