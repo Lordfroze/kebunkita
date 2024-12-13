@@ -6,7 +6,7 @@ Detail {{$task->kegiatan}}
 @section('content')
 <div class="container">
         <article class="blog-post">
-        <p class="blog-post-meta">{{date("d M Y H:i", strtotime($task->created_at))}}</p>
+        <p class="blog-post-meta">{{date("d M Y", strtotime($task->created_at))}}</p>
         <p>Kegiatan : {{$task->kegiatan}}</p>
         <p>Lokasi : {{$task->lokasi}}</p>
         <p>Biaya : {{$task->biaya}}</p>

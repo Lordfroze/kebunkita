@@ -62,7 +62,7 @@ Perikanan
 <div>
 <h1>Tabel Perikanan</h1>
 <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
             <th>No</th>
@@ -79,11 +79,11 @@ Perikanan
       @foreach($tasks as $key => $task)
         <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ date("d M Y H:i", strtotime($task->created_at)) }}</td>
+            <td>{{ date("d M Y", strtotime($task->created_at)) }}</td>
             <td>{{ $task->kegiatan }}</td>
             <td>{{ $task->lokasi }}</td>
             <td>Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
-            <td>Rp {{ number_format($totalBiaya, 0, ',', '.') }}</td>
+            <td >Rp {{ number_format($totalBiaya, 0, ',', '.') }}</td>
             <td>
                     <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
                     <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>

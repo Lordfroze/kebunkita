@@ -8,6 +8,10 @@ Tambah Data
 <div class="content">
     <form method="POST" action="{{url ('/dashboard/perikanan')}}">
         @csrf
+        <div class="mb3">
+            <label for="tanggal" class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="tanggal" name="tanggal">
+        </div>
         <div class="mb-3">
             <label for="kegiatan" class="form-label">Kegiatan</label>
             <input type="text" class="form-control" id="kegiatan" name="kegiatan">

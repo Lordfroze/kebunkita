@@ -56,6 +56,7 @@ class PerikananController extends Controller
     public function store(Request $request)
     {   
         // Menerima data dari create.blade.php untuk perikanan
+        $tanggal = $request->input('tanggal');
         $kegiatan = $request->input('kegiatan');
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
@@ -65,7 +66,7 @@ class PerikananController extends Controller
             'kegiatan' => $kegiatan,
             'lokasi' => $lokasi,
             'biaya' => $biaya,
-            'created_at' => date('Y-m-d H:i:s'),
+            'created_at' => $tanggal ,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         
@@ -122,6 +123,9 @@ class PerikananController extends Controller
                 ->where('id', '=', $id)
                 ->first();
         
+        // Convert created_at to Carbon instance
+        $task->created_at = Carbon::parse($task->created_at);
+
         $view_data = [
             'task' => $task,
         ];
@@ -134,6 +138,7 @@ class PerikananController extends Controller
     public function update(Request $request, string $id)
 {
     // mengambil data dari form edit
+    $tanggal = $request->input('tanggal');
     $kegiatan = $request->input('kegiatan');
     $lokasi = $request->input('lokasi');
     $biaya = $request->input('biaya');
@@ -142,6 +147,7 @@ class PerikananController extends Controller
     DB::table('perikanan')
         ->where('id', $id)  // Gunakan $id langsung
         ->update([
+            'created_at' => $tanggal,
             'kegiatan' => $kegiatan,
             'lokasi' => $lokasi,
             'biaya' => $biaya,
