@@ -59,8 +59,8 @@ Perikanan
   </div><!-- /.container-fluid -->
 </div><!-- /.content -->
 
-<div>
-<h1>Tabel Perikanan</h1>
+
+<h2>Tabel Perikanan</h1>
 <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
 <table class="table table-bordered table-striped table-hover table-responsive">
     <thead>
@@ -97,39 +97,6 @@ Perikanan
       @endforeach
     </tbody>      
 </table>
-</div>
-@endsection
 
-<!-- <div class="container">
-  <h1>Contoh dari Database</h1><a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Buat Postingan</a>
-  <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Created At</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($posts as $post)
-            <tr>
-                <td>{{ $post->id }}</td>
-                <td>{{ $post->title }}</td>
-                <td>{{ Str::limit($post->content, 100) }}</td>
-                <td>{{ date("d M Y H:i", strtotime($post->created_at)) }}</td>
-                <td>
-                    <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $post->id) }}" role="button">View</a>
-                    <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $post->id . '/edit') }}" role="button">Edit</a>
-                    <form action="{{ url('dashboard/perikanan/' . $post->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div> -->
+
+@endsection
