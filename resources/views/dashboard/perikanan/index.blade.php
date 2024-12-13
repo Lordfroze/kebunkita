@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-Perikanan
+Dashboard Perikanan
 @endsection
 
 @section('content')
@@ -59,10 +59,11 @@ Perikanan
   </div><!-- /.container-fluid -->
 </div><!-- /.content -->
 
-
+<div class="content">
 <h2>Tabel Perikanan</h1>
 <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
-<table class="table table-bordered table-striped table-hover table-responsive">
+<div class="table-responsive">
+<table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
             <th>No</th>
@@ -70,7 +71,7 @@ Perikanan
             <th>Kegiatan</th>
             <th>Lokasi</th>
             <th>Biaya</th>
-            <th>Total</th>
+            <th>Total Keseluruhan</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -97,6 +98,6 @@ Perikanan
       @endforeach
     </tbody>      
 </table>
-
-
+</div>
+</div>
 @endsection
