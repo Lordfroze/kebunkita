@@ -6,9 +6,14 @@ Edit Data
 
 @section('content')
 <div class="content">
-    <form method="POST" action="{{ url("dashboard/perikanan/{$task->id}") }}">
+    <form method="POST" action="{{ url("dashboard/perikanan/{$task->id}") }}">  
         @method('PATCH')
         @csrf
+        <div class="mb3">
+            <label for="tanggal" class="form-label">Tanggal</label>
+            <input type="date" name="tanggal" value="{{ $task->created_at->format('Y-m-d') }}">
+
+        </div>
         <div class="mb-3">
             <label for="kegiatan" class="form-label">Kegiatan</label>
             <input type="text" class="form-control" id="kegiatan" name="kegiatan" value="{{$task->kegiatan}}">
