@@ -5,6 +5,12 @@ Dashboard Perikanan
 
 @section('content')
 <!-- Main content -->
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="content">
   <div class="container-fluid">
     <div class="row">
@@ -80,7 +86,7 @@ Dashboard Perikanan
       @foreach($tasks as $key => $task)
         <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ date("d M Y", strtotime($task->created_at)) }}</td>
+            <td>{{ \Carbon\Carbon::parse($task->created_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
             <td>{{ $task->kegiatan }}</td>
             <td>{{ $task->lokasi }}</td>
             <td>Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
@@ -96,7 +102,7 @@ Dashboard Perikanan
                 </td>
         </tr>
       @endforeach
-    </tbody>      
+    </tbody>        
 </table>
 </div>
 </div>
