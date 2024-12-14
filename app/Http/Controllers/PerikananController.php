@@ -30,12 +30,29 @@ class PerikananController extends Controller
                     ->select('id','title', 'content', 'created_at')
                     ->get();
         
+        // tampilkan jumlah pakan kolam timur
+        $jumlahPakanKolamTimur = DB::table('perikanan')
+        ->where('kegiatan', 'like', '%beli pakan%')
+        ->where('lokasi', 'like', '%kolam timur%')
+        ->count();
+
+        // tampilkan jumlah pakan kolam barat
+        $jumlahPakanKolamBarat = DB::table('perikanan')
+        ->where('kegiatan', 'like', '%beli pakan%')
+        ->where('lokasi', 'like', '%kolam barat%')
+        ->count();
+
+
         // Membuat array untuk menyimpan data
         $view_data = [
             'posts' => $posts,
             'tasks' => $tasks,
             'totalBiaya' => $totalBiaya,
+            'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
+            'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
         ]; 
+
+        
 
         // Menampilkan view dengan data
         return view('dashboard.perikanan.index', $view_data);
@@ -169,4 +186,6 @@ class PerikananController extends Controller
 
         return redirect("dashboard/perikanan/");
     }
+
+
 }

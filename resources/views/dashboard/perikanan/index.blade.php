@@ -11,8 +11,8 @@ Dashboard Perikanan
       <div class="col-lg-3">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
-            <h3>18</h3>
-            <p>Total Pakan Kolam Timur</p>
+            <h3>{{$jumlahPakanKolamTimur}}</h3>
+            <p>Jumlah Pakan Kolam Timur</p>
           </div>
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
@@ -26,8 +26,8 @@ Dashboard Perikanan
       <div class="col-lg-3">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
-            <h3>15</h3>
-            <p>Total Pakan Kolam Barat</p>
+            <h3>{{$jumlahPakanKolamBarat}}</h3>
+            <p>Jumlah Pakan Kolam Barat</p>
           </div>
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
