@@ -20,7 +20,7 @@ class PerikananController extends Controller
         // tampilkan table perikanan
         $tasks = DB::table('perikanan')
                     ->select('id','created_at', 'kegiatan', 'lokasi', 'biaya',)
-                    ->get();
+                    ->paginate(5);
 
         // tampilkan total biaya
         $totalBiaya = DB::table('perikanan')->sum('biaya');
@@ -73,7 +73,6 @@ class PerikananController extends Controller
         // Menerima data dari create.blade.php untuk perikanan
         
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
-        // $kegiatan = $request->input('kegiatan');
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
         

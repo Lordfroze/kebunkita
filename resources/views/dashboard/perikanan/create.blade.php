@@ -33,12 +33,6 @@ Tambah Data
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="kegiatan" id="PemeriksaanKesehatan" value="Pemeriksaan Kesehatan">
-                <label class="form-check-label" for="PemeriksaanKesehatan">
-                    Pemeriksaan Kesehatan
-                </label>
-            </div>
-            <div class="form-check">
                 <input class="form-check-input" type="radio" name="kegiatan" id="KegiatanLain" value="other">
                 <label class="form-check-label" for="KegiatanLain">
                     Lainnya
@@ -51,11 +45,23 @@ Tambah Data
 
         <div class="mb-3">
             <label for="lokasi" class="form-label">Lokasi</label>
-            <textarea class="form-control" id="lokasi" rows="3" name="lokasi"></textarea>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="lokasi" id="KolamTimur" value="Kolam Timur">
+                <label class="form-check-label" for="KolamTimur">
+                Kolam Timur
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="lokasi" id="KolamBarat" value="Kolam Barat">
+                <label class="form-check-label" for="KolamBarat">
+                Kolam Barat
+                </label>
+            </div>
+            <!-- <textarea class="form-control" id="lokasi" rows="3" name="lokasi"></textarea> -->
         </div>
         <div class="mb-3">
             <label for="biaya" class="form-label">Biaya</label>
-            <input type="number" class="form-control" id="biaya" name="biaya">
+            <input type="number" class="form-control" id="biaya" name="biaya" value="0">
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

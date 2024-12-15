@@ -106,4 +106,6 @@ Dashboard Perikanan
 </table>
 </div>
 </div>
+{{ $tasks->links('pagination::bootstrap-4') }}
+
 @endsection
