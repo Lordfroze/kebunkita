@@ -1,6 +1,5 @@
 <!-- Header -->
-
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini" id="body">
   <div class="wrapper">
 
     <!-- Navbar -->
@@ -20,6 +19,14 @@
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
+
+      <!-- Dark Mode -->
+      <li class="nav-item">
+          <a class="nav-link" href="#" id="darkModeToggle" role="button">
+            <i class="fas fa-moon"></i>
+          </a>
+      </li>
+
         <!-- Navbar Search -->
         <li class="nav-item">
           <a class="nav-link" data-widget="navbar-search" href="#" role="button">
