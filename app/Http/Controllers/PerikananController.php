@@ -223,5 +223,12 @@ class PerikananController extends Controller
             return redirect("dashboard/perikanan/")->with('error', 'An error occurred while deleting perikanan data: ' . $e->getMessage());
         }
     }
-    
+
+
+    // tampilkan jumlah ikan kolam timur
+    public function biayaKolamTimur()
+    {
+        $totalBiaya = DB::table('perikanan')->sum('biaya');
+    }
+
 }
