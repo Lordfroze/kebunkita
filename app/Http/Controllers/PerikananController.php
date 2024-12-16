@@ -15,32 +15,32 @@ class PerikananController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   
+    {
 
         // tampilkan table perikanan
         $tasks = DB::table('perikanan')
-                    ->select('id','created_at', 'kegiatan', 'lokasi', 'biaya',)
-                    ->paginate(5);
+            ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+            ->paginate(5);
 
         // tampilkan total biaya
         $totalBiaya = DB::table('perikanan')->sum('biaya');
 
         // tampilkan table posts
         $posts = DB::table('posts')
-                    ->select('id','title', 'content', 'created_at')
-                    ->get();
-        
+            ->select('id', 'title', 'content', 'created_at')
+            ->get();
+
         // tampilkan jumlah pakan kolam timur
         $jumlahPakanKolamTimur = DB::table('perikanan')
-        ->where('kegiatan', 'like', '%beli pakan%')
-        ->where('lokasi', 'like', '%kolam timur%')
-        ->count();
+            ->where('kegiatan', 'like', '%beli pakan%')
+            ->where('lokasi', 'like', '%kolam timur%')
+            ->count();
 
         // tampilkan jumlah pakan kolam barat
         $jumlahPakanKolamBarat = DB::table('perikanan')
-        ->where('kegiatan', 'like', '%beli pakan%')
-        ->where('lokasi', 'like', '%kolam barat%')
-        ->count();
+            ->where('kegiatan', 'like', '%beli pakan%')
+            ->where('lokasi', 'like', '%kolam barat%')
+            ->count();
 
         // Membuat array untuk menyimpan data
         $view_data = [
@@ -49,7 +49,7 @@ class PerikananController extends Controller
             'totalBiaya' => $totalBiaya,
             'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
             'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
-        ]; 
+        ];
 
         // Menampilkan view dengan data
         return view('dashboard.perikanan.index', $view_data);
@@ -68,14 +68,14 @@ class PerikananController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {    
-    
+    {
+
         // Menerima data dari create.blade.php untuk perikanan
-        
+
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
-        
+
         $kegiatan = $request->input('kegiatan') == 'other' ? $request->input('kegiatan_other') : $request->input('kegiatan');
 
         // insert ke database perikanan
@@ -94,19 +94,19 @@ class PerikananController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {   
+    {
         // menampilkan data setiap id perikanan dari database
         $task = DB::table('perikanan')
-                ->select('id', 'kegiatan', 'lokasi', 'biaya','created_at')
-                ->where('id', '=', $id)
-                ->first();
+            ->select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
+            ->where('id', '=', $id)
+            ->first();
 
         // Tampilkan table posts
         // $post = DB::table('posts')
         //         ->select('id', 'title', 'content', 'created_at')
         //         ->where('id', '=', $id)
         //         ->first();
-        
+
         $view_data = [
             'task' => $task,
             // 'post' => $post,
@@ -123,10 +123,10 @@ class PerikananController extends Controller
     {
         // mengedit database
         $task = DB::table('perikanan')
-                ->select('id', 'kegiatan', 'lokasi', 'biaya','created_at')
-                ->where('id', '=', $id)
-                ->first();
-        
+            ->select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
+            ->where('id', '=', $id)
+            ->first();
+
         // Convert created_at to Carbon instance
         $task->created_at = Carbon::parse($task->created_at);
 
@@ -140,26 +140,26 @@ class PerikananController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    // mengambil data dari form edit
-    $tanggal = $request->input('tanggal');
-    $kegiatan = $request->input('kegiatan');
-    $lokasi = $request->input('lokasi');
-    $biaya = $request->input('biaya');
+    {
+        // mengambil data dari form edit
+        $tanggal = $request->input('tanggal');
+        $kegiatan = $request->input('kegiatan');
+        $lokasi = $request->input('lokasi');
+        $biaya = $request->input('biaya');
 
-    // UPDATE ... WHERE id = $id
-    DB::table('perikanan')
-        ->where('id', $id)  // Gunakan $id langsung
-        ->update([
-            'created_at' => $tanggal,
-            'kegiatan' => $kegiatan,
-            'lokasi' => $lokasi,
-            'biaya' => $biaya,
-            'updated_at' => now()
-        ]);
+        // UPDATE ... WHERE id = $id
+        DB::table('perikanan')
+            ->where('id', $id)  // Gunakan $id langsung
+            ->update([
+                'created_at' => $tanggal,
+                'kegiatan' => $kegiatan,
+                'lokasi' => $lokasi,
+                'biaya' => $biaya,
+                'updated_at' => now()
+            ]);
 
-    return redirect("dashboard/perikanan/{$id}");
-}
+        return redirect("dashboard/perikanan/{$id}");
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -174,5 +174,54 @@ class PerikananController extends Controller
         return redirect("dashboard/perikanan/");
     }
 
+    // tampilkan data kolam timur
+    public function kolam_timur()
+    {
+        // tampilkan table perikanan
+        $tasks = DB::table('perikanan')
+            ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+            ->where('lokasi', 'like', '%kolam timur%')
+            ->paginate(10);
 
+        // tampilkan total biaya
+        $totalBiaya = DB::table('perikanan')->sum('biaya');
+
+        // tampilkan jumlah pakan kolam timur
+        $jumlahPakanKolamTimur = DB::table('perikanan')
+            ->where('kegiatan', 'like', '%beli pakan%')
+            ->where('lokasi', 'like', '%kolam timur%')
+            ->count();
+
+        // Membuat array untuk menyimpan data
+        $view_data = [
+            'tasks' => $tasks,
+            'totalBiaya' => $totalBiaya,
+            'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
+        ];
+
+        return view('dashboard.perikanan.kolam_timur.kolamtimur', $view_data);
+    }
+
+
+    public function deleteAllKolamTimur()
+    {
+        try {
+            // Delete all records from the perikanan table where lokasi is 'Kolam Timur'
+            $deletedCount = DB::table('perikanan')
+            ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+            ->where('lokasi', 'like', '%kolam timur%')
+            ->delete();
+
+
+            if ($deletedCount > 0) {
+                return redirect("dashboard/perikanan/")->with('success', "All perikanan data for Kolam Timur has been successfully deleted. ($deletedCount records removed)");
+            } else {
+                return redirect("dashboard/perikanan/")->with('info', 'No perikanan data found for Kolam Timur to delete.');
+            }
+        } catch (\Exception $e) {
+            // If an error occurs, redirect back with an error message
+            return redirect("dashboard/perikanan/")->with('error', 'An error occurred while deleting perikanan data: ' . $e->getMessage());
+        }
+    }
+    
 }

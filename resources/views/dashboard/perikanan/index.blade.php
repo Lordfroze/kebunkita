@@ -23,7 +23,7 @@ Dashboard Perikanan
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <a href="#" class="small-box-footer">
+          <a href="{{ url('dashboard/perikanan/kolam_timur') }}" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
