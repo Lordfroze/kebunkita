@@ -19,12 +19,16 @@ Route::get('/dashboard/perdagangan', [PerdaganganController::class, 'index'])->n
 Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->name('perkebunan');
 
 // Route Controller Perikanan
+Route::get('/dashboard/perikanan/kolam_timur', [PerikananController::class, 'kolam_timur']);
 Route::get('/dashboard/perikanan/create', [PerikananController::class, 'create']);
-Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
 Route::post('/dashboard/perikanan', [PerikananController::class, 'store']);
+Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
 Route::get('/dashboard/perikanan/{id}/edit', [PerikananController::class, 'edit']);
 Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']);
 Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
+
+// Route delete data kolam timur
+Route::delete('/dashboard/perikanan/kolam-timur/delete-all', [PerikananController::class, 'deleteAllKolamTimur'])->name('perikanan.kolam_timur.deleteAll');
 
 
 
