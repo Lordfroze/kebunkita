@@ -10,11 +10,23 @@ Detail Kolam Timur
   {{ session('success') }}
 </div>
 @endif
-
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-6">
+
+      <!-- chart -->
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Monthly Expenses for Kolam Timur</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="kolamTimurChart" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
         <div class="info-box">
           <span class="info-box-icon bg-info"><i class="fa-solid fa-cookie-bite"></i></span>
           <div class="info-box-content">
@@ -24,7 +36,7 @@ Detail Kolam Timur
         </div>
       </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-3">
         <div class="info-box">
           <span class="info-box-icon bg-info"><i class="fas fa-fish"></i></span>
           <div class="info-box-content">
@@ -34,12 +46,12 @@ Detail Kolam Timur
         </div>
       </div>
 
-      <div class="col-lg-12">
+      <div class="col-lg-3">
         <div class="info-box bg-blue">
           <span class="info-box-icon"><i class="fa-solid fa-rupiah-sign"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Jumlah Biaya Kolam Timur</span>
-            <span class="info-box-number">410</span>
+            <span class="info-box-number">Rp {{ number_format($totalBiayaKolamTimur, 0, ',', '.') }}</span>
           </div>
         </div>
       </div>
@@ -91,13 +103,58 @@ Detail Kolam Timur
         </tbody>
       </table>
     </div>
-</div>
 
-  <!-- Delete Seluruh Data Kolam timur -->
-  <form action="{{ route('perikanan.kolam_timur.deleteAll') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all perikanan data for Kolam Timur? This action cannot be undone.');">
+    <div class="mb-2">
+      <!-- Delete Seluruh Data Kolam timur -->
+      <form action="{{ route('perikanan.kolam_timur.deleteAll') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all perikanan data for Kolam Timur? This action cannot be undone.');">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-danger">Hapus Seluruh Data Kolam Timur</button>
       </form>
+    </div>
+</div>
+
+
 {{ $tasks->links('pagination::bootstrap-4') }}
+
+<!-- script chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var ctx = document.getElementById('kolamTimurChart');
+    if (ctx) {
+      var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: @json($chartData['labels']),
+          datasets: [{
+            label: 'Total Expenses',
+            data: @json($chartData['data']),
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value, index, values) {
+                  return 'Rp ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+  });
+</script>
 @endsection
