@@ -183,8 +183,13 @@ class PerikananController extends Controller
             ->where('lokasi', 'like', '%kolam timur%')
             ->paginate(10);
 
-        // tampilkan total biaya
+        // tampilkan total biaya seluruh kolam
         $totalBiaya = DB::table('perikanan')->sum('biaya');
+
+        // tampilkan total biaya kolam timur
+        $totalBiayaKolamTimur = DB::table('perikanan')
+            ->where('lokasi', 'like', '%kolam timur%')
+            ->sum('biaya');
 
         // tampilkan jumlah pakan kolam timur
         $jumlahPakanKolamTimur = DB::table('perikanan')
@@ -192,25 +197,53 @@ class PerikananController extends Controller
             ->where('lokasi', 'like', '%kolam timur%')
             ->count();
 
+        // chart
+        $chartData = $this->getChartData();
+
         // Membuat array untuk menyimpan data
         $view_data = [
             'tasks' => $tasks,
             'totalBiaya' => $totalBiaya,
             'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
+            'totalBiayaKolamTimur' => $totalBiayaKolamTimur,
+            'chartData' => $chartData,
         ];
 
         return view('dashboard.perikanan.kolam_timur.kolamtimur', $view_data);
     }
 
+    // mempersiapkan data untuk chart
+    private function getChartData()
+    {
+        $data = DB::table('perikanan')
+            ->where('lokasi', 'Kolam Timur')
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(biaya) as total'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $labels = [];
+        $values = [];
+
+        foreach ($data as $item) {
+            $labels[] = date('F', mktime(0, 0, 0, $item->month, 1));
+            $values[] = $item->total;
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $values,
+        ];
+    }
 
     public function deleteAllKolamTimur()
     {
         try {
             // Delete all records from the perikanan table where lokasi is 'Kolam Timur'
             $deletedCount = DB::table('perikanan')
-            ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
-            ->where('lokasi', 'like', '%kolam timur%')
-            ->delete();
+                ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+                ->where('lokasi', 'like', '%kolam timur%')
+                ->delete();
 
 
             if ($deletedCount > 0) {
@@ -223,12 +256,4 @@ class PerikananController extends Controller
             return redirect("dashboard/perikanan/")->with('error', 'An error occurred while deleting perikanan data: ' . $e->getMessage());
         }
     }
-
-
-    // tampilkan jumlah ikan kolam timur
-    public function biayaKolamTimur()
-    {
-        $totalBiaya = DB::table('perikanan')->sum('biaya');
-    }
-
 }
