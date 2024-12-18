@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Perikanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -18,12 +19,10 @@ class PerikananController extends Controller
     {
 
         // tampilkan table perikanan
-        $tasks = DB::table('perikanan')
-            ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
-            ->paginate(5);
+        $tasks = Perikanan::where('active', '=', true)->paginate(10);
 
         // tampilkan total biaya
-        $totalBiaya = DB::table('perikanan')->sum('biaya');
+        $totalBiaya = Perikanan::sum('biaya');
 
         // tampilkan table posts
         $posts = DB::table('posts')
@@ -31,14 +30,12 @@ class PerikananController extends Controller
             ->get();
 
         // tampilkan jumlah pakan kolam timur
-        $jumlahPakanKolamTimur = DB::table('perikanan')
-            ->where('kegiatan', 'like', '%beli pakan%')
+        $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam timur%')
             ->count();
 
         // tampilkan jumlah pakan kolam barat
-        $jumlahPakanKolamBarat = DB::table('perikanan')
-            ->where('kegiatan', 'like', '%beli pakan%')
+        $jumlahPakanKolamBarat = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam barat%')
             ->count();
 
@@ -79,7 +76,7 @@ class PerikananController extends Controller
         $kegiatan = $request->input('kegiatan') == 'other' ? $request->input('kegiatan_other') : $request->input('kegiatan');
 
         // insert ke database perikanan
-        DB::table('perikanan')->insert([
+        Perikanan::insert([
             'kegiatan' => $kegiatan,
             'lokasi' => $lokasi,
             'biaya' => $biaya,
@@ -96,8 +93,7 @@ class PerikananController extends Controller
     public function show(string $id)
     {
         // menampilkan data setiap id perikanan dari database
-        $task = DB::table('perikanan')
-            ->select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
+        $task = Perikanan::select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
             ->where('id', '=', $id)
             ->first();
 
@@ -122,8 +118,7 @@ class PerikananController extends Controller
     public function edit(string $id)
     {
         // mengedit database
-        $task = DB::table('perikanan')
-            ->select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
+        $task = Perikanan::select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
             ->where('id', '=', $id)
             ->first();
 
@@ -148,8 +143,7 @@ class PerikananController extends Controller
         $biaya = $request->input('biaya');
 
         // UPDATE ... WHERE id = $id
-        DB::table('perikanan')
-            ->where('id', $id)  // Gunakan $id langsung
+        Perikanan::where('id', $id)  // Gunakan $id langsung
             ->update([
                 'created_at' => $tanggal,
                 'kegiatan' => $kegiatan,
@@ -167,8 +161,7 @@ class PerikananController extends Controller
     public function destroy(string $id)
     {
         // menghapus data dari database
-        DB::table('perikanan')
-            ->where('id', $id)
+        Perikanan::where('id', $id)
             ->delete();
 
         return redirect("dashboard/perikanan/");
@@ -178,22 +171,19 @@ class PerikananController extends Controller
     public function kolam_timur()
     {
         // tampilkan table perikanan
-        $tasks = DB::table('perikanan')
-            ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+        $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
             ->where('lokasi', 'like', '%kolam timur%')
             ->paginate(10);
 
         // tampilkan total biaya seluruh kolam
-        $totalBiaya = DB::table('perikanan')->sum('biaya');
+        $totalBiaya = Perikanan::sum('biaya');
 
         // tampilkan total biaya kolam timur
-        $totalBiayaKolamTimur = DB::table('perikanan')
-            ->where('lokasi', 'like', '%kolam timur%')
+        $totalBiayaKolamTimur = Perikanan::where('lokasi', 'like', '%kolam timur%')
             ->sum('biaya');
 
         // tampilkan jumlah pakan kolam timur
-        $jumlahPakanKolamTimur = DB::table('perikanan')
-            ->where('kegiatan', 'like', '%beli pakan%')
+        $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam timur%')
             ->count();
 
@@ -215,9 +205,9 @@ class PerikananController extends Controller
     // mempersiapkan data untuk chart
     private function getChartData()
     {
-        $data = DB::table('perikanan')
-            ->where('lokasi', 'Kolam Timur')
-            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(biaya) as total'))
+        $data = Perikanan::
+            where('lokasi', 'Kolam Timur')
+            ->select(Perikanan::raw('MONTH(created_at) as month'), Perikanan::raw('SUM(biaya) as total'))
             ->groupBy('month')
             ->orderBy('month')
             ->get();
@@ -240,8 +230,8 @@ class PerikananController extends Controller
     {
         try {
             // Delete all records from the perikanan table where lokasi is 'Kolam Timur'
-            $deletedCount = DB::table('perikanan')
-                ->select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+            $deletedCount = Perikanan::
+                select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
                 ->where('lokasi', 'like', '%kolam timur%')
                 ->delete();
 

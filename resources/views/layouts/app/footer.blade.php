@@ -45,7 +45,6 @@
   // Add click event listener to the toggle button
   document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
 </script>
-
 </body>
 
 </html>
