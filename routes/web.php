@@ -8,8 +8,10 @@ use App\Http\Controllers\PerdaganganController;
 use App\Http\Controllers\PerikananController;
 use App\Http\Controllers\PerkebunanController;
 
+// Login Logout
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route Controller Dashboard
 Route::get('/', [DashboardController::class, 'index']);

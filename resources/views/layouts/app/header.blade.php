@@ -1,4 +1,5 @@
 <!-- Header -->
+
 <body class="hold-transition sidebar-mini" id="body">
   <div class="wrapper">
 
@@ -15,17 +16,26 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">Kebun Pedia</a>
         </li>
+        <div class="text-end">
+          <!-- tampilkan tombol sesuai status user -->
+          @if (Auth::check())
+          <a href="{{ url('logout') }}" class="btn btn-outline-danger me-2">Logout</a>
+          @else
+          <a href="{{ url('login') }}" class="btn btn-outline-light me-2">Login</a>
+          @endif
+
+        </div>
       </ul>
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
 
-      <!-- Dark Mode -->
-      <li class="nav-item">
+        <!-- Dark Mode -->
+        <li class="nav-item">
           <a class="nav-link" href="#" id="darkModeToggle" role="button">
             <i class="fas fa-moon"></i>
           </a>
-      </li>
+        </li>
 
         <!-- Navbar Search -->
         <li class="nav-item">
