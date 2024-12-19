@@ -101,6 +101,9 @@ class PerikananController extends Controller
             ->where('id', '=', $id)
             ->first();
 
+        $comments = $task->comments()->limit(5)->get(); // menampilkan comment dengan limit 2
+        $total_comments = $task->total_comments(); // menampilkan total comment dari model perikanan
+
         // Tampilkan table posts
         // $post = DB::table('posts')
         //         ->select('id', 'title', 'content', 'created_at')
@@ -109,6 +112,8 @@ class PerikananController extends Controller
 
         $view_data = [
             'task' => $task,
+            'comments' => $comments,
+            'total_comments' => $total_comments,
             // 'post' => $post,
 
         ];
