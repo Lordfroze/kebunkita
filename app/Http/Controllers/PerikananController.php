@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Perikanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,10 +18,13 @@ class PerikananController extends Controller
      */
     public function index()
     {
-
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // tampilkan table perikanan
         $tasks = Perikanan::where('active', '=', true)->paginate(10);
-        
+
         // tampilkan dengan data yang sudah didelete
         // $tasks = Perikanan::where('active', '=', true)->withTrashed()->paginate(10);
 
@@ -61,6 +65,11 @@ class PerikananController extends Controller
      */
     public function create()
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
         // mengarahkan ke halaman create
         return view('dashboard.perikanan.create');
     }
@@ -70,7 +79,10 @@ class PerikananController extends Controller
      */
     public function store(Request $request)
     {
-
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // Menerima data dari create.blade.php untuk perikanan
 
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
@@ -96,6 +108,10 @@ class PerikananController extends Controller
      */
     public function show(string $id)
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // menampilkan data setiap id perikanan dari database
         $task = Perikanan::select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
             ->where('id', '=', $id)
@@ -126,6 +142,10 @@ class PerikananController extends Controller
      */
     public function edit(string $id)
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // mengedit database
         $task = Perikanan::select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
             ->where('id', '=', $id)
@@ -145,6 +165,10 @@ class PerikananController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // mengambil data dari form edit
         $tanggal = $request->input('tanggal');
         $kegiatan = $request->input('kegiatan');
@@ -169,6 +193,10 @@ class PerikananController extends Controller
      */
     public function destroy(string $id)
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // menghapus data dari database
         Perikanan::where('id', $id)
             ->delete();
@@ -179,6 +207,10 @@ class PerikananController extends Controller
     // tampilkan data kolam timur
     public function kolam_timur()
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         // tampilkan table perikanan
         $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
             ->where('lokasi', 'like', '%kolam timur%')
@@ -212,35 +244,41 @@ class PerikananController extends Controller
     }
 
     // mempersiapkan data untuk chart
-        private function getChartData()
-        {
-            $data = Perikanan::
-                where('lokasi', 'Kolam Timur')
-                ->select(Perikanan::raw('MONTH(created_at) as month'), Perikanan::raw('SUM(biaya) as total'))
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get();
-
-            $labels = [];
-            $values = [];
-
-            foreach ($data as $item) {
-                $labels[] = date('F', mktime(0, 0, 0, $item->month, 1));
-                $values[] = $item->total;
-            }
-
-            return [
-                'labels' => $labels,
-                'data' => $values,
-            ];
+    private function getChartData()
+    {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
         }
+        $data = Perikanan::where('lokasi', 'Kolam Timur')
+            ->select(Perikanan::raw('MONTH(created_at) as month'), Perikanan::raw('SUM(biaya) as total'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $labels = [];
+        $values = [];
+
+        foreach ($data as $item) {
+            $labels[] = date('F', mktime(0, 0, 0, $item->month, 1));
+            $values[] = $item->total;
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $values,
+        ];
+    }
 
     public function deleteAllKolamTimur()
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         try {
             // Delete all records from the perikanan table where lokasi is 'Kolam Timur'
-            $deletedCount = Perikanan::
-                select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+            $deletedCount = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
                 ->where('lokasi', 'like', '%kolam timur%')
                 ->delete();
 
