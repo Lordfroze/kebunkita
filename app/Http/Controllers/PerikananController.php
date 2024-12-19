@@ -20,6 +20,10 @@ class PerikananController extends Controller
 
         // tampilkan table perikanan
         $tasks = Perikanan::where('active', '=', true)->paginate(10);
+        
+        // tampilkan dengan data yang sudah didelete
+        // $tasks = Perikanan::where('active', '=', true)->withTrashed()->paginate(10);
+
 
         // tampilkan total biaya
         $totalBiaya = Perikanan::sum('biaya');
@@ -203,28 +207,28 @@ class PerikananController extends Controller
     }
 
     // mempersiapkan data untuk chart
-    private function getChartData()
-    {
-        $data = Perikanan::
-            where('lokasi', 'Kolam Timur')
-            ->select(Perikanan::raw('MONTH(created_at) as month'), Perikanan::raw('SUM(biaya) as total'))
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+        private function getChartData()
+        {
+            $data = Perikanan::
+                where('lokasi', 'Kolam Timur')
+                ->select(Perikanan::raw('MONTH(created_at) as month'), Perikanan::raw('SUM(biaya) as total'))
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
 
-        $labels = [];
-        $values = [];
+            $labels = [];
+            $values = [];
 
-        foreach ($data as $item) {
-            $labels[] = date('F', mktime(0, 0, 0, $item->month, 1));
-            $values[] = $item->total;
+            foreach ($data as $item) {
+                $labels[] = date('F', mktime(0, 0, 0, $item->month, 1));
+                $values[] = $item->total;
+            }
+
+            return [
+                'labels' => $labels,
+                'data' => $values,
+            ];
         }
-
-        return [
-            'labels' => $labels,
-            'data' => $values,
-        ];
-    }
 
     public function deleteAllKolamTimur()
     {
