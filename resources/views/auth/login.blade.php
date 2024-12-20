@@ -34,6 +34,12 @@
                                 {{ session()->get('error_message') }}
                             </div>
                             @endif
+                            <!-- peringatan jika berhasil mendaftar -->
+                            @if(session('success_message'))
+                            <div class="alert alert-success">
+                                {{ session('success_message') }}
+                            </div>
+                            @endif
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="remember" name="remember">
                                 <label class="form-check-label" for="remember">
@@ -69,7 +75,7 @@
                             </a>
                         </div>
                         <div class="small">
-                            Belum punya akun? <a href="#" class="text-decoration-none">Daftar sekarang!</a>
+                            Belum punya akun? <a href="{{ url('register') }}" class="text-decoration-none">Daftar sekarang!</a>
                         </div>
                     </div>
                 </div>

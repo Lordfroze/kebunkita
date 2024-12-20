@@ -13,6 +13,10 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Register
+Route::get('/register', [AuthController::class, 'register_form'])->name('register_form');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
 // Route Controller Dashboard
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
