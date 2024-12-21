@@ -38,7 +38,7 @@ Dashboard Perikanan
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <a href="#" class="small-box-footer">
+          <a href="{{ url('/dashboard/perikanan/kolam_barat') }}" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -68,7 +68,7 @@ Dashboard Perikanan
 <div class="content">
 <h2>Tabel Perikanan</h1>
 <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
-<div class="table-responsive">
+<div class="table-responsive mt-2">
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>

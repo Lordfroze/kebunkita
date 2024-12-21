@@ -229,7 +229,7 @@ class PerikananController extends Controller
             ->count();
 
         // chart
-        $chartData = $this->getChartData();
+        $chartData = $this->getChartDataTimur();
 
         // Membuat array untuk menyimpan data
         $view_data = [
@@ -244,7 +244,7 @@ class PerikananController extends Controller
     }
 
     // mempersiapkan data untuk chart
-    private function getChartData()
+    private function getChartDataTimur()
     {
         // otentikasi jika user belum login
         if (!Auth::check()) {
@@ -287,6 +287,92 @@ class PerikananController extends Controller
                 return redirect("dashboard/perikanan/")->with('success', "All perikanan data for Kolam Timur has been successfully deleted. ($deletedCount records removed)");
             } else {
                 return redirect("dashboard/perikanan/")->with('info', 'No perikanan data found for Kolam Timur to delete.');
+            }
+        } catch (\Exception $e) {
+            // If an error occurs, redirect back with an error message
+            return redirect("dashboard/perikanan/")->with('error', 'An error occurred while deleting perikanan data: ' . $e->getMessage());
+        }
+    }
+
+    // Tampilkan data kolam barat
+    public function kolam_barat()
+    {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+        // tampilkan table perikanan
+        $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+            ->where('lokasi', 'like', '%kolam barat%')
+            ->paginate(10);
+
+        // tampilkan total biaya kolam barat
+        $totalBiayaKolamBarat = Perikanan::where('lokasi', 'like', '%kolam barat%')
+            ->sum('biaya');
+
+        // tampilkan jumlah pakan kolam barat
+        $jumlahPakanKolamBarat = Perikanan::where('kegiatan', 'like', '%beli pakan%')
+            ->where('lokasi', 'like', '%kolam barat%')
+            ->count();
+
+        // chart
+        $chartData = $this->getChartDataBarat();
+
+        // Membuat array untuk menyimpan data
+        $view_data = [
+            'tasks' => $tasks,
+            'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
+            'totalBiayaKolamBarat' => $totalBiayaKolamBarat,
+            'chartData' => $chartData,
+        ];
+
+        return view('dashboard.perikanan.kolam_barat.kolambarat', $view_data);
+    }
+
+    // mempersiapkan data untuk chart kolam barat
+    private function getChartDataBarat()
+    {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+        $data = Perikanan::where('lokasi', 'kolam barat')
+            ->select(Perikanan::raw('MONTH(created_at) as month'), Perikanan::raw('SUM(biaya) as total'))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $labels = [];
+        $values = [];
+
+        foreach ($data as $item) {
+            $labels[] = date('F', mktime(0, 0, 0, $item->month, 1));
+            $values[] = $item->total;
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $values,
+        ];
+    }
+
+    public function deleteAllKolamBarat()
+    {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+        try {
+            // Delete all records from the perikanan table where lokasi is 'Kolam Barat'
+            $deletedCount = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
+                ->where('lokasi', 'like', '%kolam barat%')
+                ->delete();
+
+
+            if ($deletedCount > 0) {
+                return redirect("dashboard/perikanan/")->with('success', "All perikanan data for Kolam Barat has been successfully deleted. ($deletedCount records removed)");
+            } else {
+                return redirect("dashboard/perikanan/")->with('info', 'No perikanan data found for Kolam Barat to delete.');
             }
         } catch (\Exception $e) {
             // If an error occurs, redirect back with an error message
