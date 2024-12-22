@@ -379,4 +379,29 @@ class PerikananController extends Controller
             return redirect("dashboard/perikanan/")->with('error', 'An error occurred while deleting perikanan data: ' . $e->getMessage());
         }
     }
+
+    // Tampilkan data jumlah ikan pada setiap kolam
+    public function jumlah_ikan()
+    {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+        // tampilkan jumlah ikan kolam timur
+        $jumlah_ikan_timur = Perikanan::where('lokasi', 'like', '%kolam timur%')
+        ->sum('jumlah_ikan');
+
+        // tampilkan jumlah ikan kolam barat
+        $jumlah_ikan_barat = Perikanan::where('lokasi', 'like', '%kolam barat%')
+        ->sum('jumlah_ikan');
+
+        // Membuat array untuk menyimpan data
+        $view_data = [
+            'jumlah_ikan_timur' => $jumlah_ikan_timur,
+            'jumlah_ikan_barat' => $jumlah_ikan_barat,
+            // 'chartData' => $chartData,
+        ];
+
+        return view('dashboard.perikanan.jumlah_ikan.jumlahikan', $view_data);
+    }
 }

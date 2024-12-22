@@ -55,7 +55,7 @@ Dashboard Perikanan
           <div class="icon">
             <i class="fas fa-fish"></i>
           </div>
-          <a href="#" class="small-box-footer">
+          <a href="{{ url('/dashboard/perikanan/jumlah_ikan') }}" class="small-box-footer">
             Informasi Ikan <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>

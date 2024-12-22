@@ -14,8 +14,8 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('authentica
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Register
-Route::get('/register', [AuthController::class, 'register_form'])->name('register_form');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+// Route::get('/register', [AuthController::class, 'register_form'])->name('register_form');
+// Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // Route Controller Dashboard
 Route::get('/', [DashboardController::class, 'index']);
@@ -27,6 +27,7 @@ Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->nam
 // Route Controller Perikanan
 Route::get('/dashboard/perikanan/kolam_timur', [PerikananController::class, 'kolam_timur']);
 Route::get('/dashboard/perikanan/kolam_barat', [PerikananController::class, 'kolam_barat']);
+Route::get('/dashboard/perikanan/jumlah_ikan', [PerikananController::class, 'jumlah_ikan']);
 Route::get('/dashboard/perikanan/create', [PerikananController::class, 'create']);
 Route::post('/dashboard/perikanan', [PerikananController::class, 'store']);
 Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
