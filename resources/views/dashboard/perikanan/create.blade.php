@@ -27,6 +27,16 @@ Tambah Data
                 </label>
             </div>
             <div class="form-check">
+                <input class="form-check-input" type="radio" name="kegiatan" id="kurangi_ikan" value="Kurangi ikan">
+                <label class="form-check-label" for="kurangi_ikan">
+                    Kurangi Ikan
+                </label>
+            </div>
+            <div id="kurangi_ikanInput" style="display: none;">
+                <input type="number" class="form-control mt-2" name="kurangi_ikanInput" placeholder="Jumlah ikan yang dikurangi">
+            </div>
+
+            <div class="form-check">
                 <input class="form-check-input" type="radio" name="kegiatan" id="PanenIkan" value="Panen Ikan">
                 <label class="form-check-label" for="PanenIkan">
                     Panen Ikan
@@ -48,13 +58,13 @@ Tambah Data
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="lokasi" id="KolamTimur" value="Kolam Timur">
                 <label class="form-check-label" for="KolamTimur">
-                Kolam Timur
+                    Kolam Timur
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="lokasi" id="KolamBarat" value="Kolam Barat">
                 <label class="form-check-label" for="KolamBarat">
-                Kolam Barat
+                    Kolam Barat
                 </label>
             </div>
             <!-- <textarea class="form-control" id="lokasi" rows="3" name="lokasi"></textarea> -->
@@ -67,20 +77,24 @@ Tambah Data
     </form>
 </div>
 
+<!-- munculkan tombol lain -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const kegiatanLain = document.getElementById('KegiatanLain');
-    const otherInput = document.getElementById('otherKegiatanInput');
+    document.addEventListener('DOMContentLoaded', function() {
+        const kegiatanLain = document.getElementById('KegiatanLain');
+        const otherInput = document.getElementById('otherKegiatanInput');
+        const kurangi_ikan = document.getElementById('kurangi_ikan');
+        const kurangi_ikanInput = document.getElementById('kurangi_ikanInput');
 
-    function toggleOtherInput() {
-        otherInput.style.display = kegiatanLain.checked ? 'block' : 'none';
-    }
+        function toggleInputs() {
+            otherInput.style.display = kegiatanLain.checked ? 'block' : 'none';
+            kurangi_ikanInput.style.display = kurangi_ikan.checked ? 'block' : 'none';
+        }
 
-    document.querySelectorAll('input[name="kegiatan"]').forEach(function(radio) {
-        radio.addEventListener('change', toggleOtherInput);
+        document.querySelectorAll('input[name="kegiatan"]').forEach(function(radio) {
+            radio.addEventListener('change', toggleInputs);
+        });
+
+        toggleInputs(); // Initial check
     });
-
-    toggleOtherInput(); // Initial check
-});
 </script>
 @endsection

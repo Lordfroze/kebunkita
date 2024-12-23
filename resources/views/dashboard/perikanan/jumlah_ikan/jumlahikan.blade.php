@@ -5,4 +5,7 @@ Jumlah Ikan
 
 @section('content')
 <!-- Main content -->
+ <p>Kolam Timur {{$jumlah_ikan_timur}}</p>
+ <p>Kolam Barat {{$jumlah_ikan_barat}}</p>
+
 @endsection

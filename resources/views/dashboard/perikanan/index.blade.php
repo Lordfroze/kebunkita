@@ -49,7 +49,7 @@ Dashboard Perikanan
       <div class="col-lg-6">
         <div class="small-box bg-info">
           <div class="inner">
-            <h3>3000</h3>
+            <h3>{{$jumlahIkan}}</h3>
             <p>Jumlah Ikan</p>
           </div>
           <div class="icon">
