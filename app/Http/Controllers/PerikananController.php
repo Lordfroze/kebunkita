@@ -47,6 +47,9 @@ class PerikananController extends Controller
             ->where('lokasi', 'like', '%kolam barat%')
             ->count();
 
+        // tampilkan jumlah ikan
+        $jumlahIkan = Perikanan::sum('jumlah_ikan');
+
         // Membuat array untuk menyimpan data
         $view_data = [
             'posts' => $posts,
@@ -54,6 +57,7 @@ class PerikananController extends Controller
             'totalBiaya' => $totalBiaya,
             'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
             'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
+            'jumlahIkan' => $jumlahIkan,
         ];
 
         // Menampilkan view dengan data
@@ -88,8 +92,19 @@ class PerikananController extends Controller
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
-
+        $kurangi_ikanInput = $request->input('kurangi_ikanInput');
         $kegiatan = $request->input('kegiatan') == 'other' ? $request->input('kegiatan_other') : $request->input('kegiatan');
+        
+        // mengambil jumlah_ikan dari database
+        $jumlahIkan = Perikanan::sum('jumlah_ikan');
+
+        // jika kegiatan kurangi ikan maka $jumlahIkan - $kurangi_ikanInpup
+        if ($kegiatan == 'kurangi ikan') {
+            $jumlah_ikan = $jumlahIkan - $kurangi_ikanInput;
+        } else {
+            $jumlah_ikan = $jumlahIkan;
+        }
+
 
         // insert ke database perikanan
         Perikanan::insert([
@@ -98,6 +113,7 @@ class PerikananController extends Controller
             'biaya' => $biaya,
             'created_at' => $tanggal,
             'updated_at' => now(), //     'updated_at' => date('Y-m-d H:i:s'),
+            'jumlah_ikan' => $jumlah_ikan,
         ]);
 
         return redirect('/dashboard/perikanan')->with('success', 'Data Sukses Ditambahkan');
@@ -404,4 +420,5 @@ class PerikananController extends Controller
 
         return view('dashboard.perikanan.jumlah_ikan.jumlahikan', $view_data);
     }
+
 }
