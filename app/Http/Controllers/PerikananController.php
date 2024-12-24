@@ -92,18 +92,42 @@ class PerikananController extends Controller
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
-        $kurangi_ikanInput = $request->input('kurangi_ikanInput');
         $kegiatan = $request->input('kegiatan') == 'other' ? $request->input('kegiatan_other') : $request->input('kegiatan');
-        
-        // mengambil jumlah_ikan dari database
-        $jumlahIkan = Perikanan::sum('jumlah_ikan');
 
-        // jika kegiatan kurangi ikan maka $jumlahIkan - $kurangi_ikanInpup
-        if ($kegiatan == 'kurangi ikan') {
-            $jumlah_ikan = $jumlahIkan - $kurangi_ikanInput;
-        } else {
-            $jumlah_ikan = $jumlahIkan;
+        // Initialize fish count change
+        $fish_count_change = 0;
+
+        // Log for debugging
+        \Log::info("Kegiatan: " . $kegiatan);
+
+        // Use strtolower() for case-insensitive comparison
+        if (strtolower($kegiatan) == 'kurangi ikan') {
+            $kurangi_ikan_input = $request->input('kurangi_ikanInput');
+
+            // Log the input value
+            \Log::info("Kurangi ikan input: " . $kurangi_ikan_input);
+
+            // Ensure we're working with a numeric value
+            $kurangi_ikan_input = is_numeric($kurangi_ikan_input) ? floatval($kurangi_ikan_input) : 0;
+
+            $fish_count_change = -abs($kurangi_ikan_input);
+
+            \Log::info("Jumlah ikan yang akan dikurangi: " . abs($fish_count_change));
+
+            // Update the total fish count in the database
+            try {
+                $affected = Perikanan::where('id', $id)->decrement('jumlah_ikan', abs($fish_count_change));
+                \Log::info("Rows affected: " . $affected);
+            } catch (\Exception $e) {
+                \Log::error("Error updating fish count: " . $e->getMessage());
+            }
+        } elseif (strtolower($kegiatan) == 'tambah ikan') {
+            $fish_count_change = abs($request->input('tambah_ikanInput', 0));
         }
+
+        // Log final fish count change
+        \Log::info("Final fish count change: " . $fish_count_change);
+
 
 
         // insert ke database perikanan
@@ -113,7 +137,7 @@ class PerikananController extends Controller
             'biaya' => $biaya,
             'created_at' => $tanggal,
             'updated_at' => now(), //     'updated_at' => date('Y-m-d H:i:s'),
-            'jumlah_ikan' => $jumlah_ikan,
+            'jumlah_ikan' => $fish_count_change,
         ]);
 
         return redirect('/dashboard/perikanan')->with('success', 'Data Sukses Ditambahkan');
@@ -405,11 +429,11 @@ class PerikananController extends Controller
         }
         // tampilkan jumlah ikan kolam timur
         $jumlah_ikan_timur = Perikanan::where('lokasi', 'like', '%kolam timur%')
-        ->sum('jumlah_ikan');
+            ->sum('jumlah_ikan');
 
         // tampilkan jumlah ikan kolam barat
         $jumlah_ikan_barat = Perikanan::where('lokasi', 'like', '%kolam barat%')
-        ->sum('jumlah_ikan');
+            ->sum('jumlah_ikan');
 
         // Membuat array untuk menyimpan data
         $view_data = [
@@ -420,5 +444,4 @@ class PerikananController extends Controller
 
         return view('dashboard.perikanan.jumlah_ikan.jumlahikan', $view_data);
     }
-
 }
