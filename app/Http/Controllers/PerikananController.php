@@ -50,6 +50,14 @@ class PerikananController extends Controller
         // tampilkan jumlah ikan
         $jumlahIkan = Perikanan::sum('jumlah_ikan');
 
+        // tampilkan jumlah ikan kolam timur
+        $jumlah_ikan_timur = Perikanan::where('lokasi', 'like', '%kolam timur%')
+            ->sum('jumlah_ikan');
+
+        // tampilkan jumlah ikan kolam barat
+        $jumlah_ikan_barat = Perikanan::where('lokasi', 'like', '%kolam barat%')
+            ->sum('jumlah_ikan');
+
         // Membuat array untuk menyimpan data
         $view_data = [
             'posts' => $posts,
@@ -58,6 +66,8 @@ class PerikananController extends Controller
             'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
             'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
             'jumlahIkan' => $jumlahIkan,
+            'jumlah_ikan_timur' => $jumlah_ikan_timur,
+            'jumlah_ikan_barat' => $jumlah_ikan_barat,
         ];
 
         // Menampilkan view dengan data
@@ -97,36 +107,25 @@ class PerikananController extends Controller
         // Initialize fish count change
         $fish_count_change = 0;
 
-        // Log for debugging
-        \Log::info("Kegiatan: " . $kegiatan);
-
         // Use strtolower() for case-insensitive comparison
         if (strtolower($kegiatan) == 'kurangi ikan') {
             $kurangi_ikan_input = $request->input('kurangi_ikanInput');
-
-            // Log the input value
-            \Log::info("Kurangi ikan input: " . $kurangi_ikan_input);
 
             // Ensure we're working with a numeric value
             $kurangi_ikan_input = is_numeric($kurangi_ikan_input) ? floatval($kurangi_ikan_input) : 0;
 
             $fish_count_change = -abs($kurangi_ikan_input);
 
-            \Log::info("Jumlah ikan yang akan dikurangi: " . abs($fish_count_change));
-
             // Update the total fish count in the database
             try {
                 $affected = Perikanan::where('id', $id)->decrement('jumlah_ikan', abs($fish_count_change));
-                \Log::info("Rows affected: " . $affected);
             } catch (\Exception $e) {
-                \Log::error("Error updating fish count: " . $e->getMessage());
+                // Handle the error silently or add appropriate error handling
             }
         } elseif (strtolower($kegiatan) == 'tambah ikan') {
             $fish_count_change = abs($request->input('tambah_ikanInput', 0));
         }
 
-        // Log final fish count change
-        \Log::info("Final fish count change: " . $fish_count_change);
 
 
 
