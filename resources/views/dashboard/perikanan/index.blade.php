@@ -11,6 +11,7 @@ Dashboard Perikanan
 </div>
 @endif
 
+
 <div class="content">
   <div class="container-fluid">
     <div class="row">
@@ -44,25 +45,21 @@ Dashboard Perikanan
         </div>
       </div>
 
-
       <div class="col-lg-3">
-        <div class="small-box bg-info">
+        <div class="small-box bg-success">
           <div class="inner">
-            <h3>Jumlah ikan = {{$jumlahIkan}}</h3>
-            <ul>
-              <li>Jumlah Ikan Timur {{$jumlah_ikan_timur}}</li>
-              <li>Jumlah Ikan Barat {{$jumlah_ikan_barat}}</li>
-            </ul>
+            <h3>{{$jumlahIkan}}</h3>
+            <p>Jumlah ikan</p>
           </div>
           <div class="icon">
             <i class="fas fa-fish"></i>
           </div>
           <a href="{{ url('/dashboard/perikanan/jumlah_ikan') }}" class="small-box-footer">
-            Informasi Ikan <i class="fas fa-arrow-circle-right"></i>
+            More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
       </div>
-
+      
     </div> <!-- <div class="row"> -->
   </div><!-- /.container-fluid -->
 </div><!-- /.content -->
