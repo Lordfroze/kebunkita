@@ -35,6 +35,15 @@ Tambah Data
             <div id="kurangi_ikanInput" style="display: none;">
                 <input type="number" class="form-control mt-2" name="kurangi_ikanInput" placeholder="Jumlah ikan yang dikurangi">
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="kegiatan" id="tambah_ikan" value="Tambah ikan">
+                <label class="form-check-label" for="tambah_ikan">
+                    Tambah Ikan
+                </label>
+            </div>
+            <div id="tambah_ikanInput" style="display: none;">
+                <input type="number" class="form-control mt-2" name="tambah_ikanInput" placeholder="Jumlah ikan yang ditambah">
+            </div>
 
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="kegiatan" id="PanenIkan" value="Panen Ikan">
@@ -84,10 +93,13 @@ Tambah Data
         const otherInput = document.getElementById('otherKegiatanInput');
         const kurangi_ikan = document.getElementById('kurangi_ikan');
         const kurangi_ikanInput = document.getElementById('kurangi_ikanInput');
+        const tambah_ikan = document.getElementById('tambah_ikan');
+        const tambah_ikanInput = document.getElementById('tambah_ikanInput');
 
         function toggleInputs() {
             otherInput.style.display = kegiatanLain.checked ? 'block' : 'none';
             kurangi_ikanInput.style.display = kurangi_ikan.checked ? 'block' : 'none';
+            tambah_ikanInput.style.display = tambah_ikan.checked ? 'block' : 'none';
         }
 
         document.querySelectorAll('input[name="kegiatan"]').forEach(function(radio) {
