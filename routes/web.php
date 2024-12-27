@@ -34,6 +34,7 @@ Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
 Route::get('/dashboard/perikanan/{id}/edit', [PerikananController::class, 'edit']);
 Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']);
 Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
+Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, 'musim_panen']);
 
 // Route delete data kolam timur
 Route::delete('/dashboard/perikanan/kolam-timur/delete-all', [PerikananController::class, 'deleteAllKolamTimur'])->name('perikanan.kolam_timur.deleteAll');

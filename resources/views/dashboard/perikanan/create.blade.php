@@ -9,13 +9,13 @@ Tambah Data
         @csrf
         <div class="mb-3">
             <label for="tanggal" class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="tanggal" name="tanggal">
+            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Kegiatan</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="kegiatan" id="BeliPakan" value="Beli Pakan">
+                <input class="form-check-input" type="radio" name="kegiatan" id="BeliPakan" value="Beli Pakan" required>
                 <label class="form-check-label" for="BeliPakan">
                     Beli Pakan
                 </label>
@@ -65,7 +65,7 @@ Tambah Data
         <div class="mb-3">
             <label for="lokasi" class="form-label">Lokasi</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="lokasi" id="KolamTimur" value="Kolam Timur">
+                <input class="form-check-input" type="radio" name="lokasi" id="KolamTimur" value="Kolam Timur" required>
                 <label class="form-check-label" for="KolamTimur">
                     Kolam Timur
                 </label>
@@ -81,6 +81,10 @@ Tambah Data
         <div class="mb-3">
             <label for="biaya" class="form-label">Biaya</label>
             <input type="number" class="form-control" id="biaya" name="biaya" value="0">
+        </div>
+        <div class="mb-3">
+            <label for="musim_panen" class="form-label">Musim Panen</label>
+            <input type="number" class="form-control" id="musim_panen" name="musim_panen" value="0" required>
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

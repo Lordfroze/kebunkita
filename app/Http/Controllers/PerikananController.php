@@ -24,8 +24,8 @@ class PerikananController extends Controller
         }
         // tampilkan table perikanan
         $tasks = Perikanan::where('active', '=', true)
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         // tampilkan dengan data yang sudah didelete
         // $tasks = Perikanan::where('active', '=', true)->withTrashed()->paginate(10);
@@ -104,12 +104,13 @@ class PerikananController extends Controller
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
+        $musim_panen = $request->input('musim_panen');
         $kegiatan = $request->input('kegiatan') == 'other' ? $request->input('kegiatan_other') : $request->input('kegiatan');
 
-        // Initialize fish count change
+        // set rubah ikan ke 0
         $fish_count_change = 0;
 
-        // Use strtolower() for case-insensitive comparison
+        // Proses kurangi ikan jika kegiatan adalah 'kurangi ikan'
         if (strtolower($kegiatan) == 'kurangi ikan') {
             $kurangi_ikan_input = $request->input('kurangi_ikanInput');
 
@@ -128,9 +129,6 @@ class PerikananController extends Controller
             $fish_count_change = abs($request->input('tambah_ikanInput', 0));
         }
 
-
-
-
         // insert ke database perikanan
         Perikanan::insert([
             'kegiatan' => $kegiatan,
@@ -138,6 +136,7 @@ class PerikananController extends Controller
             'biaya' => $biaya,
             'created_at' => $tanggal,
             'updated_at' => now(), //     'updated_at' => date('Y-m-d H:i:s'),
+            'musim_panen' => $musim_panen,
             'jumlah_ikan' => $fish_count_change,
         ]);
 
@@ -215,6 +214,7 @@ class PerikananController extends Controller
         $kegiatan = $request->input('kegiatan');
         $lokasi = $request->input('lokasi');
         $biaya = $request->input('biaya');
+        $musim_panen = $request->input('musim_panen');
 
         // UPDATE ... WHERE id = $id
         Perikanan::where('id', $id)  // Gunakan $id langsung
@@ -223,7 +223,8 @@ class PerikananController extends Controller
                 'kegiatan' => $kegiatan,
                 'lokasi' => $lokasi,
                 'biaya' => $biaya,
-                'updated_at' => now()
+                'updated_at' => now(),
+                'musim_panen' => $musim_panen,
             ]);
 
         return redirect("dashboard/perikanan/{$id}");
@@ -269,10 +270,10 @@ class PerikananController extends Controller
         $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam timur%')
             ->count();
-        
+
         // tampilkan jumlah ikan kolam timur
         $jumlah_ikan_timur = Perikanan::where('lokasi', 'like', '%kolam timur%')
-        ->sum('jumlah_ikan');
+            ->sum('jumlah_ikan');
 
         // chart
         $chartData = $this->getChartDataTimur();
@@ -365,7 +366,7 @@ class PerikananController extends Controller
 
         // tampilkan jumlah ikan kolam barat
         $jumlah_ikan_barat = Perikanan::where('lokasi', 'like', '%kolam barat%')
-        ->sum('jumlah_ikan');
+            ->sum('jumlah_ikan');
 
         // chart
         $chartData = $this->getChartDataBarat();
@@ -456,5 +457,18 @@ class PerikananController extends Controller
         ];
 
         return view('dashboard.perikanan.jumlah_ikan.jumlahikan', $view_data);
+    }
+
+    // tampilkan data setiap musim panen
+    public function musim_panen($season)
+    {
+        $tasks = Perikanan::where('musim_panen', $season)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $totalBiaya = Perikanan::where('musim_panen', $season)->sum('biaya');
+        $jumlahIkan = Perikanan::where('musim_panen', $season)->sum('jumlah_ikan');
+
+        return view('dashboard.perikanan.musim_panen', compact('tasks', 'totalBiaya', 'jumlahIkan', 'season'));
     }
 }
