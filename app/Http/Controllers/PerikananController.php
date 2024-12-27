@@ -86,8 +86,15 @@ class PerikananController extends Controller
             return redirect('login');
         }
 
+        // Mendapatkan musim panen terbaru berdasrkan lokasi yang dipilih
+        $latestMusimPanen = Perikanan::select('lokasi')
+            ->selectRaw('MAX(musim_panen) as latest_musim_panen')
+            ->groupBy('lokasi')
+            ->pluck('latest_musim_panen', 'lokasi')
+            ->toArray();
+
         // mengarahkan ke halaman create
-        return view('dashboard.perikanan.create');
+        return view('dashboard.perikanan.create', compact('latestMusimPanen'));
     }
 
     /**
@@ -459,7 +466,7 @@ class PerikananController extends Controller
         return view('dashboard.perikanan.jumlah_ikan.jumlahikan', $view_data);
     }
 
-    // tampilkan data setiap musim panen
+    // Tampilkan data setiap musim panen
     public function musim_panen($season)
     {
         $tasks = Perikanan::where('musim_panen', $season)
