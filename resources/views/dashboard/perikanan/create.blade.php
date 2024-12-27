@@ -82,9 +82,11 @@ Tambah Data
             <label for="biaya" class="form-label">Biaya</label>
             <input type="number" class="form-control" id="biaya" name="biaya" value="0">
         </div>
+
         <div class="mb-3">
-            <label for="musim_panen" class="form-label">Musim Panen</label>
-            <input type="number" class="form-control" id="musim_panen" name="musim_panen" value="0" required>
+            <label for="musim_panen" class="form-label">Musim</label>
+
+            <input type="number" class="form-control" id="musim_panen" name="musim_panen" value="1" required>
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
@@ -111,6 +113,24 @@ Tambah Data
         });
 
         toggleInputs(); // Initial check
+    });
+</script>
+
+<!-- mendapatkan latest musim berdasarkan lokasi -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const lokasiSelect = document.getElementById('lokasi');
+        const musimPanenInput = document.getElementById('musim_panen');
+        const latestMusimPanen = @json($latestMusimPanen);
+
+        lokasiSelect.addEventListener('change', function() {
+            const selectedLokasi = this.value;
+            if (selectedLokasi in latestMusimPanen) {
+                musimPanenInput.value = latestMusimPanen[selectedLokasi] + 1;
+            } else {
+                musimPanenInput.value = 1;
+            }
+        });
     });
 </script>
 @endsection

@@ -15,8 +15,8 @@ Dashboard Perikanan
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      
-    <div class="col-lg-4">
+
+      <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
             <h3>{{$jumlahPakanKolamTimur}}</h3>
@@ -60,13 +60,14 @@ Dashboard Perikanan
           </a>
         </div>
       </div>
-      
+
     </div> <!-- <div class="row"> -->
   </div><!-- /.container-fluid -->
 </div><!-- /.content -->
 
 <div class="content">
   <h2>Tabel Perikanan</h1>
+
     <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
     <div class="table-responsive mt-2">
       <table class="table table-bordered table-striped table-hover">
