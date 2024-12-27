@@ -41,7 +41,7 @@ Detail Kolam Barat
                     <span class="info-box-icon bg-info"><i class="fas fa-fish"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Jumlah Ikan Kolam Barat</span>
-                        <span class="info-box-number">410</span>
+                        <span class="info-box-number">{{$jumlah_ikan_barat}}</span>
                     </div>
                 </div>
             </div>
