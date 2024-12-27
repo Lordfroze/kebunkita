@@ -15,7 +15,8 @@ Dashboard Perikanan
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3">
+      
+    <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
             <h3>{{$jumlahPakanKolamTimur}}</h3>
@@ -30,7 +31,7 @@ Dashboard Perikanan
         </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
             <h3>{{$jumlahPakanKolamBarat}}</h3>
@@ -45,7 +46,7 @@ Dashboard Perikanan
         </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <div class="small-box bg-success">
           <div class="inner">
             <h3>{{$jumlahIkan}}</h3>

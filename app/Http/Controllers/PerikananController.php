@@ -23,7 +23,9 @@ class PerikananController extends Controller
             return redirect('login');
         }
         // tampilkan table perikanan
-        $tasks = Perikanan::where('active', '=', true)->paginate(10);
+        $tasks = Perikanan::where('active', '=', true)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
 
         // tampilkan dengan data yang sudah didelete
         // $tasks = Perikanan::where('active', '=', true)->withTrashed()->paginate(10);
@@ -243,7 +245,7 @@ class PerikananController extends Controller
         return redirect("dashboard/perikanan/");
     }
 
-    // tampilkan data kolam timur
+    // HALAMAN KOLAM TIMUR
     public function kolam_timur()
     {
         // otentikasi jika user belum login
@@ -253,6 +255,7 @@ class PerikananController extends Controller
         // tampilkan table perikanan
         $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
             ->where('lokasi', 'like', '%kolam timur%')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         // tampilkan total biaya seluruh kolam
@@ -266,6 +269,10 @@ class PerikananController extends Controller
         $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam timur%')
             ->count();
+        
+        // tampilkan jumlah ikan kolam timur
+        $jumlah_ikan_timur = Perikanan::where('lokasi', 'like', '%kolam timur%')
+        ->sum('jumlah_ikan');
 
         // chart
         $chartData = $this->getChartDataTimur();
@@ -276,6 +283,7 @@ class PerikananController extends Controller
             'totalBiaya' => $totalBiaya,
             'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
             'totalBiayaKolamTimur' => $totalBiayaKolamTimur,
+            'jumlah_ikan_timur' => $jumlah_ikan_timur,
             'chartData' => $chartData,
         ];
 
@@ -333,7 +341,7 @@ class PerikananController extends Controller
         }
     }
 
-    // Tampilkan data kolam barat
+    // HALAMAN KOLAM BARAT
     public function kolam_barat()
     {
         // otentikasi jika user belum login
@@ -343,6 +351,7 @@ class PerikananController extends Controller
         // tampilkan table perikanan
         $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
             ->where('lokasi', 'like', '%kolam barat%')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         // tampilkan total biaya kolam barat
@@ -354,6 +363,10 @@ class PerikananController extends Controller
             ->where('lokasi', 'like', '%kolam barat%')
             ->count();
 
+        // tampilkan jumlah ikan kolam barat
+        $jumlah_ikan_barat = Perikanan::where('lokasi', 'like', '%kolam barat%')
+        ->sum('jumlah_ikan');
+
         // chart
         $chartData = $this->getChartDataBarat();
 
@@ -362,6 +375,7 @@ class PerikananController extends Controller
             'tasks' => $tasks,
             'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
             'totalBiayaKolamBarat' => $totalBiayaKolamBarat,
+            'jumlah_ikan_barat' => $jumlah_ikan_barat,
             'chartData' => $chartData,
         ];
 
