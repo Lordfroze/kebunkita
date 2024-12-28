@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PerdaganganController;
 use App\Http\Controllers\PerikananController;
 use App\Http\Controllers\PerkebunanController;
+use App\Http\Controllers\WeatherController;
 
 // Login Logout
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -35,6 +36,9 @@ Route::get('/dashboard/perikanan/{id}/edit', [PerikananController::class, 'edit'
 Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']);
 Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
 Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, 'musim_panen']);
+
+// Route weather
+Route::get('/weather', [WeatherController::class, 'getWeather']);
 
 // Route delete data kolam timur
 Route::delete('/dashboard/perikanan/kolam-timur/delete-all', [PerikananController::class, 'deleteAllKolamTimur'])->name('perikanan.kolam_timur.deleteAll');
