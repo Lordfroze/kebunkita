@@ -16,6 +16,9 @@
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">Kebun Pedia</a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="{{url('weather')}}" class="nav-link">Prakiraan Cuaca</a>
+        </li>
         <div class="text-end">
           <!-- tampilkan tombol sesuai status user -->
           @if (Auth::check())
