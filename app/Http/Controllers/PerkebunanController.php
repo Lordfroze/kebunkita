@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class PerkebunanController extends Controller
 {
@@ -11,6 +14,10 @@ class PerkebunanController extends Controller
      */
     public function index()
     {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         //
         return view('dashboard/perkebunan/index');
     }
