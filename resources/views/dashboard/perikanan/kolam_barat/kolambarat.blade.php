@@ -97,6 +97,7 @@ Detail Kolam Barat
                         <td>{{ $task->kegiatan }}</td>
                         <td>{{ $task->lokasi }}</td>
                         <td>Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($totalBiayaKolamBarat, 0, ',', '.') }}</td>
                         <td>
                             <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
                             <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>
