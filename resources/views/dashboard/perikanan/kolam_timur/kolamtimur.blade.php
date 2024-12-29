@@ -12,20 +12,19 @@ Detail Kolam Timur
 @endif
 <div class="content">
   <div class="container-fluid">
-    <div class="row">
-
-      <!-- chart -->
-      <div class="col-lg-3">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Monthly Expenses for Kolam Timur</h3>
-          </div>
-          <div class="card-body">
-            <canvas id="kolamTimurChart" height="300"></canvas>
-          </div>
+    <!-- chart -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Monthly Expenses for Kolam Timur</h3>
+        </div>
+        <div class="card-body">
+          <canvas id="kolamTimurChart" height="100"></canvas>
         </div>
       </div>
+    </div>
 
+    <div class="row">
       <div class="col-lg-3">
         <div class="info-box">
           <span class="info-box-icon bg-info"><i class="fa-solid fa-cookie-bite"></i></span>
@@ -52,6 +51,16 @@ Detail Kolam Timur
           <div class="info-box-content">
             <span class="info-box-text">Jumlah Biaya Kolam Timur</span>
             <span class="info-box-number">Rp {{ number_format($totalBiayaKolamTimur, 0, ',', '.') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="info-box bg-blue">
+          <span class="info-box-icon"><i class="fa-solid fa-rupiah-sign"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Jumlah Biaya Panen Kolam Timur</span>
+            <span class="info-box-number">Rp {{ number_format($totalBiayaKolamTimurPanen, 0, ',', '.') }}</span>
           </div>
         </div>
       </div>
