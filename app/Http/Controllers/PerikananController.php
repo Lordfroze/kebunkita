@@ -273,6 +273,11 @@ class PerikananController extends Controller
         $totalBiayaKolamTimur = Perikanan::where('lokasi', 'like', '%kolam timur%')
             ->sum('biaya');
 
+        // tampilkan biaya panen kolam timur
+        $totalBiayaKolamTimurPanen = Perikanan::where('lokasi', 'like', '%kolam timur%')
+        ->where('kegiatan', 'like', '%panen%')
+        ->sum('biaya');
+
         // tampilkan jumlah pakan kolam timur
         $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam timur%')
@@ -293,6 +298,7 @@ class PerikananController extends Controller
             'totalBiayaKolamTimur' => $totalBiayaKolamTimur,
             'jumlah_ikan_timur' => $jumlah_ikan_timur,
             'chartData' => $chartData,
+            'totalBiayaKolamTimurPanen' => $totalBiayaKolamTimurPanen,
         ];
 
         return view('dashboard.perikanan.kolam_timur.kolamtimur', $view_data);
@@ -366,6 +372,11 @@ class PerikananController extends Controller
         $totalBiayaKolamBarat = Perikanan::where('lokasi', 'like', '%kolam barat%')
             ->sum('biaya');
 
+        // tampilkan jumlah biaya panen kolam barat
+        $totalBiayaPanenKolamBarat = Perikanan::where('lokasi', 'like', '%kolam barat%')
+            ->where('kegiatan', 'like', '%panen%')
+            ->sum('biaya');
+
         // tampilkan jumlah pakan kolam barat
         $jumlahPakanKolamBarat = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam barat%')
@@ -385,6 +396,7 @@ class PerikananController extends Controller
             'totalBiayaKolamBarat' => $totalBiayaKolamBarat,
             'jumlah_ikan_barat' => $jumlah_ikan_barat,
             'chartData' => $chartData,
+            'totalBiayaPanenKolamBarat' => $totalBiayaPanenKolamBarat,
         ];
 
         return view('dashboard.perikanan.kolam_barat.kolambarat', $view_data);
