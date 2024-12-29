@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use App\Models\Perikanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
+use App\Exports\DataExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class PerikananController extends Controller
@@ -136,8 +139,8 @@ class PerikananController extends Controller
             $fish_count_change = abs($request->input('tambah_ikanInput', 0));
         }
 
-        // insert ke database perikanan
-        Perikanan::insert([
+        // create ke database perikanan
+        $task = Perikanan::create([
             'kegiatan' => $kegiatan,
             'lokasi' => $lokasi,
             'biaya' => $biaya,
@@ -146,8 +149,32 @@ class PerikananController extends Controller
             'musim_panen' => $musim_panen,
             'jumlah_ikan' => $fish_count_change,
         ]);
+        
+        // kirim telegram setelah menyimpan data
+        $this->notify_telegram($task);  // agar tidak terlalu panjang dipisah ke fungsi notify_telegram dibawah
 
         return redirect('/dashboard/perikanan')->with('success', 'Data Sukses Ditambahkan');
+    }
+
+    private function notify_telegram($task)
+    {   
+        // fungsi untuk mengirimkan notifikasi ke telegram
+        $api_token = "7356494066:AAE1knM0q6coNEbitf27Xxl8pgeJl3xYcoI";
+        $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
+        $chat_id = -1002381690269;
+        $content = 
+        "Ada kegiatan terbaru : <strong> \"{$task->kegiatan}\" </strong>
+        \nLokasi : <strong> \"{$task->lokasi}\" </strong>
+        \nTanggal : <strong> \"{$task->created_at}\" </strong>";
+
+
+        $data = [
+            'chat_id' => $chat_id,
+            'text' => $content,
+            'parse_mode' => 'html',
+        ];
+
+        Http::Post($url, $data);
     }
 
     /**
@@ -275,8 +302,8 @@ class PerikananController extends Controller
 
         // tampilkan biaya panen kolam timur
         $totalBiayaKolamTimurPanen = Perikanan::where('lokasi', 'like', '%kolam timur%')
-        ->where('kegiatan', 'like', '%panen%')
-        ->sum('biaya');
+            ->where('kegiatan', 'like', '%panen%')
+            ->sum('biaya');
 
         // tampilkan jumlah pakan kolam timur
         $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
@@ -489,5 +516,11 @@ class PerikananController extends Controller
         $jumlahIkan = Perikanan::where('musim_panen', $season)->sum('jumlah_ikan');
 
         return view('dashboard.perikanan.musim_panen', compact('tasks', 'totalBiaya', 'jumlahIkan', 'season'));
+    }
+
+    // Fungsi download
+    public function downloadExcel()
+    {
+        return Excel::download(new DataExport, 'data.xlsx');
     }
 }

@@ -46,7 +46,8 @@ Route::delete('/dashboard/perikanan/kolam-timur/delete-all', [PerikananControlle
 // Route delete data kolam Barat
 Route::delete('/dashboard/perikanan/kolam-barat/delete-all', [PerikananController::class, 'deleteAllKolamBarat'])->name('perikanan.kolam_barat.deleteAll');
 
-
+// Rout download data
+Route::get('/dashboard/perikanan/download', [PerikananController::class, 'downloadExcel']);
 
 
 
