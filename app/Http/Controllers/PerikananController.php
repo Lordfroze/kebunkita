@@ -159,7 +159,7 @@ class PerikananController extends Controller
     private function notify_telegram($task)
     {   
         // fungsi untuk mengirimkan notifikasi ke telegram
-        $api_token = "masukkantoken";
+        $api_token = "7356494066:AAE1knM0q6coNEbitf27Xxl8pgeJl3xYcoI";
         $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
         $chat_id = -1002381690269;
         $content = 
