@@ -10,7 +10,7 @@
     <h2>Location</h2>
     <ul>
         <li>Provinsi: {{ $weatherData['lokasi']['provinsi'] }}</li>
-        <li>Kota: {{ $weatherData['lokasi']['kotkab'] }}</li>
+        <li>Kota: {{ $weatherData['lokasi']['kota'] }}</li>
         <li>Kecamatan : {{ $weatherData['lokasi']['kecamatan'] }}</li>
         <li>Desa: {{ $weatherData['lokasi']['desa'] }}</li>
     </ul>
@@ -29,5 +29,5 @@
 @endsection
 
 
-<!-- <h2>Raw JSON Data DEBUG</h2>
-<pre>{{ json_encode($weatherData, JSON_PRETTY_PRINT) }}</pre> -->
+<!-- <h2>Raw JSON Data DEBUG</h2> -->
+<!-- <pre>{{ json_encode($weatherData, JSON_PRETTY_PRINT) }}</pre> -->
