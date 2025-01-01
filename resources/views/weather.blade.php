@@ -10,7 +10,7 @@
     <h2>Location</h2>
     <ul>
         <li>Provinsi: {{ $weatherData['lokasi']['provinsi'] }}</li>
-        <li>Kota: {{ $weatherData['lokasi']['kota'] }}</li>
+        <li>Kota: {{ $weatherData['lokasi']['kotkab'] }}</li>
         <li>Kecamatan : {{ $weatherData['lokasi']['kecamatan'] }}</li>
         <li>Desa: {{ $weatherData['lokasi']['desa'] }}</li>
     </ul>
