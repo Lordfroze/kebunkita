@@ -17,7 +17,7 @@ class DataExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = DB::table('perikanan')->select('created_at', 'kegiatan', 'lokasi', 'biaya', 'musim_panen'); // Tambahkan kolom lokasi dan tanggal
+        $query = DB::table('perikanan')->select('created_at', 'kegiatan', 'lokasi', 'biaya', 'musim_panen','jumlah_ikan'); // Tambahkan kolom lokasi dan tanggal
 
         // Filter berdasarkan lokasi tertentu
         if (!empty($this->filters['lokasi'])) {
@@ -39,6 +39,6 @@ class DataExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['created_at', 'kegiatan', 'lokasi', 'biaya','musim_panen' ]; // Pastikan header sesuai
+        return ['created_at', 'kegiatan', 'lokasi', 'biaya','musim_panen','jumlah_ikan' ]; // Pastikan header sesuai
     }
 }

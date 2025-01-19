@@ -50,7 +50,7 @@ Route::get('/weather', [WeatherController::class, 'getWeather']);
 
 // Rout download data
 Route::get('/download', [DashboardController::class, 'download'])->name('download');
-Route::get('/download/data', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
+Route::get('/download-excel', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
 
 
 
