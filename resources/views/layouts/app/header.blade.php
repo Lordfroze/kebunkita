@@ -263,7 +263,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{ url('unduh-data') }}" class="nav-link {{ Request::is('unduh-data*') ? 'active' : '' }}">
+              <a href="{{ url('download') }}" class="nav-link {{ Request::is('download*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-download"></i>
                 <p>
                   Unduh Data
