@@ -8,6 +8,7 @@ use App\Http\Controllers\PerdaganganController;
 use App\Http\Controllers\PerikananController;
 use App\Http\Controllers\PerkebunanController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\DataExportController;
 
 // Login Logout
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -49,6 +50,7 @@ Route::delete('/dashboard/perikanan/kolam-barat/delete-all', [PerikananControlle
 // Rout download data
 Route::get('/dashboard/perikanan/download', [PerikananController::class, 'downloadExcel']);
 
+Route::get('/download-excel', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
 
 
 
