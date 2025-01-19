@@ -46,4 +46,14 @@ class DashboardController extends Controller
         }
         return view('dashboard/perdagangan/settingbarang');
     }
+
+    // Halaman Download
+    function download()
+    {
+        // otentikasi jika user belum login
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+        return view('dashboard/download/index');
+    }
 }

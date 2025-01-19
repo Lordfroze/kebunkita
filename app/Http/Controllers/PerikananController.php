@@ -518,9 +518,4 @@ class PerikananController extends Controller
         return view('dashboard.perikanan.musim_panen', compact('tasks', 'totalBiaya', 'jumlahIkan', 'season'));
     }
 
-    // Fungsi download
-    public function downloadExcel()
-    {
-        return Excel::download(new DataExport, 'data.xlsx');
-    }
 }

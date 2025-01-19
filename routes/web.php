@@ -38,19 +38,19 @@ Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']
 Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
 Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, 'musim_panen']);
 
-// Route weather
-Route::get('/weather', [WeatherController::class, 'getWeather']);
+
 
 // Route delete data kolam timur
 Route::delete('/dashboard/perikanan/kolam-timur/delete-all', [PerikananController::class, 'deleteAllKolamTimur'])->name('perikanan.kolam_timur.deleteAll');
-
 // Route delete data kolam Barat
 Route::delete('/dashboard/perikanan/kolam-barat/delete-all', [PerikananController::class, 'deleteAllKolamBarat'])->name('perikanan.kolam_barat.deleteAll');
 
-// Rout download data
-Route::get('/dashboard/perikanan/download', [PerikananController::class, 'downloadExcel']);
+// Route weather
+Route::get('/weather', [WeatherController::class, 'getWeather']);
 
-Route::get('/download-excel', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
+// Rout download data
+Route::get('/download', [DashboardController::class, 'download'])->name('download');
+Route::get('/download/data', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
 
 
 
