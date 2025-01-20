@@ -12,10 +12,10 @@
                     </div>
                     <div class="card-body">
                         <div class="card card-outline card-primary">
-                            <a class="btn btn-success" href="{{ url('http://kebunkita.localhost/download-excel?lokasi_like=Kolam%20Timur') }}"> Download Data Kolam Timur</a>
+                            <a class="btn btn-success" href="{{ url('download-excel?lokasi_like=Kolam%20Timur') }}"> Download Data Kolam Timur</a>
                         </div>
                         <div class="card card-outline card-primary">
-                            <a class="btn btn-success" href="{{ url('http://kebunkita.localhost/download-excel?lokasi_like=Kolam%20Barat') }}"> Download Data Kolam Barat</a>
+                            <a class="btn btn-success" href="{{ url('download-excel?lokasi_like=Kolam%20Barat') }}"> Download Data Kolam Barat</a>
                         </div>
                     </div>
                 </div>
