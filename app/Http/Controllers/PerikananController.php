@@ -296,9 +296,11 @@ class PerikananController extends Controller
         // tampilkan total biaya seluruh kolam
         $totalBiaya = Perikanan::sum('biaya');
 
-        // tampilkan total biaya kolam timur
+        // tampilkan total biaya kolam timur kecuali panen
         $totalBiayaKolamTimur = Perikanan::where('lokasi', 'like', '%kolam timur%')
+            ->where('kegiatan', 'not like', '%panen%')
             ->sum('biaya');
+
 
         // tampilkan biaya panen kolam timur
         $totalBiayaKolamTimurPanen = Perikanan::where('lokasi', 'like', '%kolam timur%')
@@ -397,6 +399,7 @@ class PerikananController extends Controller
 
         // tampilkan total biaya kolam barat
         $totalBiayaKolamBarat = Perikanan::where('lokasi', 'like', '%kolam barat%')
+            ->where('kegiatan', 'not like', '%panen%')
             ->sum('biaya');
 
         // tampilkan jumlah biaya panen kolam barat
