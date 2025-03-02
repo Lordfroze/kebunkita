@@ -34,8 +34,9 @@ class PerikananController extends Controller
         // $tasks = Perikanan::where('active', '=', true)->withTrashed()->paginate(10);
 
 
-        // tampilkan total biaya
-        $totalBiaya = Perikanan::sum('biaya');
+        // tampilkan total biaya kecuali panen
+        $totalBiaya = Perikanan::where('kegiatan', 'not like', '%panen%')
+        ->sum('biaya');
 
         // tampilkan table posts
         $posts = DB::table('posts')
@@ -294,7 +295,7 @@ class PerikananController extends Controller
             ->paginate(10);
 
         // tampilkan total biaya seluruh kolam
-        $totalBiaya = Perikanan::sum('biaya');
+        // $totalBiaya = Perikanan::sum('biaya');
 
         // tampilkan total biaya kolam timur kecuali panen
         $totalBiayaKolamTimur = Perikanan::where('lokasi', 'like', '%kolam timur%')
@@ -306,6 +307,9 @@ class PerikananController extends Controller
         $totalBiayaKolamTimurPanen = Perikanan::where('lokasi', 'like', '%kolam timur%')
             ->where('kegiatan', 'like', '%panen%')
             ->sum('biaya');
+
+        // tampilkan selisih panen dan biaya kolam timur dan panen
+        $selisihBiayaPanen = $totalBiayaKolamTimurPanen - $totalBiayaKolamTimur;
 
         // tampilkan jumlah pakan kolam timur
         $jumlahPakanKolamTimur = Perikanan::where('kegiatan', 'like', '%beli pakan%')
@@ -322,12 +326,13 @@ class PerikananController extends Controller
         // Membuat array untuk menyimpan data
         $view_data = [
             'tasks' => $tasks,
-            'totalBiaya' => $totalBiaya,
+            // 'totalBiaya' => $totalBiaya,
             'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
             'totalBiayaKolamTimur' => $totalBiayaKolamTimur,
             'jumlah_ikan_timur' => $jumlah_ikan_timur,
             'chartData' => $chartData,
             'totalBiayaKolamTimurPanen' => $totalBiayaKolamTimurPanen,
+            'selisihBiayaPanen' => $selisihBiayaPanen
         ];
 
         return view('dashboard.perikanan.kolam_timur.kolamtimur', $view_data);
@@ -407,6 +412,9 @@ class PerikananController extends Controller
             ->where('kegiatan', 'like', '%panen%')
             ->sum('biaya');
 
+        // tampilkan selisih biaya panen dan biaya kolam barat
+        $selisihBiayaPanen = $totalBiayaPanenKolamBarat - $totalBiayaKolamBarat;
+
         // tampilkan jumlah pakan kolam barat
         $jumlahPakanKolamBarat = Perikanan::where('kegiatan', 'like', '%beli pakan%')
             ->where('lokasi', 'like', '%kolam barat%')
@@ -427,6 +435,7 @@ class PerikananController extends Controller
             'jumlah_ikan_barat' => $jumlah_ikan_barat,
             'chartData' => $chartData,
             'totalBiayaPanenKolamBarat' => $totalBiayaPanenKolamBarat,
+            'selisihBiayaPanen' => $selisihBiayaPanen
         ];
 
         return view('dashboard.perikanan.kolam_barat.kolambarat', $view_data);

@@ -45,14 +45,10 @@ Detail Kolam Timur
           </div>
         </div>
       </div>
-
-      
-
-
     </div>
 
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="info-box bg-blue">
           <span class="info-box-icon"><i class="fa-solid fa-rupiah-sign"></i></span>
           <div class="info-box-content">
@@ -62,7 +58,7 @@ Detail Kolam Timur
         </div>
       </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="info-box bg-blue">
           <span class="info-box-icon"><i class="fa-solid fa-rupiah-sign"></i></span>
           <div class="info-box-content">
@@ -72,12 +68,12 @@ Detail Kolam Timur
         </div>
       </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-4">  
         <div class="info-box bg-blue">
           <span class="info-box-icon"><i class="fa-solid fa-rupiah-sign"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Selisih Biaya Kolam Timur</span>
-            <span class="info-box-number">Rp {{ number_format($totalBiayaKolamTimurPanen, 0, ',', '.') }}</span>
+            <span class="info-box-number">Rp {{ number_format($selisihBiayaPanen, 0, ',', '.') }}</span>
           </div>
         </div>
       </div>
@@ -116,7 +112,7 @@ Detail Kolam Timur
             <td>{{ $task->kegiatan }}</td>
             <td>{{ $task->lokasi }}</td>
             <td>Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
-            <td>Rp {{ number_format($totalBiaya, 0, ',', '.') }}</td>
+            <td>Rp {{ number_format($totalBiayaKolamTimur, 0, ',', '.') }}</td>
             <td>
               <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
               <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>
