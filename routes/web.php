@@ -16,8 +16,8 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('authentica
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Register
-// Route::get('/register', [AuthController::class, 'register_form'])->name('register_form');
-// Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/register', [AuthController::class, 'register_form'])->name('register_form');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // Route Controller Dashboard
 Route::get('/', [DashboardController::class, 'index']);
