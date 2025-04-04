@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Gudang;
 
 
 class PerdaganganController extends Controller
@@ -17,8 +18,10 @@ class PerdaganganController extends Controller
         if (!Auth::check()) {
             return redirect('login');
         }
-        //
-        return view('dashboard/perdagangan/index');
+        
+        $gudang_stocks = Gudang::get();
+
+        return view('dashboard.perdagangan.index', compact('gudang_stocks'));
     }
 
     /**
