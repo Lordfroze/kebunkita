@@ -62,16 +62,17 @@ Dashboard Perdagangan
   <h2>Tabel Perdagangan</h1>
 
     <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
+    <a class="btn btn-success" href="{{ url('dashboard/perdagangan/kalkulator') }}">+ kalkulator</a>
     <div class="table-responsive mt-2">
       <table class="table table-bordered table-striped table-hover">
         <thead>
           <tr>
             <th>No</th>
             <th>Tanggal</th>
-            <th>Kegiatan</th>
-            <th>Lokasi</th>
-            <th>Biaya</th>
-            <th>Total Keseluruhan</th>
+            <th>Nama</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+            <th>Stock</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -80,11 +81,11 @@ Dashboard Perdagangan
           @foreach($items as $key => $item)
           <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
-            <td>{{ $item->kode_barang }}</td>
+            <td>{{ \Carbon\Carbon::parse($item->updated_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
             <td>{{ $item->nama_barang }}</td>
-            <td>Rp {{ number_format($item->harga_modal, 0, ',', '.') }}</td>
-            <td>Rp {{ number_format($item->harga_modal, 0, ',', '.') }}</td>
+            <td>Rp {{ number_format($item->harga_beli, 0, ',', '.') }}</td>
+            <td>Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
+            <td>{{ $item->stock }}</td>
             <td>
               <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $item->id) }}" role="button">View</a>
               <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $item->id . '/edit') }}" role="button">Edit</a>
@@ -101,10 +102,6 @@ Dashboard Perdagangan
     </div>
 </div>
 
-
-<!-- @foreach($item as $key => $item)
-{{$items}}
-@endforeach -->
-
+{{ $items->links('pagination::bootstrap-4') }}
 
 @endsection

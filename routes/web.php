@@ -38,6 +38,8 @@ Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']
 Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
 Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, 'musim_panen']);
 
+// Route Controller Perdagangan
+Route::get('/dashboard/perdagangan/kalkulator', [PerdaganganController::class, 'kalkulator']);
 
 
 // Route delete data kolam timur
