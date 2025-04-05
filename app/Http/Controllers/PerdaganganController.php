@@ -19,7 +19,8 @@ class PerdaganganController extends Controller
             return redirect('login');
         }
         
-        $items = Items::get();
+        $items = Items::orderBy('created_at', 'desc')->paginate(10);
+
 
         return view('dashboard.perdagangan.index', compact('items'));
     }
@@ -70,5 +71,11 @@ class PerdaganganController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    // kalkulator
+    public function kalkulator()
+    {
+        return view('dashboard.perdagangan.kalkulator');
     }
 }
