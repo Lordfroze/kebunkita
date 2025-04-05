@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Gudang;
+use App\Models\Items;
 
 
 class PerdaganganController extends Controller
@@ -19,9 +19,9 @@ class PerdaganganController extends Controller
             return redirect('login');
         }
         
-        $gudang_stocks = Gudang::get();
+        $items = Items::get();
 
-        return view('dashboard.perdagangan.index', compact('gudang_stocks'));
+        return view('dashboard.perdagangan.index', compact('items'));
     }
 
     /**
