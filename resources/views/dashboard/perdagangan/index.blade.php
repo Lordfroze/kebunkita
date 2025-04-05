@@ -77,18 +77,18 @@ Dashboard Perdagangan
         </thead>
         <tbody>
           <!-- key adalah variabel yang secara otomatis disediakan oleh laravel  saat menggunakan direktif foreach -->
-          @foreach($gudang_stocks as $key => $gudang)
+          @foreach($items as $key => $item)
           <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ \Carbon\Carbon::parse($gudang->created_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
-            <td>{{ $gudang->kode_barang }}</td>
-            <td>{{ $gudang->nama_barang }}</td>
-            <td>Rp {{ number_format($gudang->harga_modal, 0, ',', '.') }}</td>
-            <td>Rp {{ number_format($gudang->harga_modal, 0, ',', '.') }}</td>
+            <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
+            <td>{{ $item->kode_barang }}</td>
+            <td>{{ $item->nama_barang }}</td>
+            <td>Rp {{ number_format($item->harga_modal, 0, ',', '.') }}</td>
+            <td>Rp {{ number_format($item->harga_modal, 0, ',', '.') }}</td>
             <td>
-              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $gudang->id) }}" role="button">View</a>
-              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $gudang->id . '/edit') }}" role="button">Edit</a>
-              <form action="{{ url('dashboard/perikanan/' . $gudang->id) }}" method="POST" style="display:inline;">
+              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $item->id) }}" role="button">View</a>
+              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $item->id . '/edit') }}" role="button">Edit</a>
+              <form action="{{ url('dashboard/perikanan/' . $item->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
@@ -102,8 +102,8 @@ Dashboard Perdagangan
 </div>
 
 
-<!-- @foreach($gudang_stocks as $key => $gudang)
-{{$gudang_stocks}}
+<!-- @foreach($item as $key => $item)
+{{$items}}
 @endforeach -->
 
 

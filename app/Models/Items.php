@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Gudang extends Model
+class Items extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'gudang_stocks';  // menggunakan tabel gudang
+    protected $table = 'items';  // menggunakan tabel gudang
 
     // fungsi untuk mengisi data yang boleh masuk ke database
     public $fillable = [
