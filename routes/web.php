@@ -40,6 +40,7 @@ Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, '
 
 // Route Controller Perdagangan
 Route::get('/dashboard/perdagangan/kalkulator', [PerdaganganController::class, 'kalkulator']);
+Route::post('/dashboard/perdagangan/calculate', [PerdaganganController::class, 'calculate'])->name('perdagangan.calculate');
 
 
 // Route delete data kolam timur
