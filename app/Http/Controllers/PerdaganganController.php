@@ -76,9 +76,9 @@ class PerdaganganController extends Controller
     // show kalkulator
     public function kalkulator(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect('login');
-        }
+        // if (!Auth::check()) {
+        //     return redirect('login');
+        // }
 
         $items = Items::orderBy('nama_barang', 'asc')->get();
         return view('dashboard.perdagangan.kalkulator', compact('items'));
@@ -87,9 +87,9 @@ class PerdaganganController extends Controller
     // hitung kalkulator
     public function calculate(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect('login');
-        }
+        // if (!Auth::check()) {
+        //     return redirect('login');
+        // }
 
         $jumlah_terjual = $request->input('jumlah_terjual', []);
         $results = [];
