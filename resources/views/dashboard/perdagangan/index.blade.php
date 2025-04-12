@@ -13,12 +13,12 @@ Dashboard Perdagangan
         <div class="small-box bg-gradient-warning">
           <div class="inner">
             <h3>20</h3>
-            <p>Jumlah Stock Gudang</p>
+            <p>Jumlah Items</p>
           </div>
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <a href="{{ url('dashboard/perikanan/kolam_timur') }}" class="small-box-footer">
+          <a href="{{ url('#') }}" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -33,7 +33,7 @@ Dashboard Perdagangan
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <a href="{{ url('/dashboard/perikanan/kolam_barat') }}" class="small-box-footer">
+          <a href="{{ url('#') }}" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -48,7 +48,7 @@ Dashboard Perdagangan
           <div class="icon">
             <i class="fas fa-fish"></i>
           </div>
-          <a href="{{ url('/dashboard/perikanan/jumlah_ikan') }}" class="small-box-footer">
+          <a href="{{ url('#') }}" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -61,7 +61,7 @@ Dashboard Perdagangan
 <div class="content">
   <h2>Tabel Perdagangan</h1>
 
-    <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
+    <a class="btn btn-success" href="{{ url('dashboard/perdagangan/create') }}">+ Tambah Data</a>
     <a class="btn btn-success" href="{{ url('dashboard/perdagangan/kalkulator') }}">+ kalkulator</a>
     <div class="table-responsive mt-2">
       <table class="table table-bordered table-striped table-hover">
@@ -87,9 +87,9 @@ Dashboard Perdagangan
             <td>Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
             <td>{{ $item->stock }}</td>
             <td>
-              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $item->id) }}" role="button">View</a>
-              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $item->id . '/edit') }}" role="button">Edit</a>
-              <form action="{{ url('dashboard/perikanan/' . $item->id) }}" method="POST" style="display:inline;">
+              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perdagangan/' . $item->id) }}" role="button">View</a>
+              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perdagangan/' . $item->id . '/edit') }}" role="button">Edit</a>
+              <form action="{{ url('dashboard/perdagangan/' . $item->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
