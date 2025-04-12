@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Items;
+use Illuminate\Support\Facades\Http;
 
 
 class PerdaganganController extends Controller
@@ -30,7 +31,13 @@ class PerdaganganController extends Controller
      */
     public function create()
     {
-        //
+        // menampilkan halaman tambah items
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        return view('dashboard.perdagangan.create');
+        
     }
 
     /**
@@ -38,7 +45,51 @@ class PerdaganganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // otentikasi user
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        // menerima data dari form
+        $tanggal = $request->input('tanggal') ?? now()->toDateString();  //Set tanggal to current date if not provided
+        $nama_barang = $request->input('nama_barang');
+        $harga_jual = $request->input('harga_jual');
+        $stock = $request->input('stock');
+
+        // simpan data ke database
+        $items = Items::create([
+            'nama_barang' => $nama_barang,
+            'harga_jual' => $harga_jual,
+            'stock' => $stock,
+            'created_at' => $tanggal,
+            'updated_at' => $tanggal,
+        ]);
+
+        // kirim telegram setelah menyimpan data
+        // $this->notify_telegram($items);  // agar tidak terlalu panjang dipisah ke fungsi notify_telegram dibawah
+
+        return redirect('/dashboard/perdagangan')->with('success', 'Data Sukses Ditambahkan');
+    }
+
+    private function notify_telegram($items)
+    {   
+        // fungsi untuk mengirimkan notifikasi ke telegram
+        $api_token = "7356494066:AAE1knM0q6coNEbitf27Xxl8pgeJl3xYcoI";
+        $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
+        $chat_id = -1002381690269;
+        $content = 
+        "Ada kegiatan terbaru : <strong> \"{$items->nama_barang}\" </strong>
+        \nLokasi : <strong> \"{$items->harga_jual}\" </strong>
+        \nTanggal : <strong> \"{$items->stock}\" </strong>";
+
+
+        $data = [
+            'chat_id' => $chat_id,
+            'text' => $content,
+            'parse_mode' => 'html',
+        ];
+
+        Http::Post($url, $data);
     }
 
     /**

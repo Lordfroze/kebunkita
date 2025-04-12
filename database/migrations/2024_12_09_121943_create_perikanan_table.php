@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('kegiatan');
             $table->string('lokasi');
             $table->string('biaya');
-            $table->string('total');
+            $table->string('total')->nullable();
         });
     }
 

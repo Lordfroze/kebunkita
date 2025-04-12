@@ -16,9 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string('nama_barang');
             $table->string('stock');
-            $table->string('harga_beli');
-            $table->string('harga_jual');
-            $table->string('active');
+            $table->string('harga_beli')->nullable();
+            $table->string('harga_jual')->nullable();
+            $table->string('active')->default(true);
         });
     }
 
