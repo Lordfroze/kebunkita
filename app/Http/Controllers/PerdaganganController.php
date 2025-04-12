@@ -20,10 +20,24 @@ class PerdaganganController extends Controller
             return redirect('login');
         }
 
-        $items = Items::orderBy('created_at', 'desc')->paginate(10);
+        // menampilkan halaman index
+        $items = Items::orderBy('nama_barang', 'desc')->paginate(10);
+
+        // hitung jumlah items
+        $items_count = Items::count();
+
+        // hitung jumlah stock
+        $stock_count = Items::sum('stock');
+
+        $view_data = [
+            'items' => $items,
+            'items_count' => $items_count,
+            'stock_count' => $stock_count,
+
+        ];
 
 
-        return view('dashboard.perdagangan.index', compact('items'));
+        return view('dashboard.perdagangan.index', $view_data);
     }
 
     /**
@@ -97,7 +111,13 @@ class PerdaganganController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // otentikasi user
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+        // menampilkan halaman detail items
+        $items = Items::findOrFail($id);
+        return view('dashboard.perdagangan.show', compact('items'));
     }
 
     /**
@@ -105,7 +125,14 @@ class PerdaganganController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //otentikasi user
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        // menampilkan halaman edit items
+        $items = Items::findOrFail($id);
+        return view('dashboard.perdagangan.edit', compact('items'));
     }
 
     /**
@@ -113,7 +140,26 @@ class PerdaganganController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //otentikasi user
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        // menerima data dari form
+        $tanggal = $request->input('tanggal')?? now()->toDateString();  //Set tanggal to current date if not provided
+        $nama_barang = $request->input('nama_barang');
+        $harga_beli = $request->input('harga_beli');
+        $harga_jual = $request->input('harga_jual');
+
+        // update data
+        Items::where('id', $id)->update([
+            'updated_at' => $tanggal,
+            'nama_barang' => $nama_barang,
+            'harga_beli' => $harga_beli,
+            'harga_jual' => $harga_jual,
+        ]);
+        
+        return redirect('/dashboard/perdagangan')->with('success', 'Data Sukses Diubah');
     }
 
     /**
