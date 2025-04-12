@@ -25,7 +25,7 @@ Dashboard Perdagangan
       <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
-            <h3>20</h3>
+            <h3>{{$items_count}}</h3>
             <p>Jumlah Items</p>
           </div>
           <div class="icon">
@@ -40,8 +40,8 @@ Dashboard Perdagangan
       <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
-            <h3>10</h3>
-            <p>Jumlah Stock Toko</p>
+            <h3>{{$stock_count}}</h3>
+            <p>Jumlah Stock</p>
           </div>
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
