@@ -121,7 +121,16 @@ class PerdaganganController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // ontentikasi user
+        if (!Auth::check()) {
+            return redirect('login');
+        }
+
+        // delete data
+        $items = Items::findOrFail($id);
+        $items->delete();
+        return redirect('/dashboard/perdagangan')->with('error', 'Data Sukses Dihapus');
+
     }
 
     // show kalkulator

@@ -5,6 +5,19 @@ Dashboard Perdagangan
 
 @section('content')
 
+@if (session('success'))
+<div class="alert alert-success">
+  {{ session('success') }}
+</div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
 <div class="content">
   <div class="container-fluid">
     <div class="row">
@@ -89,7 +102,7 @@ Dashboard Perdagangan
             <td>
               <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perdagangan/' . $item->id) }}" role="button">View</a>
               <a class="btn btn-info btn-sm" href="{{ url('dashboard/perdagangan/' . $item->id . '/edit') }}" role="button">Edit</a>
-              <form action="{{ url('dashboard/perdagangan/' . $item->id) }}" method="POST" style="display:inline;">
+              <form action="{{ url('/dashboard/perdagangan/' . $item->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
