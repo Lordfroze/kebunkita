@@ -27,6 +27,8 @@ Edit Data {{$items->nama_barang}}
             <input type="number" class="form-control" id="harga_jual" rows="3" name="harga_jual" value="{{$items->harga_jual}}">
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-secoundary"><a href="{{url ('dashboard/perdagangan')}}">Kembali</a></button>
+
     </form>
 </div>
 @endsection

@@ -59,7 +59,7 @@ Dashboard Perdagangan
             <p>Penjualan</p>
           </div>
           <div class="icon">
-            <i class="fas fa-fish"></i>
+            <i class="fas fa-box"></i>
           </div>
           <a href="{{ url('#') }}" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>

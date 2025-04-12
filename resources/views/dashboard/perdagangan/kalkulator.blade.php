@@ -33,6 +33,7 @@ kalkulator perdagangan
       </table>
     </div>
     <button type="submit" class="btn btn-primary mt-3">Hitung</button>
+    <button type="submit" class="btn btn-secoundary mt-3"><a href="{{url ('dashboard/perdagangan')}}">Kembali</a></button>
   </form>
 </div>
 
