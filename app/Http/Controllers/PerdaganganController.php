@@ -67,12 +67,14 @@ class PerdaganganController extends Controller
         // menerima data dari form
         $tanggal = $request->input('tanggal') ?? now()->toDateString();  //Set tanggal to current date if not provided
         $nama_barang = $request->input('nama_barang');
+        $harga_beli = $request->input('harga_beli');
         $harga_jual = $request->input('harga_jual');
         $stock = $request->input('stock');
 
         // simpan data ke database
         $items = Items::create([
             'nama_barang' => $nama_barang,
+            'harga_beli' => $harga_beli,
             'harga_jual' => $harga_jual,
             'stock' => $stock,
             'created_at' => $tanggal,

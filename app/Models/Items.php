@@ -21,6 +21,7 @@ class Items extends Model
         'created_at',
         'updated_at',
         'harga_modal',
+        'harga_beli',
         'harga_jual',
         'active',
     ];

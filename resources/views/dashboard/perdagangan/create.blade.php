@@ -18,6 +18,11 @@ Tambah Item Perdagangan
         </div>
 
         <div class="mb-3">
+            <label for="harga_beli" class="form-label">Harga Beli</label>
+            <input type="number" class="form-control" id="harga_beli" name="harga_beli" value="0">
+        </div>
+
+        <div class="mb-3">
             <label for="harga_jual" class="form-label">Harga Jual</label>
             <input type="number" class="form-control" id="harga_jual" name="harga_jual" value="0">
         </div>
