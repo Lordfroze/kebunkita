@@ -162,7 +162,9 @@ class PerikananController extends Controller
         // fungsi untuk mengirimkan notifikasi ke telegram
         $api_token = "7356494066:AAE1knM0q6coNEbitf27Xxl8pgeJl3xYcoI";
         $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
-        $chat_id = -1002381690269;
+        $chat_id = 1118682327;  // untuk kirim ke group telegram tambahkan tanda minus didepan (-) dan id group telegram
+        // $chat_id = -1001941234567; // untuk kirim ke group telegram tambahkan - dan id group telegram
+
         $content = 
         "Ada kegiatan terbaru : <strong> \"{$task->kegiatan}\" </strong>
         \nLokasi : <strong> \"{$task->lokasi}\" </strong>
@@ -175,7 +177,12 @@ class PerikananController extends Controller
             'parse_mode' => 'html',
         ];
 
-        Http::Post($url, $data);
+        $response = Http::Post($url, $data);
+        if (!$response->successful()) {
+            \Log::error('Telegram notification failed', ['response' => $response->body()]);
+        }
+
+        
     }
 
     /**
