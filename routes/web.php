@@ -9,6 +9,7 @@ use App\Http\Controllers\PerikananController;
 use App\Http\Controllers\PerkebunanController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\DataExportController;
+use App\Http\Controllers\KeuanganController;
 
 // Login Logout
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -47,6 +48,9 @@ Route::get('/dashboard/perdagangan/{id}', [PerdaganganController::class,'show'])
 Route::get('/dashboard/perdagangan/{id}/edit', [PerdaganganController::class, 'edit']);
 Route::patch('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'update']);
 Route::delete('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'destroy']);
+
+// Route Controller Keuangan
+Route::get('/dashboard/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
 
 
 // Route delete data kolam timur
