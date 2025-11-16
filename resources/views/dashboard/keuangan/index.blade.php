@@ -19,7 +19,7 @@ Dashboard Keuangan
       <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
-            <h3>Rp {{ number_format($totalKeseluruhan, 0, ',', '.') }}</h3>
+            <h3>Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</h3>
             <p>Pemasukan</p>
           </div>
           <div class="icon">
@@ -34,7 +34,7 @@ Dashboard Keuangan
       <div class="col-lg-4">
         <div class="small-box bg-gradient-warning">
           <div class="inner">
-            <h3>Rp {{ number_format($totalKeseluruhan, 0, ',', '.') }}</h3>
+            <h3>Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</h3>
             <p>Pengeluaran</p>
           </div>
           <div class="icon">
@@ -68,7 +68,7 @@ Dashboard Keuangan
 <div class="content">
   <h2>Tabel Perikanan</h1>
 
-    <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
+    <a class="btn btn-success" href="{{ url('dashboard/keuangan/create') }}">+ Tambah Data</a>
     <div class="table-responsive mt-2">
       <table class="table table-bordered table-striped table-hover">
         <thead>

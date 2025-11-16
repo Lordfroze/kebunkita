@@ -29,6 +29,14 @@ class KeuanganController extends Controller
         $tasks = Keuangan::where('active', '=', true)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+        
+        // tampilkan total pemasukan
+        $totalPemasukan = Keuangan::where('active', '=', true)
+            ->sum('pemasukan');
+
+        // tampilkan total pengeluaran
+        $totalPengeluaran = Keuangan::where('active', '=', true)
+            ->sum('pengeluaran');
 
         // tampilkan total keseluruhan
         $totalKeseluruhan = Keuangan::where('active', '=', true)
@@ -48,37 +56,12 @@ class KeuanganController extends Controller
         //     ->select('id', 'title', 'content', 'created_at')
         //     ->get();
 
-        // tampilkan jumlah pakan kolam timur
-        // $jumlahPakanKolamTimur = Keuangan::where('kegiatan', 'like', '%beli pakan%')
-        //     ->where('lokasi', 'like', '%kolam timur%')
-        //     ->count();
-
-        // tampilkan jumlah pakan kolam barat
-        // $jumlahPakanKolamBarat = Keuangan::where('kegiatan', 'like', '%beli pakan%')
-        //     ->where('lokasi', 'like', '%kolam barat%')
-        //     ->count();
-
-        // tampilkan jumlah ikan
-        // $jumlahIkan = Keuangan::sum('jumlah_ikan');
-
-        // tampilkan jumlah ikan kolam timur
-        // $jumlah_ikan_timur = Keuangan::where('lokasi', 'like', '%kolam timur%')
-        //     ->sum('jumlah_ikan');
-
-        // tampilkan jumlah ikan kolam barat
-        // $jumlah_ikan_barat = Keuangan::where('lokasi', 'like', '%kolam barat%')
-        //     ->sum('jumlah_ikan');
-
         // Membuat array untuk menyimpan data
         $view_data = [
             'tasks' => $tasks,
             'totalKeseluruhan' => $totalKeseluruhan,
-            // 'totalBiaya' => $totalBiaya,
-            // 'jumlahPakanKolamTimur' => $jumlahPakanKolamTimur,
-            // 'jumlahPakanKolamBarat' => $jumlahPakanKolamBarat,
-            // 'jumlahIkan' => $jumlahIkan,
-            // 'jumlah_ikan_timur' => $jumlah_ikan_timur,
-            // 'jumlah_ikan_barat' => $jumlah_ikan_barat,
+            'totalPemasukan' => $totalPemasukan,
+            'totalPengeluaran' => $totalPengeluaran,
         ];
 
         // Menampilkan view dengan data
@@ -95,9 +78,8 @@ class KeuanganController extends Controller
             return redirect('login');
         }
 
-
         // mengarahkan ke halaman create
-        return view('dashboard.Keuangan.create', compact('latestMusimPanen'));
+        return view('dashboard.keuangan.create');
     }
 
     /**
@@ -111,35 +93,33 @@ class KeuanganController extends Controller
         }
         // Menerima data dari create.blade.php untuk Keuangan
         $tanggal = $request->input('tanggal') ?? now()->toDateString(); // Set tanggal to current date if not provided
-        $lokasi = $request->input('lokasi');
-        $biaya = $request->input('biaya');
-        $kegiatan = $request->input('kegiatan') == 'other' ? $request->input('kegiatan_other') : $request->input('kegiatan');
+        $pemasukan = $request->input('pemasukan');
+        $pengeluaran = $request->input('pengeluaran');
 
         // create ke database Keuangan
         $task = Keuangan::create([
-            'kegiatan' => $kegiatan,
-            'lokasi' => $lokasi,
-            'biaya' => $biaya,
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran,
             'created_at' => $tanggal,
             'updated_at' => now(), //     'updated_at' => date('Y-m-d H:i:s'),
         ]);
-        
+
         // kirim telegram setelah menyimpan data
         $this->notify_telegram($task);  // agar tidak terlalu panjang dipisah ke fungsi notify_telegram dibawah
 
-        return redirect('/dashboard/Keuangan')->with('success', 'Data Sukses Ditambahkan');
+        return redirect('/dashboard/keuangan')->with('success', 'Data Sukses Ditambahkan');
     }
 
     private function notify_telegram($task)
-    {   
+    {
         // fungsi untuk mengirimkan notifikasi ke telegram
         $api_token = "7356494066:AAE1knM0q6coNEbitf27Xxl8pgeJl3xYcoI";
         $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
         $chat_id = 1118682327;  // untuk kirim ke group telegram tambahkan tanda minus didepan (-) dan id group telegram
         // $chat_id = -1001941234567; // untuk kirim ke group telegram tambahkan - dan id group telegram
 
-        $content = 
-        "Ada kegiatan terbaru : <strong> \"{$task->kegiatan}\" </strong>
+        $content =
+            "Ada kegiatan terbaru : <strong> \"{$task->kegiatan}\" </strong>
         \nLokasi : <strong> \"{$task->lokasi}\" </strong>
         \nTanggal : <strong> \"{$task->created_at}\" </strong>";
 
@@ -154,8 +134,6 @@ class KeuanganController extends Controller
         if (!$response->successful()) {
             \Log::error('Telegram notification failed', ['response' => $response->body()]);
         }
-
-        
     }
 
     /**
@@ -189,7 +167,7 @@ class KeuanganController extends Controller
 
         ];
 
-        return view('dashboard.Keuangan.show', $view_data);
+        return view('dashboard.keuangan.show', $view_data);
     }
 
     /**
@@ -202,7 +180,7 @@ class KeuanganController extends Controller
             return redirect('login');
         }
         // mengedit database
-        $task = Keuangan::select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
+        $task = Keuangan::select('id', 'pemasukan', 'pengeluaran', 'created_at')
             ->where('id', '=', $id)
             ->first();
 
@@ -212,7 +190,7 @@ class KeuanganController extends Controller
         $view_data = [
             'task' => $task,
         ];
-        return view('dashboard.Keuangan.edit', $view_data);
+        return view('dashboard.keuangan.edit', $view_data);
     }
 
     /**
@@ -226,23 +204,19 @@ class KeuanganController extends Controller
         }
         // mengambil data dari form edit
         $tanggal = $request->input('tanggal');
-        $kegiatan = $request->input('kegiatan');
-        $lokasi = $request->input('lokasi');
-        $biaya = $request->input('biaya');
-        $musim_panen = $request->input('musim_panen');
+        $pemasukan = $request->input('pemasukan');
+        $pengeluaran = $request->input('pengeluaran');
 
         // UPDATE ... WHERE id = $id
         Keuangan::where('id', $id)  // Gunakan $id langsung
             ->update([
                 'created_at' => $tanggal,
-                'kegiatan' => $kegiatan,
-                'lokasi' => $lokasi,
-                'biaya' => $biaya,
+                'pemasukan' => $pemasukan,
+                'pengeluaran' => $pengeluaran,
                 'updated_at' => now(),
-                'musim_panen' => $musim_panen,
             ]);
 
-        return redirect("dashboard/Keuangan/{$id}");
+        return redirect("dashboard/keuangan/{$id}");
     }
 
     /**
@@ -258,7 +232,7 @@ class KeuanganController extends Controller
         Keuangan::where('id', $id)
             ->delete();
 
-        return redirect("dashboard/Keuangan/");
+        return redirect("dashboard/keuangan/");
     }
 
     // HALAMAN KOLAM TIMUR
@@ -509,5 +483,4 @@ class KeuanganController extends Controller
 
         return view('dashboard.Keuangan.musim_panen', compact('tasks', 'totalBiaya', 'jumlahIkan', 'season'));
     }
-
 }
