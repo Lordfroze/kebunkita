@@ -6,7 +6,7 @@ Edit Data
 
 @section('content')
 <div class="content">
-    <form method="POST" action="{{ url("dashboard/perikanan/{$task->id}") }}">  
+    <form method="POST" action="{{ url('/dashboard/perikanan/'.$task->id) }}">  
         @method('PATCH')
         @csrf
         <div class="mb3">

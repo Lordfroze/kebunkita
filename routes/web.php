@@ -51,7 +51,12 @@ Route::delete('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'des
 
 // Route Controller Keuangan
 Route::get('/dashboard/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
+Route::get('/dashboard/keuangan/create', [KeuanganController::class, 'create']);
+Route::post('/dashboard/keuangan', [KeuanganController::class, 'store']);
 Route::get('/dashboard/keuangan/{id}', [KeuanganController::class,'show']);
+Route::get('/dashboard/keuangan/{id}/edit', [KeuanganController::class, 'edit']);
+Route::patch('/dashboard/keuangan/{id}', [KeuanganController::class, 'update']);
+Route::delete('/dashboard/keuangan/{id}', [KeuanganController::class, 'destroy']);
 
 
 
