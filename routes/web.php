@@ -50,6 +50,9 @@ Route::patch('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'upda
 Route::delete('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'destroy']);
 
 // Route Controller Keuangan
+// Router grafik
+Route::get('/dashboard/keuangan/chart-data', [KeuanganController::class, 'chartData']);
+
 Route::get('/dashboard/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
 Route::get('/dashboard/keuangan/create', [KeuanganController::class, 'create']);
 Route::post('/dashboard/keuangan', [KeuanganController::class, 'store']);
@@ -57,7 +60,6 @@ Route::get('/dashboard/keuangan/{id}', [KeuanganController::class,'show']);
 Route::get('/dashboard/keuangan/{id}/edit', [KeuanganController::class, 'edit']);
 Route::patch('/dashboard/keuangan/{id}', [KeuanganController::class, 'update']);
 Route::delete('/dashboard/keuangan/{id}', [KeuanganController::class, 'destroy']);
-
 
 
 // Route delete data kolam timur

@@ -39,7 +39,7 @@ class KeuanganController extends Controller
         if ($start && $end) {
             $tasks = $tasks->whereBetween('created_at', [$start, $end]);
         }
-        
+
         // tampilkan total pemasukan
         $totalPemasukan = $tasks->clone()->sum('pemasukan');
 
@@ -492,5 +492,20 @@ class KeuanganController extends Controller
         $jumlahIkan = Keuangan::where('musim_panen', $season)->sum('jumlah_ikan');
 
         return view('dashboard.Keuangan.musim_panen', compact('tasks', 'totalBiaya', 'jumlahIkan', 'season'));
+    }
+
+    // fungsi menampilkan chart
+    public function chartData(Request $request)
+    {
+        $query = Keuangan::where('active', true);
+
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        }
+        // clone berfungsi untuk mengcopy hasil dari $query tanpa merubah hasil sebelumnya
+        return response()->json([
+            'pemasukan' => (clone $query)->sum('pemasukan'),
+            'pengeluaran' => (clone $query)->sum('pengeluaran'),
+        ]);
     }
 }
