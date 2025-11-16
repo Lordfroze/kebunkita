@@ -91,9 +91,9 @@ Dashboard Keuangan
             <td>Rp {{ number_format($task->pengeluaran, 0, ',', '.') }}</td>
             <td>Rp {{ number_format($totalKeseluruhan, 0, ',', '.') }}</td>
             <td>
-              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
-              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>
-              <form action="{{ url('dashboard/perikanan/' . $task->id) }}" method="POST" style="display:inline;">
+              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/keuangan/' . $task->id) }}" role="button">View</a>
+              <a class="btn btn-info btn-sm" href="{{ url('dashboard/keuangan/' . $task->id . '/edit') }}" role="button">Edit</a>
+              <form action="{{ url('dashboard/keuangan/' . $task->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>

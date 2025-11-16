@@ -51,6 +51,8 @@ Route::delete('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'des
 
 // Route Controller Keuangan
 Route::get('/dashboard/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
+Route::get('/dashboard/keuangan/{id}', [KeuanganController::class,'show']);
+
 
 
 // Route delete data kolam timur
