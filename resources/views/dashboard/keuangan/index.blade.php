@@ -77,6 +77,43 @@ Dashboard Keuangan
     <button type="submit">Filter</button>
   </form>
   <!-- End of Filter Form-->
+
+  <!-- chart -->
+  <!-- Doughnut Chart -->
+  <div style="width: 350px; margin-bottom: 30px;">
+    <canvas id="doughnutChart"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const start = "{{ request('start_date') }}";
+    const end = "{{ request('end_date') }}";
+    console.log("START:", start, "END:", end);
+
+    fetch(`{{ url('/dashboard/keuangan/chart-data') }}?start_date=${start}&end_date=${end}`)
+      .then(res => res.json())
+      .then(data => {
+        const labels = ["Pemasukan", "Pengeluaran"];
+        const values = [data.pemasukan, data.pengeluaran];
+        const colors = ["#4CAF50", "#F44336"];
+
+        const ctx = document.getElementById('doughnutChart').getContext('2d');
+
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels,
+            datasets: [{
+              data: values,
+              backgroundColor: colors
+            }]
+          }
+        });
+      });
+  </script>
+  <!-- end chart -->
+
+
   <h2>Tabel Keuangan</h1>
 
     <a class="btn btn-success" href="{{ url('dashboard/keuangan/create') }}">+ Tambah Data</a>
