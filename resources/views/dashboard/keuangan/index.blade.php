@@ -75,6 +75,10 @@ Dashboard Keuangan
     <input type="date" name="end_date" value="{{ request('end_date') }}">
 
     <button type="submit">Filter</button>
+    <a href="{{ url('/dashboard/keuangan/export') }}?start_date={{ request('start_date') }}&end_date={{ request('end_date') }}"
+      class="btn btn-success">
+      Download Excel
+    </a>
   </form>
   <!-- End of Filter Form-->
 
