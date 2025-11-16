@@ -66,7 +66,7 @@ Dashboard Keuangan
 </div><!-- /.content -->
 
 <div class="content">
-  <h2>Tabel Perikanan</h1>
+  <h2>Tabel Keuangan</h1>
 
     <a class="btn btn-success" href="{{ url('dashboard/keuangan/create') }}">+ Tambah Data</a>
     <div class="table-responsive mt-2">
