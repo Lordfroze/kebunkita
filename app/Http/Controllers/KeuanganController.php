@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use App\Exports\DataExport;
+use GuzzleHttp\Psr7\Query;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -39,20 +40,17 @@ class KeuanganController extends Controller
             $tasks = $tasks->whereBetween('created_at', [$start, $end]);
         }
         
-        // paginate data
-        $tasks = $tasks->paginate(10);
-        
         // tampilkan total pemasukan
-        $totalPemasukan = Keuangan::where('active', '=', true)
-            ->sum('pemasukan');
+        $totalPemasukan = $tasks->clone()->sum('pemasukan');
 
         // tampilkan total pengeluaran
-        $totalPengeluaran = Keuangan::where('active', '=', true)
-            ->sum('pengeluaran');
+        $totalPengeluaran = $tasks->clone()->sum('pengeluaran');
 
         // tampilkan total keseluruhan
-        $totalKeseluruhan = Keuangan::where('active', '=', true)
-            ->sum(Keuangan::raw('pemasukan - pengeluaran'));
+        $totalKeseluruhan = $tasks->clone()->sum(Keuangan::raw('pemasukan - pengeluaran'));
+
+        // paginate data
+        $tasks = $tasks->paginate(10);
 
 
         // tampilkan dengan data yang sudah didelete

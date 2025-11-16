@@ -25,7 +25,7 @@ Dashboard Keuangan
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <a href="{{ url('dashboard/perikanan/kolam_timur') }}" class="small-box-footer">
+          <a href="#" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -40,7 +40,7 @@ Dashboard Keuangan
           <div class="icon">
             <i class="fas fa-hand-holding-heart"></i>
           </div>
-          <a href="{{ url('/dashboard/perikanan/kolam_barat') }}" class="small-box-footer">
+          <a href="#" class="small-box-footer">
             More info <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -55,8 +55,8 @@ Dashboard Keuangan
           <div class="icon">
             <i class="fas fa-fish"></i>
           </div>
-          <a href="{{ url('/dashboard/perikanan/jumlah_ikan') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
+          <a href="{{ url('/dashboard/keuangan/') }}" class="small-box-footer">
+            Tampilkan semua <i class="fas fa-arrow-circle-right"></i>
           </a>
         </div>
       </div>
@@ -69,10 +69,10 @@ Dashboard Keuangan
   <!-- Filter Form -->
   <form method="GET" action="{{ url ('/dashboard/keuangan') }}">
     <label>Dari:</label>
-    <input type="date" name="start_date">
+    <input type="date" name="start_date" value="{{ request('start_date') }}">
 
     <label>Sampai:</label>
-    <input type="date" name="end_date">
+    <input type="date" name="end_date" value="{{ request('end_date') }}">
 
     <button type="submit">Filter</button>
   </form>
