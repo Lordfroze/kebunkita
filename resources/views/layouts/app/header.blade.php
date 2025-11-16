@@ -208,12 +208,14 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <!-- <a href="#" class="nav-link active"> -->
+                    <!-- Perikanan -->
                   <a href="{{ url('dashboard/perikanan') }}" class="nav-link {{ Request::is('dashboard/perikanan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Perikanan</p>
                   </a>
                 </li>
 
+                <!-- Perdagangan -->
                 <li class="nav-item">
                   <a href="{{ url('dashboard/perdagangan') }}" class="nav-link {{ Request::is('dashboard/perdagangan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -221,6 +223,15 @@
                   </a>
                 </li>
 
+                <!-- Keuangan -->
+                <li class="nav-item">
+                  <a href="{{ url('dashboard/keuangan') }}" class="nav-link {{ Request::is('dashboard/keuangan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Keuangan</p>
+                  </a>
+                </li>
+                
+                <!-- Perkebunan -->
                 <li class="nav-item">
                   <a href="{{ url('dashboard/perkebunan') }}" class="nav-link {{ Request::is('dashboard/perkebunan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon"></i>
@@ -228,6 +239,7 @@
                   </a>
                 </li>
 
+                
 
               </ul>
             </li>
