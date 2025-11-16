@@ -168,12 +168,12 @@ class KeuanganController extends Controller
             return redirect('login');
         }
         // menampilkan data setiap id Keuangan dari database
-        $task = Keuangan::select('id', 'kegiatan', 'lokasi', 'biaya', 'created_at')
+        $task = Keuangan::select('id', 'pemasukan', 'pengeluaran', 'created_at')
             ->where('id', '=', $id)
             ->first();
 
-        $comments = $task->comments()->limit(5)->get(); // menampilkan comment dengan limit 2
-        $total_comments = $task->total_comments(); // menampilkan total comment dari model Keuangan
+        // $comments = $task->comments()->limit(5)->get(); // menampilkan comment dengan limit 2
+        // $total_comments = $task->total_comments(); // menampilkan total comment dari model Keuangan
 
         // Tampilkan table posts
         // $post = DB::table('posts')
@@ -183,8 +183,8 @@ class KeuanganController extends Controller
 
         $view_data = [
             'task' => $task,
-            'comments' => $comments,
-            'total_comments' => $total_comments,
+            // 'comments' => $comments,
+            // 'total_comments' => $total_comments,
             // 'post' => $post,
 
         ];
