@@ -19,16 +19,28 @@ class KeuanganController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
         // otentikasi jika user belum login
         if (!Auth::check()) {
             return redirect('login');
         }
         // tampilkan table keuangan
         $tasks = Keuangan::where('active', '=', true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->orderBy('created_at', 'desc');
+
+        // Ambil input dari query string
+        $start = $request->input('start_date');
+        $end   = $request->input('end_date');
+
+        // Jika ada filter, tambahkan ke query
+        if ($start && $end) {
+            $tasks = $tasks->whereBetween('created_at', [$start, $end]);
+        }
+        
+        // paginate data
+        $tasks = $tasks->paginate(10);
         
         // tampilkan total pemasukan
         $totalPemasukan = Keuangan::where('active', '=', true)

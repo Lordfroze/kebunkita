@@ -66,6 +66,17 @@ Dashboard Keuangan
 </div><!-- /.content -->
 
 <div class="content">
+  <!-- Filter Form -->
+  <form method="GET" action="{{ url ('/dashboard/keuangan') }}">
+    <label>Dari:</label>
+    <input type="date" name="start_date">
+
+    <label>Sampai:</label>
+    <input type="date" name="end_date">
+
+    <button type="submit">Filter</button>
+  </form>
+  <!-- End of Filter Form-->
   <h2>Tabel Keuangan</h1>
 
     <a class="btn btn-success" href="{{ url('dashboard/keuangan/create') }}">+ Tambah Data</a>
@@ -105,6 +116,9 @@ Dashboard Keuangan
       </table>
     </div>
 </div>
-{{ $tasks->links('pagination::bootstrap-4') }}
+<!-- Pagination agar filter tetap terjaga -->
+{{ $tasks->appends(request()->query())->links('pagination::bootstrap-4') }}
+
+<!-- {{ $tasks->links('pagination::bootstrap-4') }} -->
 
 @endsection
