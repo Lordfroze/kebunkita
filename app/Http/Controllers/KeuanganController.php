@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Exports\DataExport;
 use GuzzleHttp\Psr7\Query;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KeuanganExport;
 
 
 class KeuanganController extends Controller
@@ -27,7 +28,7 @@ class KeuanganController extends Controller
         if (!Auth::check()) {
             return redirect('login');
         }
-        // tampilkan table keuangan
+        // tampilkan table keuangan`
         $tasks = Keuangan::where('active', '=', true)
             ->orderBy('created_at', 'desc');
 
@@ -507,5 +508,14 @@ class KeuanganController extends Controller
             'pemasukan' => (clone $query)->sum('pemasukan'),
             'pengeluaran' => (clone $query)->sum('pengeluaran'),
         ]);
+    }
+
+    // fungsi export
+    public function exportExcel(Request $request)
+    {
+        $start = $request->start_date;
+        $end   = $request->end_date;
+
+        return Excel::download(new KeuanganExport($start, $end), 'laporan-keuangan.xlsx');
     }
 }
