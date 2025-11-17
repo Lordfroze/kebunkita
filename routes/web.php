@@ -42,9 +42,10 @@ Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, '
 // Route Controller Perdagangan
 Route::get('/dashboard/perdagangan/kalkulator', [PerdaganganController::class, 'kalkulator']);
 Route::post('/dashboard/perdagangan/calculate', [PerdaganganController::class, 'calculate'])->name('perdagangan.calculate');
+Route::get('/kalkulator/download', [PerdaganganController::class, 'downloadPdf'])->name('kalkulator.download'); // download pdf
 Route::get('/dashboard/perdagangan/create', [PerdaganganController::class, 'create']);
 Route::post('/dashboard/perdagangan', [PerdaganganController::class, 'store']);
-Route::get('/dashboard/perdagangan/{id}', [PerdaganganController::class,'show']);
+Route::get('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'show']);
 Route::get('/dashboard/perdagangan/{id}/edit', [PerdaganganController::class, 'edit']);
 Route::patch('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'update']);
 Route::delete('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'destroy']);
@@ -55,8 +56,8 @@ Route::get('/dashboard/keuangan', [KeuanganController::class, 'index'])->name('k
 Route::get('/dashboard/keuangan/create', [KeuanganController::class, 'create']);
 Route::post('/dashboard/keuangan', [KeuanganController::class, 'store']);
 Route::get('/dashboard/keuangan/chart-data', [KeuanganController::class, 'chartData']); //grafik
-Route::get('/dashboard/keuangan/export', [KeuanganController::class, 'exportExcel']);// export excel
-Route::get('/dashboard/keuangan/{id}', [KeuanganController::class,'show']);
+Route::get('/dashboard/keuangan/export', [KeuanganController::class, 'exportExcel']); // export excel
+Route::get('/dashboard/keuangan/{id}', [KeuanganController::class, 'show']);
 Route::get('/dashboard/keuangan/{id}/edit', [KeuanganController::class, 'edit']);
 Route::patch('/dashboard/keuangan/{id}', [KeuanganController::class, 'update']);
 Route::delete('/dashboard/keuangan/{id}', [KeuanganController::class, 'destroy']);
