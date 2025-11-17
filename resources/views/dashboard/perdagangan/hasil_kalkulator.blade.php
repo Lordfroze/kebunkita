@@ -6,6 +6,7 @@ Hasil Kalkulator Perdagangan
 @section('content')
 <div class="container mt-4">
     <h2>Hasil Kalkulator Perdagangan</h2>
+    <p>Tanggal: {{ $tanggal }}</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -34,6 +35,17 @@ Hasil Kalkulator Perdagangan
             </tfoot>
         </table>
     </div>
-    <a href="{{ url('dashboard/perdagangan/kalkulator') }}" class="btn btn-primary mt-3">Kembali ke Kalkulator</a>
+</div>
+
+<div class="container text-left">
+    <div class="row">
+        <div class="col">
+            <a href="{{ url('dashboard/perdagangan/kalkulator') }}" class="btn btn-primary mt-3">Kembali ke Kalkulator</a>
+            <a href="{{ route('kalkulator.download', ['results' => json_encode($results)]) }}"
+                class="btn btn-danger mt-3">
+                Download PDF
+            </a>
+        </div>
+    </div>
 </div>
 @endsection

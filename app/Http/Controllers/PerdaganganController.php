@@ -22,8 +22,8 @@ class PerdaganganController extends Controller
 
         // menampilkan halaman index
         $items = Items::where('active', "=", true)
-        ->orderBy('nama_barang', 'desc')
-        ->paginate(10);
+            ->orderBy('nama_barang', 'desc')
+            ->paginate(10);
 
         // hitung jumlah items
         $items_count = Items::count();
@@ -53,7 +53,6 @@ class PerdaganganController extends Controller
         }
 
         return view('dashboard.perdagangan.create');
-        
     }
 
     /**
@@ -90,13 +89,13 @@ class PerdaganganController extends Controller
     }
 
     private function notify_telegram($items)
-    {   
+    {
         // fungsi untuk mengirimkan notifikasi ke telegram
         $api_token = "7356494066:AAE1knM0q6coNEbitf27Xxl8pgeJl3xYcoI";
         $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
         $chat_id = -1002381690269;
-        $content = 
-        "Ada kegiatan terbaru : <strong> \"{$items->nama_barang}\" </strong>
+        $content =
+            "Ada kegiatan terbaru : <strong> \"{$items->nama_barang}\" </strong>
         \nLokasi : <strong> \"{$items->harga_jual}\" </strong>
         \nTanggal : <strong> \"{$items->stock}\" </strong>";
 
@@ -150,7 +149,7 @@ class PerdaganganController extends Controller
         }
 
         // menerima data dari form
-        $tanggal = $request->input('tanggal')?? now()->toDateString();  //Set tanggal to current date if not provided
+        $tanggal = $request->input('tanggal') ?? now()->toDateString();  //Set tanggal to current date if not provided
         $nama_barang = $request->input('nama_barang');
         $harga_beli = $request->input('harga_beli');
         $harga_jual = $request->input('harga_jual');
@@ -162,7 +161,7 @@ class PerdaganganController extends Controller
             'harga_beli' => $harga_beli,
             'harga_jual' => $harga_jual,
         ]);
-        
+
         return redirect('/dashboard/perdagangan')->with('success', 'Data Sukses Diubah');
     }
 
@@ -180,7 +179,6 @@ class PerdaganganController extends Controller
         $items = Items::findOrFail($id);
         $items->delete();
         return redirect('/dashboard/perdagangan')->with('error', 'Data Sukses Dihapus');
-
     }
 
     // show kalkulator
@@ -201,6 +199,7 @@ class PerdaganganController extends Controller
         //     return redirect('login');
         // }
 
+        $tanggal = now()->format('d-m-Y H:i:s');
         $jumlah_terjual = $request->input('jumlah_terjual', []);
         $results = [];
 
@@ -216,7 +215,8 @@ class PerdaganganController extends Controller
                     'name' => $item->nama_barang,  // Assuming the column name is 'nama_barang'
                     'quantity' => $quantity,
                     'price' => $item->harga_jual,
-                    'total' => $total
+                    'total' => $total,
+                    'tanggal' => $tanggal
                 ];
             }
         }
@@ -225,6 +225,24 @@ class PerdaganganController extends Controller
             return redirect()->back()->with('error', 'No valid quantities were submitted. Please enter at least one quantity greater than zero.');
         }
 
-        return view('dashboard.perdagangan.hasil_kalkulator', compact('results'));
+        return view('dashboard.perdagangan.hasil_kalkulator', compact('results', 'tanggal'));
+    }
+
+    // download pdf
+    public function downloadPdf(Request $request)
+    {
+        $results = json_decode($request->results, true);
+
+        $tanggal = now()->format('d-m-Y H:i:s');
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView(
+            'dashboard.perdagangan.pdf_kalkulator',
+            [
+                'results' => $results,
+                'tanggal' => $tanggal
+            ]
+        )->setPaper('a4', 'portrait');
+
+        return $pdf->download("hasil_kalkulator_{$tanggal}.pdf");
     }
 }
