@@ -53,7 +53,8 @@ class AuthController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-        ]);    
+            'role' => 'user',
+        ]);
 
         // return redirect('login');
         return redirect('login')->with('success_message', 'Register Success');

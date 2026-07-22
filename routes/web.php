@@ -10,6 +10,7 @@ use App\Http\Controllers\PerkebunanController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\DataExportController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\UserController;
 
 // Login Logout
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -20,90 +21,85 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'register_form'])->name('register_form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-// Route Controller Dashboard
-Route::get('/', [DashboardController::class, 'index']);
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/dashboard/perikanan', [PerikananController::class, 'index'])->name('perikanan');
-Route::get('/dashboard/perdagangan', [PerdaganganController::class, 'index'])->name('perdagangan');
-Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->name('perkebunan');
+// Auth Dashboard
+Route::middleware('auth')->group(function () {
 
-// Route Controller Perikanan
-Route::get('/dashboard/perikanan/kolam_timur', [PerikananController::class, 'kolam_timur']);
-Route::get('/dashboard/perikanan/kolam_barat', [PerikananController::class, 'kolam_barat']);
-Route::get('/dashboard/perikanan/jumlah_ikan', [PerikananController::class, 'jumlah_ikan']);
-Route::get('/dashboard/perikanan/create', [PerikananController::class, 'create']);
-Route::post('/dashboard/perikanan', [PerikananController::class, 'store']);
-Route::get('/dashboard/perikanan/{id}', [PerikananController::class, 'show']);
-Route::get('/dashboard/perikanan/{id}/edit', [PerikananController::class, 'edit']);
-Route::patch('/dashboard/perikanan/{id}', [PerikananController::class, 'update']);
-Route::delete('/dashboard/perikanan/{id}', [PerikananController::class, 'destroy']);
-Route::get('/dashboard/perikanan/panen/{season}', [PerikananController::class, 'musim_panen']);
+    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Route Controller Perdagangan
-Route::get('/dashboard/perdagangan/kalkulator', [PerdaganganController::class, 'kalkulator']);
-Route::post('/dashboard/perdagangan/calculate', [PerdaganganController::class, 'calculate'])->name('perdagangan.calculate');
-Route::get('/kalkulator/download', [PerdaganganController::class, 'downloadPdf'])->name('kalkulator.download'); // download pdf
-Route::get('/dashboard/perdagangan/create', [PerdaganganController::class, 'create']);
-Route::post('/dashboard/perdagangan', [PerdaganganController::class, 'store']);
-Route::get('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'show']);
-Route::get('/dashboard/perdagangan/{id}/edit', [PerdaganganController::class, 'edit']);
-Route::patch('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'update']);
-Route::delete('/dashboard/perdagangan/{id}', [PerdaganganController::class, 'destroy']);
+    // Controller Perikanan
+    Route::prefix('dashboard/perikanan')->group(function () {
+        Route::get('/', [PerikananController::class, 'index'])->name('perikanan');
+        Route::get('/kolam_timur', [PerikananController::class, 'kolam_timur']);
+        Route::get('/kolam_barat', [PerikananController::class, 'kolam_barat']);
+        Route::get('/jumlah_ikan', [PerikananController::class, 'jumlah_ikan']);
+        Route::get('/create', [PerikananController::class, 'create']);
+        Route::post('/', [PerikananController::class, 'store']);
+        Route::get('/{id}', [PerikananController::class, 'show']);
+        Route::get('/{id}/edit', [PerikananController::class, 'edit']);
+        Route::patch('/{id}', [PerikananController::class, 'update']);
+        Route::delete('/{id}', [PerikananController::class, 'destroy']);
+        Route::get('/panen/{season}', [PerikananController::class, 'musim_panen']);
+        Route::delete('/kolam-timur/delete-all', [PerikananController::class, 'deleteAllKolamTimur'])->name('perikanan.kolam_timur.deleteAll');
+        Route::delete('/kolam-barat/delete-all', [PerikananController::class, 'deleteAllKolamBarat'])->name('perikanan.kolam_barat.deleteAll');
+    });
 
-// Route Controller Keuangan
+    // Controller Perdagangan
+    Route::prefix('dashboard/perdagangan')->group(function () {
+        Route::get('/', [PerdaganganController::class, 'index'])->name('perdagangan');
+        Route::get('/kalkulator', [PerdaganganController::class, 'kalkulator']);
+        Route::post('/calculate', [PerdaganganController::class, 'calculate'])->name('perdagangan.calculate');
+        Route::get('/create', [PerdaganganController::class, 'create']);
+        Route::post('/', [PerdaganganController::class, 'store']);
+        Route::get('/{id}', [PerdaganganController::class, 'show']);
+        Route::get('/{id}/edit', [PerdaganganController::class, 'edit']);
+        Route::patch('/{id}', [PerdaganganController::class, 'update']);
+        Route::delete('/{id}', [PerdaganganController::class, 'destroy']);
+    });
 
-Route::get('/dashboard/keuangan', [KeuanganController::class, 'index'])->name('keuangan');
-Route::get('/dashboard/keuangan/create', [KeuanganController::class, 'create']);
-Route::post('/dashboard/keuangan', [KeuanganController::class, 'store']);
-Route::get('/dashboard/keuangan/chart-data', [KeuanganController::class, 'chartData']); //grafik
-Route::get('/dashboard/keuangan/export', [KeuanganController::class, 'exportExcel']); // export excel
-Route::get('/dashboard/keuangan/{id}', [KeuanganController::class, 'show']);
-Route::get('/dashboard/keuangan/{id}/edit', [KeuanganController::class, 'edit']);
-Route::patch('/dashboard/keuangan/{id}', [KeuanganController::class, 'update']);
-Route::delete('/dashboard/keuangan/{id}', [KeuanganController::class, 'destroy']);
+    Route::get('/kalkulator/download', [PerdaganganController::class, 'downloadPdf'])->name('kalkulator.download');
 
+    // Controller Keuangan
+    Route::prefix('dashboard/keuangan')->group(function () {
+        Route::get('/', [KeuanganController::class, 'index'])->name('keuangan');
+        Route::get('/create', [KeuanganController::class, 'create']);
+        Route::post('/', [KeuanganController::class, 'store']);
+        Route::get('/chart-data', [KeuanganController::class, 'chartData']);
+        Route::get('/export', [KeuanganController::class, 'exportExcel']);
+        Route::get('/{id}', [KeuanganController::class, 'show']);
+        Route::get('/{id}/edit', [KeuanganController::class, 'edit']);
+        Route::patch('/{id}', [KeuanganController::class, 'update']);
+        Route::delete('/{id}', [KeuanganController::class, 'destroy']);
+    });
 
-// Route delete data kolam timur
-Route::delete('/dashboard/perikanan/kolam-timur/delete-all', [PerikananController::class, 'deleteAllKolamTimur'])->name('perikanan.kolam_timur.deleteAll');
-// Route delete data kolam Barat
-Route::delete('/dashboard/perikanan/kolam-barat/delete-all', [PerikananController::class, 'deleteAllKolamBarat'])->name('perikanan.kolam_barat.deleteAll');
+    // Controller Perkebunan
+    Route::get('/dashboard/perkebunan', [PerkebunanController::class, 'index'])->name('perkebunan');
 
-// Route weather
+    // Download & Export
+    Route::get('/download', [DashboardController::class, 'download'])->name('download');
+    Route::get('/download-excel', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
+
+    // Tambah Data
+    Route::get('/tambah-data/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
+    Route::get('/tambah-data/settingkebun', [DashboardController::class, 'settingkebun'])->name('settingkebun');
+    Route::get('/tambah-data/settingbarang', [DashboardController::class, 'settingbarang'])->name('settingbarang');
+
+    // Admin User Management
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
+});
+
+// Weather (public)
 Route::get('/weather', [WeatherController::class, 'getWeather']);
 
-// Rout download data
-Route::get('/download', [DashboardController::class, 'download'])->name('download');
-Route::get('/download-excel', [DataExportController::class, 'exportExcel'])->name('data.exportExcel');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// test laravel
+// Test
 Route::get('/laravel', function () {
     return view('welcome');
 });
-
-Route::get('/tambah-data/settingkolam', [DashboardController::class, 'settingkolam'])->name('settingkolam');
-Route::get('/tambah-data/settingkebun', [DashboardController::class, 'settingkebun'])->name('settingkebun');
-Route::get('tambah-data/settingbarang', [DashboardController::class, 'settingbarang'])->name('settingbarang');
-
-// Cara membuat controller 
-// php artisan make:controller AdminController

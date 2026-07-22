@@ -11,10 +11,21 @@ class Keuangan extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new \App\Models\Scopes\UserDataScope);
+
+        static::creating(function ($model) {
+            if (auth()->check() && !$model->user_id) {
+                $model->user_id = auth()->id();
+            }
+        });
+    }
+
     protected $table = 'keuangan';  // menggunakan tabel keuangan
 
-    // fungsi untuk mengisi data yang boleh masuk ke database
     public $fillable = [
+        'user_id',
         'pemasukan',
         'pengeluaran',
         'sisa',
@@ -23,4 +34,9 @@ class Keuangan extends Model
         'deleted_at',
         'active',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

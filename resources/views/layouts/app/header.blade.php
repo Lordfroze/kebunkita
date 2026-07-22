@@ -173,10 +173,20 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="{{asset ('lte/dist/img/yoga.png') }}" class="img-circle elevation-2" alt="User Image">
+            @php
+              $initial = strtoupper(substr(Auth::user()->name, 0, 1));
+            @endphp
+            <div class="img-circle elevation-2 d-flex align-items-center justify-content-center bg-primary"
+                 style="width:34px;height:34px;font-weight:bold;color:#fff;">
+              {{ $initial }}
+            </div>
           </div>
           <div class="info">
-            <a href="#" class="d-block">Yoga adi pratama</a>
+            <a href="#" class="d-block">{{ Auth::user()->name }}
+              @if (Auth::user()->isAdmin())
+                <span class="badge badge-danger ml-1">Admin</span>
+              @endif
+            </a>
           </div>
         </div>
 
@@ -283,6 +293,26 @@
                 </p>
               </a>
             </li>
+
+            @if (Auth::check() && Auth::user()->isAdmin())
+            <li class="nav-item {{ Request::is('admin*') ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ Request::is('admin*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-shield-alt"></i>
+                <p>
+                  Admin
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Manajemen User</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            @endif
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

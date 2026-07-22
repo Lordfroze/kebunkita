@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Perikanan;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -17,20 +17,17 @@ class DataExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = DB::table('perikanan')->select('created_at', 'kegiatan', 'lokasi', 'biaya', 'musim_panen','jumlah_ikan'); // Tambahkan kolom lokasi dan tanggal
+        $query = Perikanan::select('created_at', 'kegiatan', 'lokasi', 'biaya', 'musim_panen', 'jumlah_ikan');
 
-        // Filter berdasarkan lokasi tertentu
         if (!empty($this->filters['lokasi'])) {
             $query->where('lokasi', $this->filters['lokasi']);
         }
 
-        // Filter lokasi yang mirip (opsional)
         if (!empty($this->filters['lokasi_like'])) {
             $query->where('lokasi', 'like', '%' . $this->filters['lokasi_like'] . '%');
         }
 
-         // Filter berdasarkan rentang tanggal
-         if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
+        if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
             $query->whereBetween('created_at', [$this->filters['start_date'], $this->filters['end_date']]);
         }
 
@@ -39,6 +36,6 @@ class DataExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['created_at', 'kegiatan', 'lokasi', 'biaya','musim_panen','jumlah_ikan' ]; // Pastikan header sesuai
+        return ['created_at', 'kegiatan', 'lokasi', 'biaya', 'musim_panen', 'jumlah_ikan'];
     }
 }

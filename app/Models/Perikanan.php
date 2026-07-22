@@ -8,14 +8,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Perikanan extends Model
 {
-
     use HasFactory;
     use SoftDeletes;
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new \App\Models\Scopes\UserDataScope);
+
+        static::creating(function ($model) {
+            if (auth()->check() && !$model->user_id) {
+                $model->user_id = auth()->id();
+            }
+        });
+    }
+
     protected $table = 'perikanan';  // menggunakan tabel perikanan
 
-    // fungsi untuk mengisi data yang boleh masuk ke database
     public $fillable = [
+        'user_id',
         'kegiatan',
         'lokasi',
         'biaya',
@@ -24,6 +34,11 @@ class Perikanan extends Model
         'musim_panen',
         'jumlah_ikan',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function scopeActive($query)
     {
