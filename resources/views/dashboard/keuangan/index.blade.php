@@ -69,13 +69,13 @@ Dashboard Keuangan
   <!-- Filter Form -->
   <form method="GET" action="{{ url ('/dashboard/keuangan') }}">
     <label>Dari:</label>
-    <input type="date" name="start_date" value="{{ request('start_date') }}">
+    <input type="date" name="start_date" value="{{ request('start_date', \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d')) }}">
 
     <label>Sampai:</label>
-    <input type="date" name="end_date" value="{{ request('end_date') }}">
+    <input type="date" name="end_date" value="{{ request('end_date', \Carbon\Carbon::now()->endOfMonth()->format('Y-m-d')) }}">
 
     <button type="submit">Filter</button>
-    <a href="{{ url('/dashboard/keuangan/export') }}?start_date={{ request('start_date') }}&end_date={{ request('end_date') }}"
+    <a href="{{ url('/dashboard/keuangan/export') }}?start_date={{ request('start_date', \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d')) }}&end_date={{ request('end_date', \Carbon\Carbon::now()->endOfMonth()->format('Y-m-d')) }}"
       class="btn btn-success">
       Download Excel
     </a>
@@ -83,37 +83,82 @@ Dashboard Keuangan
   <!-- End of Filter Form-->
 
   <!-- chart -->
-  <!-- Doughnut Chart -->
-  <div style="width: 350px; margin-bottom: 30px;">
-    <canvas id="doughnutChart"></canvas>
+  <!-- Grouped Bar Chart -->
+  <div style="margin-bottom: 30px;">
+    <div style="margin-bottom: 10px;">
+      <label for="tahunSelect">Tahun: </label>
+      <select id="tahunSelect"></select>
+    </div>
+    <canvas id="barChart" height="100"></canvas>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const start = "{{ request('start_date') }}";
-    const end = "{{ request('end_date') }}";
-    console.log("START:", start, "END:", end);
+    let myChart = null;
 
-    fetch(`{{ url('/dashboard/keuangan/chart-data') }}?start_date=${start}&end_date=${end}`)
-      .then(res => res.json())
-      .then(data => {
-        const labels = ["Pemasukan", "Pengeluaran"];
-        const values = [data.pemasukan, data.pengeluaran];
-        const colors = ["#4CAF50", "#F44336"];
+    function loadChart(tahun) {
+      const url = tahun ?
+        `{{ url('/dashboard/keuangan/chart-data') }}?tahun=${tahun}` :
+        `{{ url('/dashboard/keuangan/chart-data') }}`;
 
-        const ctx = document.getElementById('doughnutChart').getContext('2d');
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const select = document.getElementById('tahunSelect');
+          select.innerHTML = '';
+          data.tahunTersedia.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t;
+            opt.textContent = t;
+            if (t === data.tahun) opt.selected = true;
+            select.appendChild(opt);
+          });
 
-        new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels,
-            datasets: [{
-              data: values,
-              backgroundColor: colors
-            }]
-          }
+          const ctx = document.getElementById('barChart').getContext('2d');
+          if (myChart) myChart.destroy();
+
+          myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                  label: 'Pemasukan',
+                  data: data.pemasukan,
+                  backgroundColor: '#4CAF50',
+                },
+                {
+                  label: 'Pengeluaran',
+                  data: data.pengeluaran,
+                  backgroundColor: '#F44336',
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: value => 'Rp ' + value.toLocaleString('id-ID')
+                  }
+                }
+              },
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Grafik Keuangan Tahun ' + data.tahun
+                }
+              }
+            }
+          });
         });
-      });
+    }
+
+    loadChart();
+
+    document.getElementById('tahunSelect').addEventListener('change', function() {
+      loadChart(this.value);
+    });
   </script>
   <!-- end chart -->
 
@@ -138,7 +183,7 @@ Dashboard Keuangan
           @foreach($tasks as $key => $task)
           <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ \Carbon\Carbon::parse($task->created_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
+            <td>{{ \Carbon\Carbon::parse($task->created_at)->format('d-m-Y') }}</td>
             <td>Rp {{ number_format($task->pemasukan, 0, ',', '.') }}</td>
             <td>Rp {{ number_format($task->pengeluaran, 0, ',', '.') }}</td>
             <td>Rp {{ number_format($totalKeseluruhan, 0, ',', '.') }}</td>
