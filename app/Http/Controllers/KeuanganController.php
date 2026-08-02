@@ -32,14 +32,11 @@ class KeuanganController extends Controller
         $tasks = Keuangan::where('active', '=', true)
             ->orderBy('created_at', 'desc');
 
-        // Ambil input dari query string
-        $start = $request->input('start_date');
-        $end   = $request->input('end_date');
+        // Ambil input dari query string, default ke bulan ini
+        $start = $request->input('start_date', now()->startOfMonth()->format('Y-m-d'));
+        $end   = $request->input('end_date', now()->endOfMonth()->format('Y-m-d'));
 
-        // Jika ada filter, tambahkan ke query
-        if ($start && $end) {
-            $tasks = $tasks->whereBetween('created_at', [$start, $end]);
-        }
+        $tasks = $tasks->whereBetween('created_at', [$start, $end]);
 
         // tampilkan total pemasukan
         $totalPemasukan = $tasks->clone()->sum('pemasukan');
@@ -500,21 +497,50 @@ class KeuanganController extends Controller
     {
         $query = Keuangan::where('active', true);
 
-        if ($request->start_date && $request->end_date) {
-            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        $tahunTersedia = (clone $query)
+            ->selectRaw('YEAR(created_at) as tahun')
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun')
+            ->toArray();
+
+        if (empty($tahunTersedia)) {
+            $tahunTersedia = [(int) date('Y')];
         }
-        // clone berfungsi untuk mengcopy hasil dari $query tanpa merubah hasil sebelumnya
+
+        $tahun = $request->tahun ?? $tahunTersedia[0];
+
+        $bulanan = (clone $query)
+            ->selectRaw('MONTH(created_at) as bulan')
+            ->selectRaw('COALESCE(SUM(pemasukan), 0) as pemasukan')
+            ->selectRaw('COALESCE(SUM(pengeluaran), 0) as pengeluaran')
+            ->whereYear('created_at', $tahun)
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        $pemasukan = array_fill(0, 12, 0);
+        $pengeluaran = array_fill(0, 12, 0);
+
+        foreach ($bulanan as $row) {
+            $pemasukan[$row->bulan - 1] = (int) $row->pemasukan;
+            $pengeluaran[$row->bulan - 1] = (int) $row->pengeluaran;
+        }
+
         return response()->json([
-            'pemasukan' => (clone $query)->sum('pemasukan'),
-            'pengeluaran' => (clone $query)->sum('pengeluaran'),
+            'labels'        => ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+            'pemasukan'     => $pemasukan,
+            'pengeluaran'   => $pengeluaran,
+            'tahun'         => (int) $tahun,
+            'tahunTersedia' => $tahunTersedia,
         ]);
     }
 
     // fungsi export
     public function exportExcel(Request $request)
     {
-        $start = $request->start_date;
-        $end   = $request->end_date;
+        $start = $request->start_date ?? now()->startOfMonth()->format('Y-m-d');
+        $end   = $request->end_date ?? now()->endOfMonth()->format('Y-m-d');
 
         return Excel::download(new KeuanganExport($start, $end), 'laporan-keuangan.xlsx');
     }

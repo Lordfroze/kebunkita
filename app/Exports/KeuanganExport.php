@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Keuangan;
+use Illuminate\Support\Enumerable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -17,7 +18,7 @@ class KeuanganExport implements FromCollection, WithHeadings
         $this->end = $end;
     }
 
-    public function collection()
+    public function collection(): Enumerable
     {
         $query = Keuangan::where('active', true);
 
