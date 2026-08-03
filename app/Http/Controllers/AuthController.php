@@ -24,6 +24,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
+            $request->session()->regenerate();
             return redirect()->intended('dashboard');
         } else {
             return redirect('login')->with('error_message', 'Wrong email or Password');
@@ -46,7 +47,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed', //'required|min:6confirmed',
+            'password' => 'required|confirmed|min:8',
         ]);
 
         User::create([

@@ -22,7 +22,10 @@
         <div class="text-end">
           <!-- tampilkan tombol sesuai status user -->
           @if (Auth::check())
-          <a href="{{ url('logout') }}" class="btn btn-outline-danger me-2">Logout</a>
+          <form method="POST" action="{{ url('logout') }}" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger me-2">Logout</button>
+          </form>
           @else
           <a href="{{ url('login') }}" class="btn btn-outline-light me-2">Login</a>
           @endif
