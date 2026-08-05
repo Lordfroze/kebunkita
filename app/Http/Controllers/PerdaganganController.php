@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\TelegramNotifier;
 use App\Models\Items;
-use Illuminate\Support\Facades\Http;
 
 
 class PerdaganganController extends Controller
@@ -90,23 +90,12 @@ class PerdaganganController extends Controller
 
     private function notify_telegram($items)
     {
-        // fungsi untuk mengirimkan notifikasi ke telegram
-        $api_token = "REDACTED";
-        $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
-        $chat_id = -1002381690269;
         $content =
             "Ada kegiatan terbaru : <strong> \"{$items->nama_barang}\" </strong>
         \nLokasi : <strong> \"{$items->harga_jual}\" </strong>
         \nTanggal : <strong> \"{$items->stock}\" </strong>";
 
-
-        $data = [
-            'chat_id' => $chat_id,
-            'text' => $content,
-            'parse_mode' => 'html',
-        ];
-
-        Http::Post($url, $data);
+        TelegramNotifier::send($content, -1002381690269);
     }
 
     /**

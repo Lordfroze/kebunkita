@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
+use App\Services\TelegramNotifier;
 use App\Models\Keuangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -120,28 +120,12 @@ class KeuanganController extends Controller
 
     private function notify_telegram($task)
     {
-        // fungsi untuk mengirimkan notifikasi ke telegram
-        $api_token = "REDACTED";
-        $url = "https://api.telegram.org/bot{$api_token}/sendMessage";
-        $chat_id = 1118682327;  // untuk kirim ke group telegram tambahkan tanda minus didepan (-) dan id group telegram
-        // $chat_id = -1001941234567; // untuk kirim ke group telegram tambahkan - dan id group telegram
-
         $content =
             "Ada kegiatan terbaru : <strong> \"{$task->kegiatan}\" </strong>
         \nLokasi : <strong> \"{$task->lokasi}\" </strong>
         \nTanggal : <strong> \"{$task->created_at}\" </strong>";
 
-
-        $data = [
-            'chat_id' => $chat_id,
-            'text' => $content,
-            'parse_mode' => 'html',
-        ];
-
-        $response = Http::Post($url, $data);
-        if (!$response->successful()) {
-            \Log::error('Telegram notification failed', ['response' => $response->body()]);
-        }
+        TelegramNotifier::send($content);
     }
 
     /**
