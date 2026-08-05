@@ -83,19 +83,20 @@ class PerdaganganController extends Controller
         ]);
 
         // kirim telegram setelah menyimpan data
-        // $this->notify_telegram($items);  // agar tidak terlalu panjang dipisah ke fungsi notify_telegram dibawah
+        $this->notify_telegram($items, 'baru ditambahkan');
 
         return redirect('/dashboard/perdagangan')->with('success', 'Data Sukses Ditambahkan');
     }
 
-    private function notify_telegram($items)
+    private function notify_telegram($items, string $action = 'baru ditambahkan')
     {
         $content =
-            "Ada kegiatan terbaru : <strong> \"{$items->nama_barang}\" </strong>
-        \nLokasi : <strong> \"{$items->harga_jual}\" </strong>
-        \nTanggal : <strong> \"{$items->stock}\" </strong>";
+            "Item {$action} : <strong>\"{$items->nama_barang}\"</strong>\n" .
+            "Harga Beli : <strong>\"{$items->harga_beli}\"</strong>\n" .
+            "Harga Jual : <strong>\"{$items->harga_jual}\"</strong>\n" .
+            "Stock : <strong>\"{$items->stock}\"</strong>";
 
-        TelegramNotifier::send($content, -1002381690269);
+        TelegramNotifier::send($content);
     }
 
     /**
@@ -151,6 +152,9 @@ class PerdaganganController extends Controller
             'harga_jual' => $harga_jual,
         ]);
 
+        $items = Items::find($id);
+        $this->notify_telegram($items, 'diubah');
+
         return redirect('/dashboard/perdagangan')->with('success', 'Data Sukses Diubah');
     }
 
@@ -167,6 +171,7 @@ class PerdaganganController extends Controller
         // delete data
         $items = Items::findOrFail($id);
         $items->delete();
+        $this->notify_telegram($items, 'dihapus');
         return redirect('/dashboard/perdagangan')->with('error', 'Data Sukses Dihapus');
     }
 
