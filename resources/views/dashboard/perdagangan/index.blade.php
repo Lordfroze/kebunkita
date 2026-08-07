@@ -1,120 +1,81 @@
 @extends('layouts.app')
-@section('title')
-Dashboard Perdagangan
-@endsection
+
+@section('title', 'Perdagangan')
 
 @section('content')
+    <div class="animate-fade-in space-y-5">
+        <section class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="font-display text-xl font-bold text-slate-800">Dashboard Perdagangan</h2>
+                <p class="text-sm text-slate-500">Kelola barang dan stok perdagangan.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <a href="{{ url('dashboard/perdagangan/kalkulator') }}" class="btn-secondary btn-sm">
+                    <i data-lucide="calculator" class="h-4 w-4"></i> Kalkulator
+                </a>
+                <a href="{{ url('dashboard/perdagangan/create') }}" class="btn-primary btn-sm">
+                    <i data-lucide="plus" class="h-4 w-4"></i> Tambah Data
+                </a>
+            </div>
+        </section>
 
-@if (session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
-@endif
+        <x-alert type="success" :message="session('success')" />
+        <x-alert type="error" :message="session('error')" />
 
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
+        <section class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <x-stat-card label="Jumlah Items" :value="$items_count" icon="boxes" tone="blue" />
+            <x-stat-card label="Jumlah Stock" :value="$stock_count" icon="layers" tone="amber" />
+            <x-stat-card label="Penjualan" value="100" icon="banknote" tone="green" footnote="Data contoh" />
+        </section>
+
+        <div class="card overflow-x-auto p-2 sm:p-4">
+            <h3 class="section-title mb-3 px-2 pt-2 sm:px-3">Tabel Perdagangan</h3>
+            <table id="tabel-perdagangan" class="dataTable w-full">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tanggal</th>
+                        <th>Nama</th>
+                        <th>Harga Beli</th>
+                        <th>Harga Jual</th>
+                        <th>Stock</th>
+                        <th data-dt-order="disable" class="text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($items as $key => $item)
+                        <tr>
+                            <td class="font-mono text-xs font-semibold text-slate-500">{{ $key + 1 }}</td>
+                            <td class="whitespace-nowrap" data-order="{{ $item->updated_at?->timestamp ?? 0 }}">
+                                {{ \Carbon\Carbon::parse($item->updated_at)->locale('id')->isoFormat('DD MMM YYYY') }}
+                            </td>
+                            <td><span class="font-semibold text-slate-700">{{ $item->nama_barang }}</span></td>
+                            <td class="whitespace-nowrap text-slate-500">Rp {{ number_format($item->harga_beli, 0, ',', '.') }}</td>
+                            <td class="whitespace-nowrap font-semibold text-emerald-700">Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
+                            <td class="whitespace-nowrap">{{ $item->stock }}</td>
+                            <td class="text-right">
+                                <x-action-menu
+                                    :viewUrl="url('dashboard/perdagangan/' . $item->id)"
+                                    :editUrl="url('dashboard/perdagangan/' . $item->id . '/edit')"
+                                    :deleteUrl="url('/dashboard/perdagangan/' . $item->id)"
+                                    confirmText="item {{ $item->nama_barang }}?"
+                                />
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-@endif
-
-
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-
-      <div class="col-lg-4">
-        <div class="small-box bg-gradient-warning">
-          <div class="inner">
-            <h3>{{$items_count}}</h3>
-            <p>Jumlah Items</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-hand-holding-heart"></i>
-          </div>
-          <a href="{{ url('#') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="small-box bg-gradient-warning">
-          <div class="inner">
-            <h3>{{$stock_count}}</h3>
-            <p>Jumlah Stock</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-hand-holding-heart"></i>
-          </div>
-          <a href="{{ url('#') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="small-box bg-success">
-          <div class="inner">
-            <h3>100</h3>
-            <p>Penjualan</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-box"></i>
-          </div>
-          <a href="{{ url('#') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-
-    </div> <!-- <div class="row"> -->
-  </div><!-- /.container-fluid -->
-</div><!-- /.content -->
-
-<div class="content">
-  <h2>Tabel Perdagangan</h1>
-
-    <a class="btn btn-success" href="{{ url('dashboard/perdagangan/create') }}">+ Tambah Data</a>
-    <a class="btn btn-success" href="{{ url('dashboard/perdagangan/kalkulator') }}">+ kalkulator</a>
-    <div class="table-responsive mt-2">
-      <table class="table table-bordered table-striped table-hover">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Tanggal</th>
-            <th>Nama</th>
-            <th>Harga Beli</th>
-            <th>Harga Jual</th>
-            <th>Stock</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- key adalah variabel yang secara otomatis disediakan oleh laravel  saat menggunakan direktif foreach -->
-          @foreach($items as $key => $item)
-          <tr>
-            <td>{{ $key + 1 }}</td>
-            <td>{{ \Carbon\Carbon::parse($item->updated_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
-            <td>{{ $item->nama_barang }}</td>
-            <td>Rp {{ number_format($item->harga_beli, 0, ',', '.') }}</td>
-            <td>Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
-            <td>{{ $item->stock }}</td>
-            <td>
-              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perdagangan/' . $item->id) }}" role="button">View</a>
-              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perdagangan/' . $item->id . '/edit') }}" role="button">Edit</a>
-              <form action="{{ url('/dashboard/perdagangan/' . $item->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
-              </form>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-</div>
-
-{{ $items->links('pagination::bootstrap-4') }}
-
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        KebunKita.initDataTable('#tabel-perdagangan', {
+            order: [[1, 'desc']],
+            columnDefs: [{ targets: [0, 6], orderable: false }],
+        });
+    });
+</script>
+@endpush

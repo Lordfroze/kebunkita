@@ -1,112 +1,84 @@
 @extends('layouts.app')
-@section('title')
-Dashboard Perikanan
-@endsection
+
+@section('title', 'Perikanan')
 
 @section('content')
-<!-- Main content -->
-@if (session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
-@endif
+    <div class="animate-fade-in space-y-5">
+        <section class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="font-display text-xl font-bold text-slate-800">Dashboard Perikanan</h2>
+                <p class="text-sm text-slate-500">Kelola kegiatan perikanan di kolam timur dan barat.</p>
+            </div>
+            <a href="{{ url('dashboard/perikanan/create') }}" class="btn-primary">
+                <i data-lucide="plus" class="h-4 w-4"></i> Tambah Data
+            </a>
+        </section>
 
+        <x-alert type="success" :message="session('success')" />
 
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
+        <section class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <a href="{{ url('dashboard/perikanan/kolam_timur') }}" class="block">
+                <x-stat-card label="Jumlah Pakan Kolam Timur" :value="$jumlahPakanKolamTimur" icon="fish" tone="blue" footnote="Lihat detail kolam timur →" />
+            </a>
+            <a href="{{ url('dashboard/perikanan/kolam_barat') }}" class="block">
+                <x-stat-card label="Jumlah Pakan Kolam Barat" :value="$jumlahPakanKolamBarat" icon="fish" tone="violet" footnote="Lihat detail kolam barat →" />
+            </a>
+            <a href="{{ url('dashboard/perikanan/jumlah_ikan') }}" class="block">
+                <x-stat-card label="Jumlah Ikan" :value="$jumlahIkan" icon="activity" tone="green" footnote="Lihat kapasitas kolam →" />
+            </a>
+        </section>
 
-      <div class="col-lg-4">
-        <div class="small-box bg-gradient-warning">
-          <div class="inner">
-            <h3>{{$jumlahPakanKolamTimur}}</h3>
-            <p>Jumlah Pakan Kolam Timur</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-hand-holding-heart"></i>
-          </div>
-          <a href="{{ url('dashboard/perikanan/kolam_timur') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
+        <div class="card overflow-x-auto p-2 sm:p-4">
+            <div class="mb-3 flex flex-wrap items-center justify-between gap-2 px-2 pt-2 sm:px-3">
+                <h3 class="section-title">Tabel Perikanan</h3>
+                <span class="text-xs font-medium text-slate-500">
+                    Total biaya (non-panen): <span class="font-semibold text-emerald-700">Rp {{ number_format($totalBiaya, 0, ',', '.') }}</span>
+                </span>
+            </div>
+            <table id="tabel-perikanan" class="dataTable w-full">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tanggal</th>
+                        <th>Kegiatan</th>
+                        <th>Lokasi</th>
+                        <th>Biaya</th>
+                        <th data-dt-order="disable" class="text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($tasks as $key => $task)
+                        <tr>
+                            <td class="font-mono text-xs font-semibold text-slate-500">{{ $key + 1 }}</td>
+                            <td class="whitespace-nowrap" data-order="{{ $task->created_at?->timestamp ?? 0 }}">
+                                {{ \Carbon\Carbon::parse($task->created_at)->locale('id')->isoFormat('DD MMM YYYY') }}
+                            </td>
+                            <td><span class="font-semibold text-slate-700">{{ $task->kegiatan }}</span></td>
+                            <td class="text-slate-500">{{ $task->lokasi }}</td>
+                            <td class="whitespace-nowrap font-semibold text-slate-700">Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
+                            <td class="text-right">
+                                <x-action-menu
+                                    :viewUrl="url('dashboard/perikanan/' . $task->id)"
+                                    :editUrl="url('dashboard/perikanan/' . $task->id . '/edit')"
+                                    :deleteUrl="url('dashboard/perikanan/' . $task->id)"
+                                    confirmText="data kegiatan {{ $task->kegiatan }}?"
+                                />
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="small-box bg-gradient-warning">
-          <div class="inner">
-            <h3>{{$jumlahPakanKolamBarat}}</h3>
-            <p>Jumlah Pakan Kolam Barat</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-hand-holding-heart"></i>
-          </div>
-          <a href="{{ url('/dashboard/perikanan/kolam_barat') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="small-box bg-success">
-          <div class="inner">
-            <h3>{{$jumlahIkan}}</h3>
-            <p>Jumlah ikan</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-fish"></i>
-          </div>
-          <a href="{{ url('/dashboard/perikanan/jumlah_ikan') }}" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
-
-    </div> <!-- <div class="row"> -->
-  </div><!-- /.container-fluid -->
-</div><!-- /.content -->
-
-<div class="content">
-  <h2>Tabel Perikanan</h1>
-
-    <a class="btn btn-success" href="{{ url('dashboard/perikanan/create') }}">+ Tambah Data</a>
-    <div class="table-responsive mt-2">
-      <table class="table table-bordered table-striped table-hover">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Tanggal</th>
-            <th>Kegiatan</th>
-            <th>Lokasi</th>
-            <th>Biaya</th>
-            <th>Total Keseluruhan</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- key adalah variabel yang secara otomatis disediakan oleh laravel  saat menggunakan direktif foreach -->
-          @foreach($tasks as $key => $task)
-          <tr>
-            <td>{{ $key + 1 }}</td>
-            <td>{{ \Carbon\Carbon::parse($task->created_at)->locale('id')->isoFormat('DD MMMM YYYY') }}</td>
-            <td>{{ $task->kegiatan }}</td>
-            <td>{{ $task->lokasi }}</td>
-            <td>Rp {{ number_format($task->biaya, 0, ',', '.') }}</td>
-            <td>Rp {{ number_format($totalBiaya, 0, ',', '.') }}</td>
-            <td>
-              <a class="btn btn-primary btn-sm" href="{{ url('dashboard/perikanan/' . $task->id) }}" role="button">View</a>
-              <a class="btn btn-info btn-sm" href="{{ url('dashboard/perikanan/' . $task->id . '/edit') }}" role="button">Edit</a>
-              <form action="{{ url('dashboard/perikanan/' . $task->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apa anda yakin ingin menghapus data?')">Delete</button>
-              </form>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
     </div>
-</div>
-{{ $tasks->links('pagination::bootstrap-4') }}
-
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        KebunKita.initDataTable('#tabel-perikanan', {
+            order: [[1, 'desc']],
+            columnDefs: [{ targets: [0, 5], orderable: false }],
+        });
+    });
+</script>
+@endpush

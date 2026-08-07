@@ -1,74 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.auth')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - KebunKita</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+@section('title', 'Daftar')
 
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="card col-md-4">
-                <div class="card-body">
-                    <h1 class="text-center">Register Kebun Kita</h1>
+@section('content')
+    <div class="card p-8">
+        <h2 class="font-display text-2xl font-extrabold text-slate-800">Buat akun baru</h2>
+        <p class="mt-1 text-sm text-slate-500">Mulai kelola kebun dan bisnis pertanian Anda.</p>
 
-                    <!-- peringatan jika salah login -->
-                    @if(session()->has('error_message'))
-                    <div class="alert alert-danger">
-                        {{ session()->get('error_message') }}
-                    </div>
-                    @endif
+        @if (session('error_message'))
+            <div class="mt-5 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
+                <span class="mt-0.5 text-red-600"><i data-lucide="circle-alert" class="h-5 w-5"></i></span>
+                <p class="text-sm font-medium text-red-800">{{ session('error_message') }}</p>
+            </div>
+        @endif
 
-                    <form method="POST" action="{{ url ('register') }}">
-                        @csrf
+        @if ($errors->any())
+            <div class="mt-5 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
+                <span class="mt-0.5 text-red-600"><i data-lucide="circle-alert" class="h-5 w-5"></i></span>
+                <ul class="list-inside list-disc text-sm text-red-800">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="name" name="name">
-                            @if($errors->has('name'))
-                            <span class="text-danger">{{$errors->first('name')}}</span>
-                            @endif
-                        </div>
+        <form action="{{ url('register') }}" method="POST" class="mt-6 space-y-4" data-auth-form>
+            @csrf
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                            @if($errors->has('email'))
-                            <span class="text-danger">{{$errors->first('email')}}</span>
-                            @endif
-                        </div>
+            <div>
+                <label for="name" class="form-label">Nama Lengkap</label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-input" placeholder="cth: Budi Santoso" required autofocus>
+            </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                            @if($errors->has('password'))
-                            <span class="text-danger">{{$errors->first('password')}}</span>
-                            @endif
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-                        </div>
-
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Daftar</button>
-                        </div>
-                        <div class="small">
-                            Sudah punya akun? <a href="{{ url('login') }}" class="text-decoration-none">Login sekarang!</a>
-                        </div>
-                    </form>
+            <div>
+                <label for="email" class="form-label">Email</label>
+                <div class="relative">
+                    <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                        <i data-lucide="mail" class="h-4 w-4"></i>
+                    </span>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-input pl-10" placeholder="email@mail.com" required>
                 </div>
             </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="password" class="form-label">Password</label>
+                    <div class="relative">
+                        <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                            <i data-lucide="lock" class="h-4 w-4"></i>
+                        </span>
+                        <input type="password" id="password" name="password" class="form-input pl-10" placeholder="Min. 8 karakter" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="Ulangi password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary w-full !py-3" data-auth-submit>
+                <i data-lucide="user-plus" class="h-4 w-4"></i>
+                <span data-auth-label>Daftar</span>
+            </button>
+        </form>
+
+        <div class="mt-6 border-t border-slate-100 pt-5 text-center text-sm">
+            <p class="text-slate-500">
+                Sudah punya akun?
+                <a href="{{ url('login') }}" class="font-semibold text-emerald-700 hover:text-emerald-800">Masuk sekarang</a>
+            </p>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+@endsection
 
-</html>
-
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[data-auth-form]');
+        if (!form) return;
+        form.addEventListener('submit', function () {
+            const btn = form.querySelector('[data-auth-submit]');
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'pointer-events-none');
+            btn.querySelector('[data-auth-label]').textContent = 'Mohon ditunggu…';
+        });
+    });
+</script>
+@endpush

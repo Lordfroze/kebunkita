@@ -14,5 +14,10 @@
         "postcss": "^8.4.47",
         "tailwindcss": "^3.4.13",
         "vite": "^5.0"
+    },
+    "dependencies": {
+        "chart.js": "^4.5.1",
+        "datatables.net": "^3.0.1",
+        "lucide": "^1.30.0"
     }
 }

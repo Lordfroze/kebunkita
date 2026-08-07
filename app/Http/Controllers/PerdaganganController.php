@@ -23,7 +23,7 @@ class PerdaganganController extends Controller
         // menampilkan halaman index
         $items = Items::where('active', "=", true)
             ->orderBy('nama_barang', 'desc')
-            ->paginate(10);
+            ->get();
 
         // hitung jumlah items
         $items_count = Items::count();

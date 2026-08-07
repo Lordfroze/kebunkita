@@ -47,8 +47,8 @@ class KeuanganController extends Controller
         // tampilkan total keseluruhan
         $totalKeseluruhan = $tasks->clone()->sum(Keuangan::raw('pemasukan - pengeluaran'));
 
-        // paginate data
-        $tasks = $tasks->paginate(10);
+        // ambil semua data (ditampilkan via DataTables)
+        $tasks = $tasks->get();
 
 
         // tampilkan dengan data yang sudah didelete

@@ -1,0 +1,427 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-700;
+    }
+
+    ::selection {
+        @apply bg-emerald-200 text-emerald-900;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        @apply rounded-full bg-slate-300;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-slate-400;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+}
+
+@layer components {
+    /* ---------- Cards ---------- */
+    .card {
+        @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+    }
+
+    .section-title {
+        @apply font-display text-base font-bold text-slate-800;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger,
+    .btn-ghost {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    }
+    .btn-primary {
+        @apply bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-500;
+    }
+    .btn-secondary {
+        @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus-visible:ring-slate-400;
+    }
+    .btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500;
+    }
+    .btn-ghost {
+        @apply bg-transparent text-slate-600 hover:bg-slate-100 focus-visible:ring-slate-400;
+    }
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+    .icon-btn {
+        @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-transparent text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500;
+    }
+
+    /* ---------- Forms ---------- */
+    .form-label {
+        @apply mb-1.5 block text-sm font-medium text-slate-700;
+    }
+    .form-input,
+    .form-select {
+        @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100;
+    }
+    .form-select {
+        @apply cursor-pointer appearance-none pr-9;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1rem 1rem;
+    }
+
+    /* ---------- Badges ---------- */
+    .badge {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+    }
+    .badge::before {
+        content: '';
+        @apply h-1.5 w-1.5 rounded-full bg-current;
+    }
+
+    /* ---------- Navigation (sidebar) ---------- */
+    .sidebar-section-title {
+        @apply px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400;
+    }
+    .nav-item {
+        @apply flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-800;
+    }
+    .nav-item .nav-icon {
+        @apply h-5 w-5 shrink-0;
+    }
+    .nav-active,
+    .nav-active:hover {
+        @apply bg-emerald-50 font-semibold text-emerald-800;
+    }
+    .sidebar-label {
+        @apply truncate;
+    }
+}
+
+/* ===================================================================
+   Sidebar layout
+   =================================================================== */
+#sidebar-root {
+    @apply fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-slate-200 bg-white transition-transform duration-300 ease-in-out;
+    transform: translateX(-100%);
+}
+body.sidebar-open #sidebar-root {
+    transform: translateX(0);
+}
+
+#sidebar-backdrop {
+    @apply fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 lg:hidden;
+    pointer-events: none;
+}
+body.sidebar-open #sidebar-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (min-width: 1024px) {
+    #sidebar-root {
+        width: 280px;
+        transform: translateX(0);
+        transition: width 0.3s ease-in-out;
+    }
+    .main-wrap {
+        margin-left: 280px;
+        transition: margin-left 0.3s ease-in-out;
+    }
+    body.sidebar-collapsed #sidebar-root {
+        width: 84px;
+    }
+    body.sidebar-collapsed .main-wrap {
+        margin-left: 84px;
+    }
+    body.sidebar-collapsed .sidebar-brand-text,
+    body.sidebar-collapsed .sidebar-label,
+    body.sidebar-collapsed .sidebar-section-title,
+    body.sidebar-collapsed .sidebar-user-info,
+    body.sidebar-collapsed .sidebar-footer-label {
+        display: none;
+    }
+    body.sidebar-collapsed .nav-item {
+        justify-content: center;
+        padding: 0.625rem;
+    }
+    body.sidebar-collapsed #sidebar-brand,
+    body.sidebar-collapsed #sidebar-user,
+    body.sidebar-collapsed #sidebar-collapse-btn {
+        justify-content: center;
+    }
+    body.sidebar-collapsed #sidebar-collapse-btn .lucide {
+        transform: rotate(180deg);
+    }
+    body.sidebar-collapsed .sidebar-section {
+        padding: 0 0.5rem;
+    }
+}
+
+/* ===================================================================
+   DataTables — Tailwind integration
+   =================================================================== */
+.dt-container {
+    position: relative;
+    width: 100%;
+}
+
+.dt-layout-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+}
+.dt-layout-row:first-of-type {
+    margin-top: 0;
+}
+.dt-layout-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.dt-search,
+.dt-length {
+    @apply flex items-center gap-2 text-sm text-slate-500;
+}
+
+.dt-search .dt-input {
+    @apply rounded-xl border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0.7rem center;
+    background-size: 1rem 1rem;
+}
+
+.dt-length .dt-input {
+    @apply cursor-pointer appearance-none rounded-xl border border-slate-300 bg-white py-2 pl-3 pr-9 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 1rem 1rem;
+}
+
+.dt-info {
+    @apply text-sm text-slate-500;
+}
+
+.dt-paging {
+    @apply flex flex-wrap items-center gap-1.5;
+}
+
+.dt-paging-button {
+    @apply inline-flex h-9 min-w-[2.25rem] items-center justify-center rounded-lg border border-slate-200 bg-white px-2.5 text-sm font-medium text-slate-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500;
+    cursor: pointer;
+}
+.dt-paging-button.current {
+    @apply border-emerald-600 bg-emerald-600 font-semibold text-white hover:border-emerald-600 hover:bg-emerald-600 hover:text-white;
+}
+.dt-paging-button.disabled {
+    @apply pointer-events-none opacity-40;
+}
+.dt-paging span.ellipsis {
+    @apply px-1.5 text-slate-400;
+}
+
+.dataTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.dataTable thead th {
+    @apply border-b border-slate-200 bg-slate-50 px-4 py-3 text-left align-middle text-xs font-semibold uppercase tracking-wide text-slate-500;
+}
+.dataTable thead th .dt-column-header {
+    @apply flex items-center justify-between gap-1.5;
+}
+.dataTable thead th[data-dt-order='disable'] .dt-column-order {
+    display: none;
+}
+.dataTable thead th .dt-column-order {
+    position: relative;
+    width: 0.75rem;
+    height: 1rem;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.dataTable thead th:hover .dt-column-order,
+.dataTable thead th.dt-ordering-asc .dt-column-order,
+.dataTable thead th.dt-ordering-desc .dt-column-order {
+    opacity: 1;
+}
+.dataTable thead th .dt-column-order::before,
+.dataTable thead th .dt-column-order::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    border: 4px solid transparent;
+    transform: translateX(-50%);
+}
+.dataTable thead th .dt-column-order::before {
+    top: 1px;
+    border-bottom-color: #cbd5e1;
+}
+.dataTable thead th .dt-column-order::after {
+    bottom: 1px;
+    border-top-color: #cbd5e1;
+}
+.dataTable thead th.dt-ordering-asc .dt-column-order::before {
+    border-bottom-color: #059669;
+}
+.dataTable thead th.dt-ordering-desc .dt-column-order::after {
+    border-top-color: #059669;
+}
+
+.dataTable tbody td {
+    @apply border-b border-slate-100 px-4 py-3 align-middle text-sm text-slate-600;
+}
+.dataTable tbody tr {
+    transition: background-color 0.15s;
+}
+.dataTable tbody tr:hover {
+    background-color: #f0fdf4;
+}
+
+.dt-empty {
+    @apply px-4 py-14 text-center text-sm text-slate-400;
+}
+
+.dt-container .dt-processing {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: #059669;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* ===================================================================
+   Modal
+   =================================================================== */
+.modal-backdrop {
+    @apply fixed inset-0 z-[70] flex items-end justify-center bg-slate-900/50 p-0 backdrop-blur-[2px] sm:items-center sm:p-6;
+    animation: modalFade 0.2s ease-out;
+}
+.modal-panel {
+    @apply w-full max-w-lg rounded-t-2xl bg-white shadow-xl sm:rounded-2xl;
+    animation: modalSlide 0.25s ease-out;
+}
+@keyframes modalFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes modalSlide {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ===================================================================
+   Toast
+   =================================================================== */
+.toast {
+    @apply pointer-events-auto flex items-start gap-3 rounded-xl border bg-white p-4 shadow-lg;
+    animation: toastIn 0.3s ease-out;
+}
+.toast-success {
+    @apply border-emerald-200;
+}
+.toast-error {
+    @apply border-red-200;
+}
+.toast-info {
+    @apply border-sky-200;
+}
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.toast-leave {
+    transition: opacity 0.3s, transform 0.3s;
+    opacity: 0;
+    transform: translateX(24px);
+}
+
+/* ===================================================================
+   Dropdown
+   =================================================================== */
+.dropdown-menu {
+    @apply absolute right-0 z-30 mt-2 min-w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-lg;
+    animation: dropdownIn 0.15s ease-out;
+}
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.dropdown-item {
+    @apply flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-sm font-medium text-slate-600 transition-colors hover:bg-emerald-50 hover:text-emerald-800;
+}
+.dropdown-sep {
+    @apply my-1.5 h-px bg-slate-100;
+}
+
+/* ===================================================================
+   Misc
+   =================================================================== */
+.animate-fade-in {
+    animation: fadeIn 0.25s ease-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.spinner {
+    @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-middle;
+}

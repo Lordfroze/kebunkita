@@ -28,7 +28,7 @@ class PerikananController extends Controller
         // tampilkan table perikanan
         $tasks = Perikanan::where('active', '=', true)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         // tampilkan dengan data yang sudah didelete
         // $tasks = Perikanan::where('active', '=', true)->withTrashed()->paginate(10);
@@ -281,7 +281,7 @@ class PerikananController extends Controller
         $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
             ->where('lokasi', 'like', '%kolam timur%')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         // tampilkan total biaya seluruh kolam
         // $totalBiaya = Perikanan::sum('biaya');
@@ -389,7 +389,7 @@ class PerikananController extends Controller
         $tasks = Perikanan::select('id', 'created_at', 'kegiatan', 'lokasi', 'biaya',)
             ->where('lokasi', 'like', '%kolam barat%')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         // tampilkan total biaya kolam barat
         $totalBiayaKolamBarat = Perikanan::where('lokasi', 'like', '%kolam barat%')
@@ -511,7 +511,7 @@ class PerikananController extends Controller
     {
         $tasks = Perikanan::where('musim_panen', $season)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
 
         $totalBiaya = Perikanan::where('musim_panen', $season)->sum('biaya');
         $jumlahIkan = Perikanan::where('musim_panen', $season)->sum('jumlah_ikan');
