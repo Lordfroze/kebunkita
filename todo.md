@@ -52,6 +52,8 @@
 ## Catatan
 - `Tests/Feature/ExampleTest` gagal (pre-existing): route `/` redirect 302 ke login, tidak terkait perubahan ini.
 - Android cukup kirim header `Authorization: Bearer <token>` (tanpa CORS karena bukan browser).
+- Deploy VPS: setelah perubahan routing/middleware baru, jalankan `php artisan optimize:clear` + `config/route/view:cache` lalu `systemctl restart php-fpm-84` (OPcache memaksa restart, tidak cukup reload). Nginx aaPanel sudah forward `/api` ke Laravel via `try_files`.
+- Troubleshoot Postman di VPS: 404 = routes belum ter-register (cache/OPcache); 405 = method salah (login/logout hanya POST, keuangan hanya GET).
 
 ## Cara Test di Postman
 1. Jalankan server: `php artisan serve` (base URL `http://127.0.0.1:8000`)

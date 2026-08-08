@@ -120,6 +120,10 @@ php artisan octane:reload
 
 > **Catatan:** Langkah `npm run build` di server sangat penting karena folder `public/build` tidak disimpan di Git — tanpa build ulang, halaman akan memakai asset lama.
 
+> **Catatan OPcache:** Setelah perubahan yang menyentuh `bootstrap/app.php`, `routes/`, atau `composer.json` (mis. menambah routing/middleware baru seperti Sanctum), selain rebuild cache **WAJIB restart php-fpm**. Di aaPanel (PHP 8.4): `systemctl restart php-fpm-84 && nginx -s reload`. Tanpa restart, OPcache (`opcache.validate_timestamps=0`) masih memakai versi kode lama.
+>
+> Nginx di aaPanel sudah menangani `/api/*` via `try_files $uri $uri/ /index.php` di `location /` — tidak perlu konfigurasi tambahan.
+
 ## Catatan
 
 - Folder `resources/views/layouts/adminlte/` disimpan sebagai referensi/rollback layout lama dan tidak lagi dipakai.
